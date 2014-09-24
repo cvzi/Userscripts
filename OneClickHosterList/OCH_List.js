@@ -1,5 +1,19 @@
-﻿/*
-A list of One-Click-Hosters that are supported by nopremium.pl and unrestrict.li
+﻿// ==UserScript==
+// @name        OCH List
+// @namespace   cuzi
+// @oujs:author cuzi
+// @description A list of One-Click-Hosters that are supported by nopremium.pl and unrestrict.li
+// @homepageURL https://github.com/cvzi/Userscripts
+// @version     1
+// @license     GNUGPL
+// @require     http://openuserjs.org/src/libs/cuzi/RequestQueue.js
+// ==/UserScript==
+"use strict";
+
+/*
+
+var rq = new RequestQueue();
+
 */
 
 function OCH_ByFindingString(link,s,cb,thisArg) {
