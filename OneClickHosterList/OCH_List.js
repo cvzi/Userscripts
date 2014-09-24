@@ -1,4 +1,4 @@
-﻿// ==UserScript==
+// ==UserScript==
 // @name        OCH List
 // @namespace   cuzi
 // @oujs:author cuzi
