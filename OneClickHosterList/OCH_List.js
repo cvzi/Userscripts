@@ -1,4 +1,4 @@
-// ==UserScript==
+﻿// ==UserScript==
 // @name        OCH List
 // @namespace   cuzi
 // @oujs:author cuzi
@@ -262,12 +262,12 @@ check: void check(link, cb, thisArg)
   },
 },
 'fileparadox' : {
-  'pattern' : /^https\:\/\/(www\.)?fileparadox\.in\/\w+.*$/m,
+  'pattern' : /^https?\:\/\/(www\.)?fileparadox\.in\/\w+.*$/m,
   'multi' : ['nopremium.pl'],
   'title' : 'FileParadox',
   'homepage' : 'http://fileparadox.in/',
   'check' : function(link,cb,thisArg) {
-    OCH_ByFindingString(link,"File Not Found", cb, thisArg);
+    OCH_ByFindingString(link,["File Not Found",'<td id="errortitle">'], cb, thisArg);
   },
 },
 'firedrive' : {
