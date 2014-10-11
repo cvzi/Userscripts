@@ -321,7 +321,7 @@ check: void check(link, cb, thisArg)
   'title' : 'KingFiles.net',
   'homepage' : 'http://www.kingfiles.net/',
   'check' : function(link,cb,thisArg) {
-    OCH_ByFindingString(link,"The file you were looking for could not be found, sorry for any inconvenience", cb, thisArg);
+    OCH_ByFindingString(link,["The file you were looking for could not be found, sorry for any inconvenience","Reason for deletion"], cb, thisArg);
   },
 },
 'letitbit' : {
@@ -482,7 +482,7 @@ check: void check(link, cb, thisArg)
   'title' : 'turbobit.net',
   'homepage' : 'http://turbobit.net/',
   'check' : function(link,cb,thisArg) {
-    OCH_ByFindingString(link,"File not found", cb, thisArg);
+    OCH_ByFindingString(link,["File not found","File was not found"], cb, thisArg);
   },
 },
 'tusfiles' : {
