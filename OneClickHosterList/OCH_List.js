@@ -7,6 +7,7 @@
 // @version     1
 // @license     GNUGPL
 // @require     http://openuserjs.org/src/libs/cuzi/RequestQueue.js
+// @exlude      *
 // ==/UserScript==
 "use strict";
 
@@ -307,7 +308,7 @@ check: void check(link, cb, thisArg)
   },
 },
 'hugefiles' : {
-  'pattern' : /^http:\/\/hugefiles\.net\/\w+\/?$/m,
+  'pattern' : /^http:\/\/hugefiles\.net\/\w+\/?.*$/m,
   'multi' : ['nopremium.pl','unrestrict.li'],
   'title' : 'HugeFiles.net',
   'homepage' : 'http://hugefiles.net/',
@@ -547,8 +548,8 @@ check: void check(link, cb, thisArg)
   'check' : new Function // TODO
 },
 'uploadrocket' : {
-  'pattern' : /^http:\/\/uploadrocket\.net\/\w+\/(\w|-|\.)+\.html$/m,
-  'multi' : [],
+  'pattern' : /^http:\/\/uploadrocket\.net\/\w+(\/|\w|-|\.)+\.html?$/m,
+  'multi' : ['nopremium.pl'],
   'title' : 'UploadRocket.net',
   'homepage' : 'http://uploadrocket.net/',
   'check' : function(link,cb,thisArg) {
