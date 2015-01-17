@@ -1,4 +1,5 @@
 ﻿// ==UserScript==
+// @exclude      *
 // @name        OCH List
 // @namespace   cuzi
 // @oujs:author cuzi
@@ -7,7 +8,6 @@
 // @version     1
 // @license     GNUGPL
 // @require     http://openuserjs.org/src/libs/cuzi/RequestQueue.js
-// @exlude      *
 // ==/UserScript==
 "use strict";
 
@@ -263,10 +263,10 @@ check: void check(link, cb, thisArg)
   },
 },
 'fileparadox' : {
-  'pattern' : /^https?\:\/\/(www\.)?fileparadox\.in\/\w+.*$/m,
+  'pattern' : /^https?\:\/\/(www\.)?fileparadox\.(in|com)\/\w+.*$/m,
   'multi' : ['nopremium.pl'],
   'title' : 'FileParadox',
-  'homepage' : 'http://fileparadox.in/',
+  'homepage' : 'http://fileparadox.com/',
   'check' : function(link,cb,thisArg) {
     OCH_ByFindingString(link,["File Not Found",'<td id="errortitle">'], cb, thisArg);
   },
