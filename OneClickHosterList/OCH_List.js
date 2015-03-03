@@ -1,11 +1,11 @@
-﻿// ==UserScript==
+// ==UserScript==
 // @exclude      *
 // @name        OCH List
 // @namespace   cuzi
 // @oujs:author cuzi
-// @description A list of One-Click-Hosters that are supported by nopremium.pl and unrestrict.li
+// @description A list of One-Click-Hosters that are supported by nopremium.pl
 // @homepageURL https://github.com/cvzi/Userscripts
-// @version     1
+// @version     2
 // @license     GNUGPL
 // @require     http://openuserjs.org/src/libs/cuzi/RequestQueue.js
 // ==/UserScript==
@@ -106,7 +106,7 @@ check: void check(link, cb, thisArg)
 },
 '1fichier' : {
   'pattern' : /^https?:\/\/\w+\.1fichier\.com\/?$/m,
-  'multi' : ['nopremium.pl','unrestrict.li'],
+  'multi' : ['nopremium.pl'],
   'title' : '1fichier',
   'homepage' : 'http://1fichier.com/',
   'check' : function(link,cb,thisArg) {
@@ -115,14 +115,14 @@ check: void check(link, cb, thisArg)
 },
 '2shared' : {
   'pattern' : /^http:\/\/www\.2shared\.com\/[a-z]+\/\w+\/?(.+\.html)?$/, 
-  'multi' : ['unrestrict.li'],
+  'multi' : [],
   'title' : '2Shared',
   'homepage' : 'http://www.2shared.com/',
   'check' : new Function // TODO
 },
 '4shared' : {
   'pattern' : /^http:\/\/www\.4shared\.com\/[a-z]+\/\w+\/?(.+\.html)?$/, 
-  'multi' : ['nopremium.pl','unrestrict.li'],
+  'multi' : ['nopremium.pl'],
   'title' : '2shared.com',
   'homepage' : 'http://www.4shared.com/',
   'check' : new Function // TODO
@@ -138,7 +138,7 @@ check: void check(link, cb, thisArg)
 },
 'bayfiles' : {
   'pattern' : /^https?:\/\/(www\.)?bayfiles\.(net|com)\/file\/\w+\/.+$/m,
-  'multi' : ['nopremium.pl','unrestrict.li'],
+  'multi' : ['nopremium.pl'],
   'title' : 'BayFiles',
   'homepage' : 'http://bayfiles.net/',
   'check' : function(link,cb,thisArg) {
@@ -147,7 +147,7 @@ check: void check(link, cb, thisArg)
 },
 'billionuploads' : {
   'pattern' : /^http:\/\/billionuploads\.com\/\w+$/m,
-  'multi' : ['nopremium.pl','unrestrict.li'],
+  'multi' : ['nopremium.pl'],
   'title' : 'Billion Uploads',
   'homepage' : 'http://billionuploads.com/',
   'check' : function(link,cb,thisArg) {
@@ -156,7 +156,7 @@ check: void check(link, cb, thisArg)
 },
 'bitshare' : {
   'pattern' : /^http:\/\/bitshare\.com\/files\/\w+\/.+\.html$/m,
-  'multi' : ['nopremium.pl','unrestrict.li'],
+  'multi' : ['nopremium.pl'],
   'title' : 'BitShare.com',
   'homepage' : 'http://bitshare.com/',
   'check' : function(link,cb,thisArg) {
@@ -165,7 +165,7 @@ check: void check(link, cb, thisArg)
 },
 'cwtv' : {
   'pattern' : /^https?:\/\/www\.cwtv\.com\/cw-video\/.+$/m,
-  'multi' : ['unrestrict.li'],
+  'multi' : [],
   'title' : 'CW Television Shows',
   'homepage' : 'http://www.cwtv.com/',
   'check' : function(link,cb,thisArg) {
@@ -174,7 +174,7 @@ check: void check(link, cb, thisArg)
 },
 'dailymotion' : {
   'pattern' : /^https?:\/\/www\.dailymotion\.com\/video\/\w+.*$/m,
-  'multi' : ['unrestrict.li'],
+  'multi' : [],
   'title' : 'Dailymotion',
   'homepage' : 'http://www.dailymotion.com/',
   'check' :function(link,cb,thisArg) {
@@ -210,7 +210,7 @@ check: void check(link, cb, thisArg)
 },
 'filecloud' : {
   'pattern' : /^http:\/\/filecloud\.io\/\w+(\/.*)?$/m,
-  'multi' : ['unrestrict.li'],
+  'multi' : [],
   'title' : 'filecloud.io',
   'homepage' : 'http://filecloud.io/',
   'check' : function(link,cb,thisArg) {
@@ -239,7 +239,7 @@ check: void check(link, cb, thisArg)
 },
 'filefactory' : {
   'pattern' : /^http:\/\/www\.filefactory\.com\/file\/.+$/m,
-  'multi' : ['nopremium.pl','unrestrict.li'],
+  'multi' : ['nopremium.pl'],
   'title' : 'FileFactory',
   'homepage' : 'http://www.filefactory.com',
   'check' : function(link,cb,thisArg) {
@@ -248,7 +248,7 @@ check: void check(link, cb, thisArg)
 },
 'filemonkey' : {
   'pattern' : /^https?:\/\/www.filemonkey.in\/file\/.+$/m,
-  'multi' : ['nopremium.pl','unrestrict.li'],
+  'multi' : ['nopremium.pl'],
   'title' : 'Filemonkey.in',
   'homepage' : 'https://www.filemonkey.in/',
   'check' : new Function // TODO
@@ -273,7 +273,7 @@ check: void check(link, cb, thisArg)
 },
 'firedrive' : {
   'pattern' : /^http:\/\/www\.firedrive\.com\/file\/\w+$/m,
-  'multi' : ['nopremium.pl','unrestrict.li'],
+  'multi' : ['nopremium.pl'],
   'title' : 'Firedrive',
   'homepage' : 'http://www.firedrive.com/',
   'check' : function(link,cb,thisArg) {
@@ -282,7 +282,7 @@ check: void check(link, cb, thisArg)
 },
 'freakshare' : {
   'pattern' : /^http:\/\/freakshare\.com\/files\/\w+\/.+\.html$/m,
-  'multi' : ['nopremium.pl','unrestrict.li'],
+  'multi' : ['nopremium.pl'],
   'title' : 'FreakShare',
   'homepage' : 'http://freakshare.com/',
   'check' : function(link,cb,thisArg) {
@@ -291,7 +291,7 @@ check: void check(link, cb, thisArg)
 },
 'free' : {
   'pattern' : /^http:\/\/dl\.free\.fr\/\w+$/m,
-  'multi' : ['unrestrict.li'],
+  'multi' : [],
   'title' : 'Free',
   'homepage' : 'http://dl.free.fr/',
   'check' : function(link,cb,thisArg) {
@@ -309,7 +309,7 @@ check: void check(link, cb, thisArg)
 },
 'hugefiles' : {
   'pattern' : /^http:\/\/hugefiles\.net\/\w+\/?.*$/m,
-  'multi' : ['nopremium.pl','unrestrict.li'],
+  'multi' : ['nopremium.pl'],
   'title' : 'HugeFiles.net',
   'homepage' : 'http://hugefiles.net/',
   'check' : function(link,cb,thisArg) {
@@ -327,7 +327,7 @@ check: void check(link, cb, thisArg)
 },
 'letitbit' : {
   'pattern' : /^https?:\/\/(\w+\.)?letitbit\.net\/download\/(\w|\.)+\/.*$/m,
-  'multi' : ['nopremium.pl','unrestrict.li'],
+  'multi' : ['nopremium.pl'],
   'title' : 'Letitbit.net',
   'homepage' : 'http://letitbit.net/',
   'check' : function(link,cb,thisArg) {
@@ -336,7 +336,7 @@ check: void check(link, cb, thisArg)
 },
 'mediafire' : {
   'pattern' : [/^https?:\/\/www\.mediafire\.com\/?\?.+$/m,/^https?:\/\/www\.mediafire\.com\/download\/.+$/m],
-  'multi' : ['nopremium.pl','unrestrict.li'],
+  'multi' : ['nopremium.pl'],
   'title' : 'MediaFire',
   'homepage' : 'https://www.mediafire.com/',
   'check' : function(link,cb,thisArg) {
@@ -345,7 +345,7 @@ check: void check(link, cb, thisArg)
 },
 'mega' : {
   'pattern' : /^https:\/\/mega\.co\.nz\/\#\!\w+!*(\w|-)*$/m,
-  'multi' : ['nopremium.pl','unrestrict.li'],
+  'multi' : ['nopremium.pl'],
   'title' : 'MEGA',
   'homepage' : 'https://mega.co.nz/',
   'check' : function(link,cb,thisArg) {
@@ -369,7 +369,7 @@ check: void check(link, cb, thisArg)
 },
 'netload' : {
   'pattern' : [/^https?:\/\/netload.in\/\w+\/(\w|-|\.)+$/m,/^https?:\/\/netload.in\/(\w|-|\.)+\.htm$/m],
-  'multi' : ['nopremium.pl','unrestrict.li'],
+  'multi' : ['nopremium.pl'],
   'title' : 'Netload',
   'homepage' : 'https://netload.in/',
   'check' : function(link,cb,thisArg) {
@@ -378,7 +378,7 @@ check: void check(link, cb, thisArg)
 },
 'oboom' : {
   'pattern' : /^https?:\/\/www\.oboom\.com\/\w+.*$/m,
-  'multi' : ['nopremium.pl','unrestrict.li'],
+  'multi' : ['nopremium.pl'],
   'title' : 'OBOOM.com',
   'homepage' : 'https://www.oboom.com/',
   'check' : function(link,cb,thisArg) {
@@ -414,7 +414,7 @@ check: void check(link, cb, thisArg)
 },
 'rapidgator' : {
   'pattern' : [/^http:\/\/rapidgator\.net\/file\/\w+\/.+\.html$/m,/^http:\/\/rg\.to\/file\/\w+\/.+\.html$/m],
-  'multi' : ['nopremium.pl','unrestrict.li'],
+  'multi' : ['nopremium.pl'],
   'title' : 'Rapidgator.net',
   'homepage' : 'http://rapidgator.net/',
   'check' : function(link,cb,thisArg) {
@@ -450,7 +450,7 @@ check: void check(link, cb, thisArg)
 },
 'sockshare' : {
   'pattern' : /^http:\/\/www\.sockshare\.com\/file\/\w+$/m,
-  'multi' : ['nopremium.pl','unrestrict.li'],
+  'multi' : ['nopremium.pl'],
   'title' : 'SockShare',
   'homepage' : 'http://www.sockshare.com/',
   'check' : function(link,cb,thisArg) {
@@ -460,7 +460,7 @@ check: void check(link, cb, thisArg)
 
 'soundcloud' : {
   'pattern' : /^https?:\/\/soundcloud.com\/(\w|-)+\/(\w|-)+$/m,
-  'multi' : ['unrestrict.li'],
+  'multi' : [],
   'title' : 'SoundCloud',
   'homepage' : 'https://soundcloud.com/',
   'check' : function(link,cb,thisArg) {
@@ -470,7 +470,7 @@ check: void check(link, cb, thisArg)
 
 'streamcloud' : {
   'pattern' : /^http:\/\/streamcloud\.eu\/\w+$/m,
-  'multi' : ['unrestrict.li'],
+  'multi' : [],
   'title' : 'Streamcloud',
   'homepage' : 'http://streamcloud.org/',
   'check' : function(link,cb,thisArg) {
@@ -479,7 +479,7 @@ check: void check(link, cb, thisArg)
 },
 'turbobit' : {
   'pattern' : /^http:\/\/turbobit\.net\/\w+.*\.html$/m,
-  'multi' : ['nopremium.pl','unrestrict.li'],
+  'multi' : ['nopremium.pl'],
   'title' : 'turbobit.net',
   'homepage' : 'http://turbobit.net/',
   'check' : function(link,cb,thisArg) {
@@ -488,7 +488,7 @@ check: void check(link, cb, thisArg)
 },
 'tusfiles' : {
   'pattern' : /^http:\/\/www\.tusfiles\.net\/\w+$/m,
-  'multi' : ['nopremium.pl','unrestrict.li'],
+  'multi' : ['nopremium.pl'],
   'title' : 'TusFiles',
   'homepage' : 'http://tusfiles.net/',
   'check' : function(link,cb,thisArg) {
@@ -524,7 +524,7 @@ check: void check(link, cb, thisArg)
 },
 'uploadboy' : {
   'pattern' : /^http:\/\/(www\.)?uploadboy\.com\/\w+\.html$/m,
-  'multi' : ['nopremium.pl','unrestrict.li'],
+  'multi' : ['nopremium.pl'],
   'title' : 'Uploadboy.com',
   'homepage' : 'http://uploadboy.com/',
   'check' : function(link,cb,thisArg) {
@@ -533,7 +533,7 @@ check: void check(link, cb, thisArg)
 },
 'uploaded' : {
   'pattern' : [/^https?:\/\/uploaded\.(net|to)\/file\/.+$/m,/^http:\/\/ul\.to\/.+$/m],
-  'multi' : ['nopremium.pl','unrestrict.li'],
+  'multi' : ['nopremium.pl'],
   'title' : 'uploaded.net',
   'homepage' : 'http://uploaded.net/',
   'check' : function(link,cb,thisArg) {
@@ -558,21 +558,21 @@ check: void check(link, cb, thisArg)
 },
 'uppit' : {
   'pattern' : /^http:\/\/uppit\.com\/\w+(\/.*)?$/m,
-  'multi' : ['unrestrict.li'],
+  'multi' : [],
   'title' : 'UppIT',
   'homepage' : 'http://uppit.com/',
   'check' : new Function // TODO
 },
 'uptobox' : {
   'pattern' : /^http:\/\/uptobox.com\/\w+$/m,
-  'multi' : ['nopremium.pl','unrestrict.li'],
+  'multi' : ['nopremium.pl'],
   'title' : 'Uptobox',
   'homepage' : 'http://uptobox.com/',
   'check' : new Function // TODO
 },
 'vevo' : { 
   'pattern' : /^https?:\/\/www\.vevo\.com\/watch\/.+$/m,
-  'multi' : ['unrestrict.li'],
+  'multi' : [],
   'title' : 'VEVO',
   'homepage' : 'https://www.vevo.com/',
   'check' : function(link,cb,thisArg) {
@@ -582,7 +582,7 @@ check: void check(link, cb, thisArg)
 },
 'vimeo' : { 
   'pattern' : /^https?:\/\/vimeo\.com\/(.+\/)?\d+\/?$/m,
-  'multi' : ['unrestrict.li'],
+  'multi' : [],
   'title' : 'Vimeo',
   'homepage' : 'https://vimeo.com/',
   'check' : function(link,cb,thisArg) {
@@ -591,14 +591,14 @@ check: void check(link, cb, thisArg)
 },
 'vipfile' : {  // TODO: nopremium.pl lists this hoster as "vip-file"
   'pattern' : /^http:\/\/\w+.vip-file.com\/downloadlib\/.*$/m,
-  'multi' : ['nopremium.pl','unrestrict.li'],
+  'multi' : ['nopremium.pl'],
   'title' : 'VIP-file',
   'homepage' : 'http://vip-file.com/',
   'check' : new Function // TODO
 },
 'youtube' : {
   'pattern' : /^https?:\/\/www\.youtube\.com\/watch(\?v=|\/).+$/m,
-  'multi' : ['nopremium.pl','unrestrict.li'],
+  'multi' : ['nopremium.pl'],
   'title' : 'YouTube',
   'homepage' : 'https://www.youtube.com/',
   'check' : function(link,cb,thisArg) {
