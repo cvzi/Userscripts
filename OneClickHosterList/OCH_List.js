@@ -541,11 +541,13 @@ check: void check(link, cb, thisArg)
   },
 },
 'uploading' : {
-  'pattern' : new RegExp("abc"), // TODO ,
+  'pattern' : /^http:\/\/uploading\.com\/\w+\/?.*$/m,
   'multi' : ['nopremium.pl'],
   'title' : 'Uploading.com',
   'homepage' : 'http://uploading.com/',
-  'check' : new Function // TODO
+  'check' : function(link,cb,thisArg) {
+    OCH_ByFindingString(link,['class="file_error"',"file not found","file was removed"], cb, thisArg);
+  },
 },
 'uploadrocket' : {
   'pattern' : /^http:\/\/uploadrocket\.net\/\w+(\/|\w|-|\.)+\.html?$/m,
