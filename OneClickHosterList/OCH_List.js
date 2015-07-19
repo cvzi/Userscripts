@@ -268,7 +268,7 @@ check: void check(link, cb, thisArg)
   'title' : 'FileParadox',
   'homepage' : 'http://fileparadox.com/',
   'check' : function(link,cb,thisArg) {
-    OCH_ByFindingString(link,["File Not Found",'<td id="errortitle">'], cb, thisArg);
+    OCH_ByFindingString(link,["File Not Found",'<td id="errortitle">','not be found'], cb, thisArg);
   },
 },
 'firedrive' : {
