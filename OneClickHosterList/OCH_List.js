@@ -238,7 +238,7 @@ check: void check(link, cb, thisArg)
   },
 },
 'filefactory' : {
-  'pattern' : /^http:\/\/www\.filefactory\.com\/file\/.+$/m,
+  'pattern' : /^http:\/\/(www\.)?filefactory\.com\/file\/.+$/m,
   'multi' : ['nopremium.pl'],
   'title' : 'FileFactory',
   'homepage' : 'http://www.filefactory.com',
@@ -253,22 +253,13 @@ check: void check(link, cb, thisArg)
   'homepage' : 'https://www.filemonkey.in/',
   'check' : new Function // TODO
 },
-'fileom' : {
-  'pattern' : /^https?:\/\/fileom\.com\/\w+.*$/m,
-  'multi' : ['nopremium.pl'],
-  'title' : 'FileOM',
-  'homepage' : 'http://fileom.com/',
-  'check' : function(link,cb,thisArg) {
-    OCH_ByFindingString(link,"File Not Found", cb, thisArg);
-  },
-},
 'fileparadox' : {
   'pattern' : /^https?\:\/\/(www\.)?fileparadox\.(in|com)\/\w+.*$/m,
   'multi' : ['nopremium.pl'],
   'title' : 'FileParadox',
   'homepage' : 'http://fileparadox.com/',
   'check' : function(link,cb,thisArg) {
-    OCH_ByFindingString(link,["File Not Found",'<td id="errortitle">','not be found'], cb, thisArg);
+    OCH_ByFindingString(link,["file does not exist","File Not Found",'<td id="errortitle">','not be found'], cb, thisArg);
   },
 },
 'firedrive' : {
@@ -389,12 +380,12 @@ check: void check(link, cb, thisArg)
       onload: function (response){
         var result = JSON.parse(response.responseText);
         if(result[0] == 200) {
-          if(result[1][0].state != "online") { 
-            // Link is offline
-            cb.call(thisArg,link,0);
-          } else {
+          if(result[1][0].state == "online") { 
             // Link is online
             cb.call(thisArg,link,1);
+          } else {
+            // Link is offline
+            cb.call(thisArg,link,0);
           }
         } else {
           cb.call(thisArg,link,-1,"Strange reply from oboom API:\n"+response.responseText)
@@ -493,15 +484,6 @@ check: void check(link, cb, thisArg)
   'homepage' : 'http://tusfiles.net/',
   'check' : function(link,cb,thisArg) {
     OCH_ByFindingString(link,"The file you are trying to download is no longer available", cb, thisArg);
-  },
-},
-'ultrafile' : { 
-  'pattern' : /^http:\/\/ultrafile\.me\/\w+\/(\w|-|\.)+\.html$/m,
-  'multi' : [],
-  'title' : 'Ultrafile.me',
-  'homepage' : 'http://ultrafile.me/',
-  'check' : function(link,cb,thisArg) {
-    OCH_ByFindingString(link,"The file was removed by administrator", cb, thisArg);
   },
 },
 'unlimitzone' : {
@@ -605,15 +587,6 @@ check: void check(link, cb, thisArg)
   'homepage' : 'https://www.youtube.com/',
   'check' : function(link,cb,thisArg) {
     OCH_ByFindingString(link,"<title>YouTube</title>", cb, thisArg);
-  },
-},
-'xerver' : {
-  'pattern' : /^http:\/\/xerver\.co\/\w+.*$/m,
-  'multi' : ['nopremium.pl'],
-  'title' : 'XERVER',
-  'homepage' : 'http://xerver.co/',
-  'check' : function(link,cb,thisArg) {
-    OCH_ByFindingString(link,"If you believe that this is an error", cb, thisArg);
   },
 },
 'zippyshare' : {
