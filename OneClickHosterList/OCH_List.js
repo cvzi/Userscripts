@@ -5,7 +5,7 @@
 // @oujs:author cuzi
 // @description A list of One-Click-Hosters that are supported by nopremium.pl
 // @homepageURL https://github.com/cvzi/Userscripts
-// @version     2
+// @version     3
 // @license     GNUGPL
 // @require     http://openuserjs.org/src/libs/cuzi/RequestQueue.js
 // ==/UserScript==
@@ -105,7 +105,7 @@ check: void check(link, cb, thisArg)
   }
 },
 '1fichier' : {
-  'pattern' : /^https?:\/\/\w+\.1fichier\.com\/?$/m,
+  'pattern' : /^https?:\/\/(www\.)?1fichier\.com\/\?.+$/m,
   'multi' : ['nopremium.pl'],
   'title' : '1fichier',
   'homepage' : 'http://1fichier.com/',
@@ -163,6 +163,15 @@ check: void check(link, cb, thisArg)
     OCH_ByFindingString(link,["Error - File not available","Fehler - Datei nicht verfügbar"], cb, thisArg);
   },
 },
+'catshare' : {
+  'pattern' : /^https?:\/\/(www\.)?catshare\.net\/.+$/m,
+  'multi' : ['nopremium.pl'],
+  'title' : 'CatShare',
+  'homepage' : 'http://catshare.net/',
+  'check' :function(link,cb,thisArg) {
+    OCH_ByFindingString(link,"Podany plik został usunięty", cb, thisArg);
+  },
+},
 'cwtv' : {
   'pattern' : /^https?:\/\/www\.cwtv\.com\/cw-video\/.+$/m,
   'multi' : [],
@@ -197,6 +206,15 @@ check: void check(link, cb, thisArg)
   'homepage' : 'http://dfiles.eu',
   'check' : function(link,cb,thisArg) {
     OCH_ByFindingString(link,"no_download_message", cb, thisArg);
+  },
+},
+'devilshare' : {
+  'pattern' : /^https?:\/\/(www\.)?devilshare\.net\/view.+$/m,
+  'multi' : ['nopremium.pl'],
+  'title' : 'Devilshare.net',
+  'homepage' : 'http://devilshare.net',
+  'check' :function(link,cb,thisArg) {
+    OCH_ByFindingString(link,"File Not Found", cb, thisArg);
   },
 },
 'expressleech' : {
@@ -291,11 +309,20 @@ check: void check(link, cb, thisArg)
 },
 'gboxes' : {
   'pattern' : /^http:\/\/www\.gboxes\.com\/\w+.*$/m,
-  'multi' : [],
+  'multi' : ['nopremium.pl'],
   'title' : 'Green Boxes',
   'homepage' : 'http://www.gboxes.com/',
   'check' : function(link,cb,thisArg) { // TODO http://www.gboxes.com/?op=checkfiles
     OCH_ByFindingString(link,"The file you were looking for could not be found, sorry for any inconvenience", cb, thisArg);
+  },
+},
+'hitfile' : {
+  'pattern' : /^https?\:\/\/(www\.)?hitfile\.net\/\w+.*$/m,
+  'multi' : ['nopremium.pl'],
+  'title' : 'Hitfile.net',
+  'homepage' : 'http://hitfile.net/',
+  'check' : function(link,cb,thisArg) {
+    OCH_ByFindingString(link,"File was deleted or not found", cb, thisArg);
   },
 },
 'hugefiles' : {
@@ -404,7 +431,7 @@ check: void check(link, cb, thisArg)
   },
 },
 'rapidgator' : {
-  'pattern' : [/^http:\/\/rapidgator\.net\/file\/\w+\/.+\.html$/m,/^http:\/\/rg\.to\/file\/\w+\/.+\.html$/m],
+  'pattern' : [/^http:\/\/rapidgator\.net\/file\/[^#]+$/m,/^http:\/\/rg\.to\/file\/[^#]+$/m],
   'multi' : ['nopremium.pl'],
   'title' : 'Rapidgator.net',
   'homepage' : 'http://rapidgator.net/',
@@ -412,11 +439,29 @@ check: void check(link, cb, thisArg)
     OCH_ByMatchingFinalUrl(link,/article\/premium/, cb, thisArg);
   }
 },
+'rapidu' : {
+  'pattern' :/^https?:\/\/(\w+\.)?rapidu\.net\/\w+.*$/m,
+  'multi' : ['nopremium.pl'],
+  'title' : 'Rapidu.net',
+  'homepage' : 'https://rapidu.net/',
+  'check' : function(link,cb,thisArg) {
+    OCH_ByFindingString(link,"File not found", cb, thisArg);
+  },
+},
 'rioupload' : {
   'pattern' : /^http:\/\/(www\.)?rioupload\.com\/\w+$/m,
   'multi' : [],
   'title' : 'RioUpload',
   'homepage' : 'http://rioupload.com/',
+  'check' : function(link,cb,thisArg) {
+    OCH_ByFindingString(link,"File Not Found", cb, thisArg);
+  },
+},
+'rockfile' : { 
+  'pattern' : /^https?\:\/\/(www\.)?rockfile\.eu\/\w+.*$/m,
+  'multi' : ['nopremium.pl'],
+  'title' : 'Rockfile.eu',
+  'homepage' : 'http://rockfile.eu',
   'check' : function(link,cb,thisArg) {
     OCH_ByFindingString(link,"File Not Found", cb, thisArg);
   },
@@ -458,7 +503,15 @@ check: void check(link, cb, thisArg)
     OCH_ByFindingString(link,"We can't find that track.", cb, thisArg);
   },
 },
-
+'storebit' : {
+  'pattern' : /^https?:\/\/(www\.)?storbit\.net\/file\/.+$/m,
+  'multi' : ['nopremium.pl'],
+  'title' : 'Storbit.net',
+  'homepage' : 'http://storbit.net',
+  'check' : function(link,cb,thisArg) {
+    OCH_ByFindingString(link,"404 - ", cb, thisArg);
+  },
+},
 'streamcloud' : {
   'pattern' : /^http:\/\/streamcloud\.eu\/\w+$/m,
   'multi' : [],
@@ -466,6 +519,15 @@ check: void check(link, cb, thisArg)
   'homepage' : 'http://streamcloud.org/',
   'check' : function(link,cb,thisArg) {
     OCH_ByFindingString(link,"Not Found", cb, thisArg);
+  },
+},
+'streamin' : {
+  'pattern' : /^https?:\/\/streamin\.to\/.+$/m,
+  'multi' : ['nopremium.pl'],
+  'title' : 'Streamin.to',
+  'homepage' : 'http://streamin.to/',
+  'check' : function(link,cb,thisArg) {
+    OCH_ByFindingString(link,"File Deleted", cb, thisArg);
   },
 },
 'turbobit' : {
