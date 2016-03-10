@@ -1,11 +1,11 @@
 // ==UserScript==
-// @exclude      *
+// @exclude     *
 // @name        OCH List
 // @namespace   cuzi
 // @oujs:author cuzi
 // @description A list of One-Click-Hosters that are supported by nopremium.pl
 // @homepageURL https://github.com/cvzi/Userscripts
-// @version     3
+// @version     4
 // @license     GNUGPL
 // @require     http://openuserjs.org/src/libs/cuzi/RequestQueue.js
 // ==/UserScript==
@@ -134,6 +134,15 @@ check: void check(link, cb, thisArg)
   'homepage' : 'http://4downfiles.com/',
   'check' : function(link,cb,thisArg) {
     OCH_ByFindingString(link,"File Not Found", cb, thisArg);
+  },
+},
+'alfafile' : {
+  'pattern' : /^https?:\/\/(www\.)?alfafile\.net\/file\/.+$/m,
+  'multi' : ['nopremium.pl'],
+  'title' : 'Alfafile',
+  'homepage' : 'https://alfafile.net',
+  'check' : function(link,cb,thisArg) {
+    OCH_ByFindingString(link,"error-box", cb, thisArg);
   },
 },
 'bayfiles' : {
