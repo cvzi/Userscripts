@@ -394,6 +394,15 @@ check: void check(link, cb, thisArg)
     });
   },
 },
+'nitroflare' : {
+  'pattern' : [/^https?:\/\/nitroflare\.com\/view\/.+$/m],
+  'multi' : [],
+  'title' : 'NitroFlare',
+  'homepage' : 'http://nitroflare.com/',
+  'check' : function(link,cb,thisArg) {
+    OCH_ByFindingString(link,"be redirect to the main page", cb, thisArg);
+  },
+},
 'netload' : {
   'pattern' : [/^https?:\/\/netload.in\/\w+\/(\w|-|\.)+$/m,/^https?:\/\/netload.in\/(\w|-|\.)+\.htm$/m],
   'multi' : ['nopremium.pl'],
