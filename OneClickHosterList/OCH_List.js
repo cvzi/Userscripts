@@ -5,7 +5,7 @@
 // @oujs:author cuzi
 // @description A list of One-Click-Hosters that are supported by nopremium.pl
 // @homepageURL https://github.com/cvzi/Userscripts
-// @version     4
+// @version     5
 // @license     GNUGPL
 // @require     http://openuserjs.org/src/libs/cuzi/RequestQueue.js
 // ==/UserScript==
@@ -110,7 +110,7 @@ check: void check(link, cb, thisArg)
   'title' : '1fichier',
   'homepage' : 'http://1fichier.com/',
   'check' : function(link,cb,thisArg) {
-    OCH_ByFindingString(link,"The requested file could not be found", cb, thisArg);
+    OCH_ByFindingString(link,["The requested file could not be found","The requested file has been deleted"], cb, thisArg);
   }
 },
 '2shared' : {
@@ -280,13 +280,13 @@ check: void check(link, cb, thisArg)
   'homepage' : 'https://www.filemonkey.in/',
   'check' : new Function // TODO
 },
-'fileparadox' : {
-  'pattern' : /^https?\:\/\/(www\.)?fileparadox\.(in|com)\/\w+.*$/m,
-  'multi' : ['nopremium.pl'],
-  'title' : 'FileParadox',
-  'homepage' : 'http://fileparadox.com/',
+'fileload' : {
+  'pattern' : /^https:\/\/fileload\.io\/.+$/m,
+  'multi' : [],
+  'title' : 'fileload.io',
+  'homepage' : 'https://fileload.io/',
   'check' : function(link,cb,thisArg) {
-    OCH_ByFindingString(link,["file does not exist","File Not Found",'<td id="errortitle">','not be found'], cb, thisArg);
+    OCH_ByFindingString(link,"Not found", cb, thisArg);
   },
 },
 'firedrive' : {
@@ -349,7 +349,25 @@ check: void check(link, cb, thisArg)
   'title' : 'KingFiles.net',
   'homepage' : 'http://www.kingfiles.net/',
   'check' : function(link,cb,thisArg) {
-    OCH_ByFindingString(link,["The file you were looking for could not be found, sorry for any inconvenience","Reason for deletion"], cb, thisArg);
+    var s = ["The file you were looking for could not be found, sorry for any inconvenience","Reason for deletion"];
+    rq.add({
+      method: "GET",
+      url: link.url,
+      onload: function (response){
+        if(response.responseText.length == 0) {
+           cb.call(thisArg,link,0); // Offline
+           return;
+        } else {
+          for(var i = 0; i < s.length; i++) {
+            if(response.responseText.indexOf(s[i]) != -1) {
+              cb.call(thisArg,link,0); // Offline
+              return;
+            }
+          }
+          cb.call(thisArg,link,1); // Online
+        }
+      }
+    });
   },
 },
 'letitbit' : {
@@ -401,15 +419,6 @@ check: void check(link, cb, thisArg)
   'homepage' : 'http://nitroflare.com/',
   'check' : function(link,cb,thisArg) {
     OCH_ByFindingString(link,"be redirect to the main page", cb, thisArg);
-  },
-},
-'netload' : {
-  'pattern' : [/^https?:\/\/netload.in\/\w+\/(\w|-|\.)+$/m,/^https?:\/\/netload.in\/(\w|-|\.)+\.htm$/m],
-  'multi' : ['nopremium.pl'],
-  'title' : 'Netload',
-  'homepage' : 'https://netload.in/',
-  'check' : function(link,cb,thisArg) {
-    OCH_ByFindingString(link,"Possible causes", cb, thisArg);
   },
 },
 'oboom' : {
@@ -481,7 +490,7 @@ check: void check(link, cb, thisArg)
   'title' : 'Rockfile.eu',
   'homepage' : 'http://rockfile.eu',
   'check' : function(link,cb,thisArg) {
-    OCH_ByFindingString(link,"File Not Found", cb, thisArg);
+    OCH_ByFindingString(link,["File Not Found","fa-chain-broken"], cb, thisArg);
   },
 },
 'rusfolder' : {
@@ -581,7 +590,7 @@ check: void check(link, cb, thisArg)
   'title' : 'Uploadable.ch',
   'homepage' : 'http://www.uploadable.ch/',
   'check' : function(link,cb,thisArg) {
-    OCH_ByFindingString(link,"This file is no longer available", cb, thisArg);
+    OCH_ByFindingString(link,["This file is no longer available","File is not available"], cb, thisArg);
   },
 },
 'uploadboy' : {
@@ -599,7 +608,8 @@ check: void check(link, cb, thisArg)
   'title' : 'uploaded.net',
   'homepage' : 'http://uploaded.net/',
   'check' : function(link,cb,thisArg) {
-    OCH_ByMatchingFinalUrl(link,[/uploaded\.net\/404/,/uploaded\.net\/410/], cb, thisArg);
+    //OCH_ByMatchingFinalUrl(link,[/uploaded\.net\/404/,/uploaded\.net\/410/], cb, thisArg);
+    OCH_ByFindingString(link,"Error: ", cb, thisArg);
   },
 },
 'uploading' : {
@@ -632,7 +642,9 @@ check: void check(link, cb, thisArg)
   'multi' : ['nopremium.pl'],
   'title' : 'Uptobox',
   'homepage' : 'http://uptobox.com/',
-  'check' : new Function // TODO
+  'check' : function(link,cb,thisArg) {
+    OCH_ByFindingString(link,"File not found", cb, thisArg);
+  },
 },
 'vevo' : { 
   'pattern' : /^https?:\/\/www\.vevo\.com\/watch\/.+$/m,
