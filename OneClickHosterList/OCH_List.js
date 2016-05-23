@@ -5,7 +5,7 @@
 // @oujs:author cuzi
 // @description A list of One-Click-Hosters that are supported by nopremium.pl
 // @homepageURL https://github.com/cvzi/Userscripts
-// @version     5
+// @version     6
 // @license     GNUGPL
 // @require     http://openuserjs.org/src/libs/cuzi/RequestQueue.js
 // ==/UserScript==
@@ -235,6 +235,15 @@ check: void check(link, cb, thisArg)
     OCH_ByFindingString(link,"File Not Found", cb, thisArg);
   },
 },
+'faststore' : {
+  'pattern' : /^https?:\/\/(www\.)?faststore\.org\/.+$/m,  
+  'multi' : [],
+  'title' : 'Fast store',
+  'homepage' : 'http://faststore.org/',
+  'check' : function(link,cb,thisArg) {
+    OCH_ByFindingString(link,'<b class="err">', cb, thisArg);
+  },
+},
 'filecloud' : {
   'pattern' : /^http:\/\/filecloud\.io\/\w+(\/.*)?$/m,
   'multi' : [],
@@ -418,7 +427,7 @@ check: void check(link, cb, thisArg)
   'title' : 'NitroFlare',
   'homepage' : 'http://nitroflare.com/',
   'check' : function(link,cb,thisArg) {
-    OCH_ByFindingString(link,"be redirect to the main page", cb, thisArg);
+    OCH_ByFindingString(link,["be redirect to the main page", ' id="error"'], cb, thisArg);
   },
 },
 'oboom' : {
@@ -446,6 +455,15 @@ check: void check(link, cb, thisArg)
         }
       }
     });
+  },
+},
+'openload' : {
+  'pattern' : [/^https?:\/\/openload\.co\/f\/.+$/m],
+  'multi' : [],
+  'title' : 'Openload',
+  'homepage' : 'http://openload.co/',
+  'check' : function(link,cb,thisArg) {
+    OCH_ByFindingString(link,"File not found", cb, thisArg);
   },
 },
 'potload' : {
@@ -644,6 +662,15 @@ check: void check(link, cb, thisArg)
   'homepage' : 'http://uptobox.com/',
   'check' : function(link,cb,thisArg) {
     OCH_ByFindingString(link,"File not found", cb, thisArg);
+  },
+},
+'userscloud' : {
+  'pattern' : /^https?:\/\/userscloud\.com\/\w+$/m,
+  'multi' : [],
+  'title' : 'Userscloud',
+  'homepage' : 'https://userscloud.com/',
+  'check' : function(link,cb,thisArg) {
+    OCH_ByFindingString(link,"label-danger", cb, thisArg);
   },
 },
 'vevo' : { 
