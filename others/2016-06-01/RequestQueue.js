@@ -1,4 +1,5 @@
 // ==UserScript==
+// @exclude     *
 // @name        RequestQueue
 // @namespace   cuzi
 // @oujs:author cuzi
