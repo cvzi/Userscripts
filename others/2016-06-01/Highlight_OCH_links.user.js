@@ -1,193 +1,212 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <title>429 | Too Many Requests. Try again in a few. | OpenUserJS</title>
-  <meta charset="UTF-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="Too Many Requests. Try again in a few.">
-<meta name="keywords" content="userscript, userscripts, user script, user scripts, user.js, repository, Greasemonkey, Greasemonkey Port, Scriptish, TamperMonkey, Violent monkey, JavaScript, add-ons, extensions, browser">
-<link rel="shortcut icon" href="/images/favicon.ico" >
-
-<!-- Open Search -->
-<link href="/xml/opensearch-groups.xml" type="application/opensearchdescription+xml" rel="search" title="OpenUserJS Groups">
-<link href="/xml/opensearch-libraries.xml" type="application/opensearchdescription+xml" rel="search" title="OpenUserJS Libraries">
-<link href="/xml/opensearch-userscripts.xml" type="application/opensearchdescription+xml" rel="search" title="OpenUserJS Userscripts">
-<link href="/xml/opensearch-users.xml" type="application/opensearchdescription+xml" rel="search" title="OpenUserJS Users">
-
-<!-- CSS -->
-<link rel="stylesheet" type="text/css" media="all" href='/redist/npm/font-awesome/css/font-awesome.min.css'>
-<link rel="stylesheet" type="text/css" media="all" href='/redist/npm/octicons/octicons/octicons.css'>
-<link rel="stylesheet" type="text/css" media="all" href="/less/bootstrap/oujs.css">
-<link rel="stylesheet" type="text/css" media="all" href="/redist/npm/highlight.js/styles/github.css">
-<link rel="stylesheet" type="text/css" media="all" href="/css/common.css">
-
-
-<!-- Google Analytics -->
-<script type="text/javascript" src="//www.google-analytics.com/analytics.js" async="async"></script>
+﻿// ==UserScript==
+// @name        Highlight OCH links
+// @namespace   cuzi
+// @oujs:author cuzi
+// @description Link Checker. Hit escape to check whether one-click hoster links are online or offline.
+// @icon        https://greasyfork.org/system/screenshots/screenshots/000/003/868/original/och.png
+// @compatible  firefox Greasemonkey
+// @compatible  chrome Tampermonkey. Allow all domains on first run.
+// @homepageURL https://openuserjs.org/scripts/cuzi/Highlight_OCH_links
+// @updateURL   https://openuserjs.org/meta/cuzi/Highlight_OCH_links.meta.js
+// @require     https://openuserjs.org/src/libs/cuzi/RequestQueue.js
+// @require     https://openuserjs.org/src/libs/cuzi/OCH_List.js
+// @grant       GM_xmlhttpRequest
+// @connect     *
+// @version     6
+// @include     *
+// @exclude     *.yahoo.*
+// @exclude     *.google.*
+// @exclude     *.youtube.*
+// @exclude     *.bing.com*
+// @exclude     *duckduckgo.com*
+// ==/UserScript==
+var rq;
+(function() {
+"use strict";
 
 
-  <style>
-    .status-code {
-      font-size: 10em;
+// Maximal number of links that are checked (per website)
+var MAXREQUESTS = 1000;
+
+// Maximal number of links that are checked in parallel (per website)
+var MAXPARALLELCONNECTIONS = 16;
+
+// Maximal number of DOM nodes that are examined. Decrease this number on slow machines.
+var MAXTEXTNODES = 10000;
+
+
+/*
+// Export
+var mypatterns = [];
+var mynames = [];
+var myurls = [];
+for(var key in OCH) {
+  var o = OCH[key];
+  if((""+o.check).length > 30) { // If check function implemented
+    mypatterns.push(o.pattern.toString());
+    mynames.push("'"+key+"'");
+    myurls.push(" - ["+o.title+"]("+o.homepage+")");
+  }
+}
+
+alert(mypatterns.join(",\n"));
+alert(mynames.join(",\n"));
+alert(myurls.join("\n"));
+*/
+
+
+
+var links = []; // [  { hoster: "", url: "", element: DOMNode} , ...   ]
+rq = new RequestQueue(MAXPARALLELCONNECTIONS, MAXREQUESTS);
+
+
+function linkOffline(link) {
+  link.element.style.backgroundColor = "rgba(255, 0, 20, 0.5)";
+  link.element.dataset.linkValidatedAs = "offline";
+}
+function linkOnline(link) {
+  link.element.style.backgroundColor = "rgba(70, 255 ,0, 0.5)";
+  link.element.dataset.linkValidatedAs = "online";
+}
+function linkWaiting(link) {
+  link.element.style.backgroundColor = "rgba(255, 150, 80, 0.4)";
+}
+
+function handleResult(link,result,errorstring) {
+  if(result === 1) {
+    linkOnline(link);
+  } else if(result === 0) {
+    linkOffline(link);
+  } else if(result == -1) {
+    link.element.style.backgroundColor = "blue";
+    link.element.title = errorstring;
+    console.log(errorstring);
+  } else {
+    console.log("handleResult(link,result,errorstring) wrong resultcode: "+result);
+  }
+}
+
+function matchHoster(str) {
+  // Return name of first hoster that matches, otherwise return false
+  for(var name in OCH) {
+    for(let i = 0; i < OCH[name].pattern.length; i++) {
+      if(OCH[name].pattern[i].test(str)) {
+        return name;
+      }
     }
-  </style>
-</head>
-<body>
-  <nav role="navigation" class="navbar navbar-default navbar-static-top">
-  <div class="container-fluid">
-    <div class="navbar-header">
-      <button type="button" data-toggle="collapse" data-target=".navbar-collapse-top" class="navbar-toggle"><i class="fa fa-bars"></i></button>
-      <a href="/" class="navbar-brand" title="A Presentational Userscripts Repository">OpenUserJS<span class="mode"></span></a>
-    </div>
-    <div class="navbar-collapse navbar-collapse-top collapse">
-      <ul class="nav navbar-nav navbar-right">
-        <li><a href="/" title="Userscripts"><span class="visible-xs-inline"><i class="fa fa-file-code-o"></i> </span>Userscripts</a></li>
-        <li><a href="/?library=true" title="Libraries"><span class="visible-xs-inline"><i class="fa fa-file-excel-o"></i> </span>Libraries</a></li>
-        <li><a href="/groups" title="Userscript Groups"><span class="visible-xs-inline"><i class="fa fa-tag"></i> </span>Groups</a></li>
-        <li><a href="/forum"><span class="visible-xs-inline"><i class="fa fa-commenting"></i> </span>Discussions</a></li>
-        <li><a href="/users"><span class="visible-xs-inline"><i class="fa fa-user"></i> </span>Users</a></li>
-        
-        
-        
-        <!-- <li><a href="#" class="disabled"><i class="fa fa-envelope-o"></i> 0<span class="visible-xs-inline"> Unread Messages</span></a></li> -->
-        <li><a href="/users/cuzi" title="My profile">cuzi</a></li>
-        <li><a href="/logout" title="Logout"><span class="visible-xs-inline">Logout</span><i class="fa fa-sign-out"></i></a></li>
-        
-        
-      </ul>
-    </div>
-  </div>
-</nav>
-<div class="reminders">
+  }
+  return false;
+}
 
-<!--
-  <div class="alert alert-info alert-dismissible small fade in" role="alert">
-    <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-    <p><i class="fa fa-fw fa-exclamation-triangle"></i> <b>REMINDER:</b> Don't miss out reading the <a class="alert-link" href="/">descriptive</a> announcement.</p>
-  </div>
-  -->
+function findLinks() {
+  links = [];
 
-</div>
+  // Normalize hoster object: Replace single patterns with arrays [RegExp]
+  for(var name in OCH) {
+    if(!Array.isArray(OCH[name].pattern)) {
+      OCH[name].pattern = [ OCH[name].pattern ];
+    }
+  }
 
+  // Find all text nodes that contain "http://"
+  var nodes = [];
+  var walk = document.createTreeWalker(document.body,NodeFilter.SHOW_TEXT,{ acceptNode: function(node) {
+    if(node.parentNode.href || node.parentNode.parentNode.href || node.parentNode.parentNode.parentNode.href)
+      return NodeFilter.FILTER_REJECT;
+    if(node.parentNode.tagName == "TEXTAREA" || node.parentNode.parentNode.tagName == "TEXTAREA")
+      return NodeFilter.FILTER_REJECT;
+    if(node.data.match(/(\s|^)https?:\/\/\w+/))
+      return NodeFilter.FILTER_ACCEPT;
+  } },false);
+  var node = walk.nextNode();
+  while(node) {
+      nodes.push(node);
+      node = walk.nextNode();
+  }
 
-  <div class="container-fluid">
-    <div class="row">
-      <div class="col-xs-12">
-        <div class="panel panel-default">
-          <div class="panel-body">
-            <h1 class="status-code text-center">429</h1>
-            <p class="text-center">
-            
-            
-              Too Many Requests. Try again in a few.
-            
-            </p>
-            <p class="text-center"> <a href="javascript: void(0);" onclick="history.go(-1);"><i class="fa fa-arrow-circle-left"></i>Go Back</a>.</p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-  <footer id="footer">
-  <nav role="navigation" class="navbar navbar-inverse navbar-static-top">
-    <div class="container-fluid">
-      <div class="navbar-header">
-        <button type="button" data-toggle="collapse" data-target=".navbar-collapse-bottom" class="navbar-toggle" onclick="$('html, body').animate({scrollTop: $(document).height()}, 'slow')"><i class="fa fa-bars"></i></button>
-        <a href="https://github.com/OpenUserJs" class="navbar-brand">&copy; 2013+ <span class="hidden-xs">OpenUserJS</span><span class="visible-xs-inline">OUJS</span> Group</a>
-      </div>
-      <div class="navbar-collapse navbar-collapse-bottom collapse">
-        <ul class="nav navbar-nav navbar-right">
-          <li><a href="/about">About</a></li>
-          <li><a href="/about/Terms-of-Service">Terms of Service</a></li>
-          <li><a href="/about/Digital-Millenium-Copyright-Act" title="Digital Millennium Copyright Act">DMCA</a></li>
-          <li><a href="/about/Privacy-Policy">Privacy Policy</a></li>
-          <li><a href="https://github.com/OpenUserJs/OpenUserJS.org">Development</a></li>
-          <li><a href="https://github.com/orgs/OpenUserJs/people">Collaborators</a></li>
-        </ul>
-      </div>
-    </div>
-  </nav>
-</footer>
+  // For each found text nodes check whether the URL is a valid OCH URL
+  for(let i = 0; i < nodes.length && i < MAXTEXTNODES; i++) {
+    if("" === nodes[i].data) {
+      continue;
+    }
+    var httpPosition = nodes[i].data.indexOf("http");
+    if(httpPosition == -1) {
+      continue;
+    }
 
-<!-- JS -->
-<script type="text/javascript" charset="UTF-8" src="/redist/npm/jquery/dist/jquery.js"></script>
-<script type="text/javascript" charset="UTF-8" src="/redist/npm/bootstrap/dist/js/bootstrap.js"></script>
-
-<script type="text/javascript">
-  (function () {
-
-    var events = 'focus resize scroll';
-    var handler = null;
-    var didCallback = false;
-
-    function callback(aEl) {
-      if (!didCallback) {
-        didCallback = true;
-
-        setTimeout(function () {
-          $('.reminders .alert .close').each(function () {
-            this.click();
-          });
-        }, 7000);
+    var urlnode;
+    if(httpPosition > 0) {
+      urlnode = nodes[i].splitText(httpPosition); // Split leading text
+    } else {
+      urlnode = nodes[i];
+    }
+    var stop = urlnode.data.match(/$|\s/)[0]; // Find end of URL
+    if("" !== stop) { // If empty string, we found $ end of string
+      var nextnode = urlnode.splitText(urlnode.data.indexOf(stop)); // Split trailing text
+      if("" !== nextnode.data && nextnode.data.indexOf("http") != -1) {// The trailing text might contain another URL
+        nodes.push(nextnode);
       }
     }
 
-    function isElementInViewport(aEl) {
-  var rect = null;
-
-  if (aEl instanceof jQuery) {
-    aEl = aEl[0];
+    // Check whether the URL is a OCH. If so, create an <a> element
+    var url = urlnode.data;
+    var mh = matchHoster(url);
+    if(mh !== false) {
+      var a = document.createElement("a");
+      a.href = url;
+      a.appendChild(urlnode.parentNode.replaceChild(a, urlnode));
+      links.push( {
+        'hoster' : mh,
+        'url' : url,
+        'element' : a
+      });
+    }
   }
 
-  rect = aEl.getBoundingClientRect();
+  // Find actual <a> links
+  var al = document.getElementsByTagName('a');
+  for(let i = 0; i < al.length; i++) {
+    if(al[i].dataset.linkValidatedAs) {
+      continue; // Link was already checked
+    }
+    var mH = matchHoster(al[i].href);
+    if(mH !== false) {
+      links.push( {
+        'hoster' : mH,
+        'url' : al[i].href,
+        'element' : al[i]
+      });
+    }
+  }
 
-  return (
-    rect.top >= 0 &&
-    rect.left >= 0 &&
-    rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) && // or $(window).height()
-    rect.right <= (window.innerWidth || document.documentElement.clientWidth) // or $(window).width()
-  );
+  return links.length;
+}
+
+function checkLinks() {
+  // Check all links by calling the hoster's check function
+  for(let i = 0; i < links.length; i++) {
+    if(links[i] && OCH[links[i].hoster].check && typeof(OCH[links[i].hoster].check) === 'function') {
+      linkWaiting(links[i]);
+      OCH[links[i].hoster].check(links[i],handleResult);
+    }
+  }
 }
 
 
-    function fireIfElementVisible(aEl, aCallback) {
-      return function () {
-        if (isElementInViewport(aEl)) {
-          $(window).off(events, handler);
-
-          aCallback(aEl);
-        }
-      }
+var doit = true;
+document.addEventListener('keydown',function(ev) {
+  if (ev.keyCode == 27) {
+    if(doit) {
+      // Highlight links and check them
+      var n = findLinks();
+      if(n > 0 )
+        checkLinks();
+    } else {
+      // Abort all requests
+      rq.abort();
     }
+    doit = !doit;
+  }
+},false);
 
-    handler = fireIfElementVisible($('.reminders'), callback);
-    $(window).on(events, handler);
-
-  })();
-</script>
-
-
-
-<!-- Google Analytics -->
-<script type="text/javascript">
-  (function () {
-
-    var win = window;
-    win['GoogleAnalyticsObject'] = 'ga';
-    win['ga'] = win['ga'] || function () {
-        (win['ga'].q = win['ga'].q || []).push(arguments);
-    }
-
-    win['ga'].l = 1 * new Date();
-
-    ga('create', 'UA-59965387-1', 'auto');
-    ga('send', 'pageview');
-
-  })();
-</script>
-
-
-
-</body>
-</html>
+})();

@@ -5,7 +5,7 @@
 // @oujs:author cuzi
 // @description A list of One-Click-Hosters that are supported by nopremium.pl
 // @homepageURL https://github.com/cvzi/Userscripts
-// @version     6
+// @version     7
 // @license     GNUGPL
 // @require     http://openuserjs.org/src/libs/cuzi/RequestQueue.js
 // ==/UserScript==
@@ -17,14 +17,18 @@ var rq = new RequestQueue();
 
 */
 
-function OCH_ByFindingString(link,s,cb,thisArg) {
+function OCH_permanentlyoffline(link,cb,thisArg) {
+  cb.call(thisArg,link,0); // Offline
+}
+
+function OCH_ByFindingString(link,s,cb,thisArg,useURL) {
   // Offline if one of the strings [s] is found in the responseText
   if(typeof s == "string") {
     s = [s];
   }
   rq.add({
     method: "GET",
-    url: link.url,
+    url: useURL?useURL:link.url,
     onload: function (response){
       for(var i = 0; i < s.length; i++) {
         if(response.responseText.indexOf(s[i]) != -1) {
@@ -36,14 +40,14 @@ function OCH_ByFindingString(link,s,cb,thisArg) {
     }
   });
 }
-function OCH_ByNotFindingString(link,s,cb,thisArg) {
+function OCH_ByNotFindingString(link,s,cb,thisArg,useURL) {
   // Offline if none of the strings [s] is found in the responseText
   if(typeof s == "string") {
     s = [s];
   }
   rq.add({
     method: "GET",
-    url: link.url,
+    url: useURL?useURL:link.url,
     onload: function (response){
       for(var i = 0; i < s.length; i++) {
         if(response.responseText.indexOf(s[i]) != -1) {
@@ -55,7 +59,7 @@ function OCH_ByNotFindingString(link,s,cb,thisArg) {
     }
   });
 }
-function OCH_ByMatchingFinalUrl(link,re,cb,thisArg) {
+function OCH_ByMatchingFinalUrl(link,re,cb,thisArg,useURL) {
   // Offline if one of the RegEx [re] matches the finalUrl
   if(!Array.isArray(re)) {
     re = [re];
@@ -63,7 +67,7 @@ function OCH_ByMatchingFinalUrl(link,re,cb,thisArg) {
 
   rq.add({
     method: "GET",
-    url: link.url,
+    url: useURL?useURL:link.url,
     onload: function (response){
       for(var i = 0; i < re.length; i++) {
         if(re[i].test(response.finalUrl)) { 
@@ -118,14 +122,18 @@ check: void check(link, cb, thisArg)
   'multi' : [],
   'title' : '2Shared',
   'homepage' : 'http://www.2shared.com/',
-  'check' : new Function // TODO
+  'check' : function(link,cb,thisArg) {
+    OCH_ByFindingString(link,"VGhlIGZpbGUgbGluayB0aGF0IHlvdSByZXF1ZXN0ZWQgaXMgbm90IHZhbGlkLiBQbGVhc2UgY29udGFjdCBsaW5rIHB1Ymxpc2hlciBvciB0cnkgdG8gbWFrZSBhIHNlYXJjaC4=", cb, thisArg);
+  }
 },
 '4shared' : {
   'pattern' : /^http:\/\/www\.4shared\.com\/[a-z]+\/\w+\/?(.+\.html)?$/, 
   'multi' : ['nopremium.pl'],
-  'title' : '2shared.com',
+  'title' : '4shared.com',
   'homepage' : 'http://www.4shared.com/',
-  'check' : new Function // TODO
+  'check' : function(link,cb,thisArg) {
+    OCH_ByFindingString(link,[" is not valid"," is unavailable"," was deleted"], cb, thisArg);
+  }
 },
 '4downfiles' : {
   'pattern' :/^http:\/\/4downfiles\.com\/\w+\.html$/m,
@@ -287,7 +295,9 @@ check: void check(link, cb, thisArg)
   'multi' : ['nopremium.pl'],
   'title' : 'Filemonkey.in',
   'homepage' : 'https://www.filemonkey.in/',
-  'check' : new Function // TODO
+  'check' : function(link,cb,thisArg) {
+   OCH_permanentlyoffline(link, cb, thisArg);
+  },
 },
 'fileload' : {
   'pattern' : /^https:\/\/fileload\.io\/.+$/m,
@@ -330,7 +340,7 @@ check: void check(link, cb, thisArg)
   'multi' : ['nopremium.pl'],
   'title' : 'Green Boxes',
   'homepage' : 'http://www.gboxes.com/',
-  'check' : function(link,cb,thisArg) { // TODO http://www.gboxes.com/?op=checkfiles
+  'check' : function(link,cb,thisArg) {
     OCH_ByFindingString(link,"The file you were looking for could not be found, sorry for any inconvenience", cb, thisArg);
   },
 },
@@ -639,6 +649,15 @@ check: void check(link, cb, thisArg)
     OCH_ByFindingString(link,['class="file_error"',"file not found","file was removed"], cb, thisArg);
   },
 },
+'uploadon' : {
+  'pattern' : /^http:\/\/uploadon\.me\/\w+\.html$/m, 
+  'multi' : [],
+  'title' : 'Uploadon.me',
+  'homepage' : 'http://uploadon.me/',
+  'check' : function(link,cb,thisArg) {
+    OCH_ByFindingString(link, ["File not found", "This page was not found"], cb, thisArg);
+  },
+},
 'uploadrocket' : {
   'pattern' : /^http:\/\/uploadrocket\.net\/\w+(\/|\w|-|\.)+\.html?$/m,
   'multi' : ['nopremium.pl'],
@@ -653,7 +672,9 @@ check: void check(link, cb, thisArg)
   'multi' : [],
   'title' : 'UppIT',
   'homepage' : 'http://uppit.com/',
-  'check' : new Function // TODO
+  'check' : function(link,cb,thisArg) {
+    OCH_ByFindingString(link,"File Not Found", cb, thisArg);
+  },
 },
 'uptobox' : {
   'pattern' : /^http:\/\/uptobox.com\/\w+$/m,
@@ -697,7 +718,9 @@ check: void check(link, cb, thisArg)
   'multi' : ['nopremium.pl'],
   'title' : 'VIP-file',
   'homepage' : 'http://vip-file.com/',
-  'check' : new Function // TODO
+  'check' : function(link,cb,thisArg) {
+    OCH_ByFindingString(link,"File not found", cb, thisArg, link.url+"?lang=en");
+  },
 },
 'youtube' : {
   'pattern' : /^https?:\/\/www\.youtube\.com\/watch(\?v=|\/).+$/m,
