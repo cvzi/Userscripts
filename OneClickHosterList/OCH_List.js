@@ -595,7 +595,7 @@ check: void check(link, cb, thisArg)
   },
 },
 'tusfiles' : {
-  'pattern' : /^http:\/\/www\.tusfiles\.net\/\w+$/m,
+  'pattern' : /^https?:\/\/(www\.)?tusfiles\.net\/\w+$/m,
   'multi' : ['nopremium.pl'],
   'title' : 'TusFiles',
   'homepage' : 'http://tusfiles.net/',
