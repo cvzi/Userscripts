@@ -469,7 +469,7 @@ check: void check(link, cb, thisArg)
 },
 'openload' : {
   'pattern' : [/^https?:\/\/openload\.co\/f\/.+$/m],
-  'multi' : [],
+  'multi' : ['nopremium.pl'],
   'title' : 'Openload',
   'homepage' : 'http://openload.co/',
   'check' : function(link,cb,thisArg) {
