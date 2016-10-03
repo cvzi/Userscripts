@@ -5,7 +5,7 @@
 // @oujs:author cuzi
 // @description A list of One-Click-Hosters that are supported by nopremium.pl
 // @homepageURL https://github.com/cvzi/Userscripts
-// @version     7
+// @version     8
 // @license     GNUGPL
 // @require     http://openuserjs.org/src/libs/cuzi/RequestQueue.js
 // ==/UserScript==
@@ -585,6 +585,15 @@ check: void check(link, cb, thisArg)
     OCH_ByFindingString(link,"File Deleted", cb, thisArg);
   },
 },
+'subyshare' : {
+  'pattern' : /^http:\/\/subyshare\.com\/\w+\/.*$/m,
+  'multi' : [],
+  'title' : 'Subyshare.com',
+  'homepage' : 'http://subyshare.com/',
+  'check' : function(link,cb,thisArg) {
+    OCH_ByFindingString(link,"File Not Found", cb, thisArg);
+  },
+},
 'turbobit' : {
   'pattern' : /^http:\/\/turbobit\.net\/\w+.*\.html$/m,
   'multi' : ['nopremium.pl'],
@@ -640,13 +649,22 @@ check: void check(link, cb, thisArg)
     OCH_ByFindingString(link,"Error: ", cb, thisArg);
   },
 },
-'uploading' : {
+'uploadingcom' : {
   'pattern' : /^http:\/\/uploading\.com\/\w+\/?.*$/m,
   'multi' : ['nopremium.pl'],
   'title' : 'Uploading.com',
   'homepage' : 'http://uploading.com/',
   'check' : function(link,cb,thisArg) {
     OCH_ByFindingString(link,['class="file_error"',"file not found","file was removed"], cb, thisArg);
+  },
+},
+'uploading' : {
+  'pattern' : /^http:\/\/(www\.)?uploading\.site\/\w+(\/.*)?\.htm$/m,
+  'multi' : ['nopremium.pl'],
+  'title' : 'Uploading.site',
+  'homepage' : 'http://uploading.site/',
+  'check' : function(link,cb,thisArg) {
+    OCH_ByFindingString(link,"cannot be found", cb, thisArg);
   },
 },
 'uploadon' : {
@@ -677,7 +695,7 @@ check: void check(link, cb, thisArg)
   },
 },
 'uptobox' : {
-  'pattern' : /^http:\/\/uptobox.com\/\w+$/m,
+  'pattern' : /^http:\/\/uptobox.com\/\w+(\/.*)?$/m,
   'multi' : ['nopremium.pl'],
   'title' : 'Uptobox',
   'homepage' : 'http://uptobox.com/',
@@ -732,7 +750,7 @@ check: void check(link, cb, thisArg)
   },
 },
 'zippyshare' : {
-  'pattern' : /^http:\/\/www\d*\.zippyshare\.com\/v\/\d+\/file\.html$/m,
+  'pattern' : /^http:\/\/www\d*\.zippyshare\.com\/v\/\w+\/file\.html$/m,
   'multi' : ['nopremium.pl'],
   'title' : 'Zippyshare.com',
   'homepage' : 'http://www.zippyshare.com/',
