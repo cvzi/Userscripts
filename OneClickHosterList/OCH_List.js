@@ -664,7 +664,7 @@ check: void check(link, cb, thisArg)
   'title' : 'Uploading.site',
   'homepage' : 'http://uploading.site/',
   'check' : function(link,cb,thisArg) {
-    OCH_ByFindingString(link,"cannot be found", cb, thisArg);
+    OCH_ByFindingString(link,["cannot be found", "was removed", "for deletion"], cb, thisArg);
   },
 },
 'uploadon' : {
