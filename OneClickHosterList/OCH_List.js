@@ -109,7 +109,7 @@ check: void check(link, cb, thisArg)
   }
 },
 '1fichier' : {
-  'pattern' : /^https?:\/\/(www\.)?1fichier\.com\/\?.+$/m,
+  'pattern' : [/^https?:\/\/(www\.)?1fichier\.com\/.+$/m, /^https?:\/\/\w+\.1fichier\.com\/?.*$/m],
   'multi' : ['nopremium.pl'],
   'title' : '1fichier',
   'homepage' : 'http://1fichier.com/',
