@@ -5,7 +5,7 @@
 // @oujs:author cuzi
 // @description A list of One-Click-Hosters that are supported by nopremium.pl
 // @homepageURL https://github.com/cvzi/Userscripts
-// @version     8
+// @version     9
 // @license     GNUGPL
 // @require     http://openuserjs.org/src/libs/cuzi/RequestQueue.js
 // ==/UserScript==
@@ -14,8 +14,10 @@
 /*
 
 var rq = new RequestQueue();
+var MAXDOWNLOADSIZE = 2048; // KB
 
 */
+
 
 function OCH_permanentlyoffline(link,cb,thisArg) {
   cb.call(thisArg,link,0); // Offline
@@ -29,6 +31,13 @@ function OCH_ByFindingString(link,s,cb,thisArg,useURL) {
   rq.add({
     method: "GET",
     url: useURL?useURL:link.url,
+    onprogress: function(response) {
+      // abort download of big files
+      if((Math.max(response.loaded,response.total)/1024) > MAXDOWNLOADSIZE) {
+        this.__result.abort();
+        cb.call(thisArg,link,1); // Let's assume big files are online
+      }
+    },
     onload: function (response){
       for(var i = 0; i < s.length; i++) {
         if(response.responseText.indexOf(s[i]) != -1) {
@@ -48,6 +57,13 @@ function OCH_ByNotFindingString(link,s,cb,thisArg,useURL) {
   rq.add({
     method: "GET",
     url: useURL?useURL:link.url,
+    onprogress: function(response) {
+      // abort download of big files
+      if((Math.max(response.loaded,response.total)/1024) > MAXDOWNLOADSIZE) {
+        this.__result.abort();
+        cb.call(thisArg,link,1); // Let's assume big files are online
+      }
+    },
     onload: function (response){
       for(var i = 0; i < s.length; i++) {
         if(response.responseText.indexOf(s[i]) != -1) {
@@ -68,6 +84,13 @@ function OCH_ByMatchingFinalUrl(link,re,cb,thisArg,useURL) {
   rq.add({
     method: "GET",
     url: useURL?useURL:link.url,
+    onprogress: function(response) {
+      // abort download of big files
+      if((Math.max(response.loaded,response.total)/1024) > MAXDOWNLOADSIZE) {
+        this.__result.abort();
+        cb.call(thisArg,link,1); // Let's assume big files are online
+      }
+    },
     onload: function (response){
       for(var i = 0; i < re.length; i++) {
         if(re[i].test(response.finalUrl)) { 
@@ -97,6 +120,16 @@ check: void check(link, cb, thisArg)
        errorstring: may contain error details e.g. the request result, only set if result == -1
   thisArg : The value of this provided for the call to cb. 
 */
+
+'nopremiumtest' : {
+  'pattern' : /^https:\/\/standard\.nopremium\.pl\/.+$/m,
+  'multi' : [],
+  'title' : 'nopremiumtest',
+  'homepage' : 'http://nopremium.pl/',
+  'check' : function(link,cb,thisArg) {
+    OCH_ByFindingString(link,"Wystąpił błąd przy pobieraniu pliku. Spróbuj ponownie",cb,thisArg);
+  }
+},
 
 
 '180upload' : {
@@ -282,7 +315,7 @@ check: void check(link, cb, thisArg)
   },
 },
 'filefactory' : {
-  'pattern' : /^http:\/\/(www\.)?filefactory\.com\/file\/.+$/m,
+  'pattern' : /^https?:\/\/(www\.)?filefactory\.com\/file\/.+$/m,
   'multi' : ['nopremium.pl'],
   'title' : 'FileFactory',
   'homepage' : 'http://www.filefactory.com',
@@ -677,7 +710,7 @@ check: void check(link, cb, thisArg)
   },
 },
 'uploadrocket' : {
-  'pattern' : /^http:\/\/uploadrocket\.net\/\w+(\/|\w|-|\.)+\.html?$/m,
+  'pattern' : /^http:\/\/uploadrocket\.net\/\w+(\/|\w|-|\.)+(\.html)?$/m,
   'multi' : ['nopremium.pl'],
   'title' : 'UploadRocket.net',
   'homepage' : 'http://uploadrocket.net/',
