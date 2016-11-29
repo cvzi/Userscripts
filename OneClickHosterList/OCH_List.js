@@ -121,17 +121,6 @@ check: void check(link, cb, thisArg)
   thisArg : The value of this provided for the call to cb. 
 */
 
-'nopremiumtest' : {
-  'pattern' : /^https:\/\/standard\.nopremium\.pl\/.+$/m,
-  'multi' : [],
-  'title' : 'nopremiumtest',
-  'homepage' : 'http://nopremium.pl/',
-  'check' : function(link,cb,thisArg) {
-    OCH_ByFindingString(link,"Wystąpił błąd przy pobieraniu pliku. Spróbuj ponownie",cb,thisArg);
-  }
-},
-
-
 '180upload' : {
   'pattern' : /^http:\/\/180upload\.com\/\w+$/m,
   'multi' : ['nopremium.pl'],
