@@ -5,7 +5,7 @@
 // @oujs:author cuzi
 // @description A list of One-Click-Hosters that are supported by nopremium.pl
 // @homepageURL https://github.com/cvzi/Userscripts
-// @version     9
+// @version     10
 // @license     GNUGPL
 // @require     http://openuserjs.org/src/libs/cuzi/RequestQueue.js
 // ==/UserScript==
@@ -384,6 +384,15 @@ check: void check(link, cb, thisArg)
     OCH_ByFindingString(link,"http://www.hugefiles.net/404.html", cb, thisArg);
   },
 },
+'katfile' : {
+  'pattern' : /^https?:\/\/katfile\.com\/\w+\/?.*$/m,
+  'multi' : [],
+  'title' : 'Katfile.com',
+  'homepage' : 'http://katfile.com/',
+  'check' : function(link,cb,thisArg) {
+    OCH_ByFindingString(link,"file not found", cb, thisArg);
+  },
+},
 'kingfiles' : {
   'pattern' : /^https?:\/\/www\.kingfiles\.net\/\w+.*$/m,
   'multi' : ['nopremium.pl'],
@@ -643,6 +652,15 @@ check: void check(link, cb, thisArg)
     OCH_ByFindingString(link,"File Not Found", cb, thisArg);
   },
 },
+'upera' : {
+  'pattern' : /^http:\/\/public\.upera\.co\/\w+$/m,
+  'multi' : [],
+  'title' : 'Upera',
+  'homepage' : 'http://public.upera.co/',
+  'check' : function(link,cb,thisArg) {
+    OCH_ByFindingString(link,"Invalid or Deleted File", cb, thisArg);
+  },
+},
 'uploadable' : {
   'pattern' : /^http:\/\/www\.uploadable\.ch\/file\/\w+\/(\w|-|\.)+$/m,
   'multi' : [],
@@ -669,6 +687,15 @@ check: void check(link, cb, thisArg)
   'check' : function(link,cb,thisArg) {
     //OCH_ByMatchingFinalUrl(link,[/uploaded\.net\/404/,/uploaded\.net\/410/], cb, thisArg);
     OCH_ByFindingString(link,"Error: ", cb, thisArg);
+  },
+},
+'uploadgig' : {
+  'pattern' : /^https?:\/\/uploadgig\.com\/file\/download\/\w+\/?.*$/m,
+  'multi' : ['nopremium.pl'],
+  'title' : 'UploadGIG',
+  'homepage' : 'https://uploadgig.com/',
+  'check' : function(link,cb,thisArg) {
+    OCH_ByFindingString(link,"File not found", cb, thisArg);
   },
 },
 'uploadingcom' : {
@@ -726,7 +753,7 @@ check: void check(link, cb, thisArg)
   },
 },
 'userscloud' : {
-  'pattern' : /^https?:\/\/userscloud\.com\/\w+$/m,
+  'pattern' : /^https?:\/\/userscloud\.com\/\w+(\/.+)?$/m,
   'multi' : [],
   'title' : 'Userscloud',
   'homepage' : 'https://userscloud.com/',
