@@ -5,7 +5,7 @@
 // @oujs:author cuzi
 // @description A list of One-Click-Hosters that are supported by nopremium.pl
 // @homepageURL https://github.com/cvzi/Userscripts
-// @version     10
+// @version     11
 // @license     GNUGPL
 // @require     http://openuserjs.org/src/libs/cuzi/RequestQueue.js
 // ==/UserScript==
@@ -391,6 +391,15 @@ check: void check(link, cb, thisArg)
   'homepage' : 'http://katfile.com/',
   'check' : function(link,cb,thisArg) {
     OCH_ByFindingString(link,"file not found", cb, thisArg);
+  },
+},
+'keep2share' : {
+  'pattern' : [/^https?:\/\/keep2share\.cc\/file\/\w+\/?.*$/m, /^https?:\/\/k2s\.cc\/file\/\w+\/?.*$/m],
+  'multi' : [],
+  'title' : 'Keep2Share',
+  'homepage' : 'https://keep2share.cc/',
+  'check' : function(link,cb,thisArg) {
+    OCH_ByFindingString(link,"File not found", cb, thisArg);
   },
 },
 'kingfiles' : {
