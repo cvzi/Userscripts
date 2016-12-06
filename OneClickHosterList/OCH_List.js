@@ -343,7 +343,7 @@ check: void check(link, cb, thisArg)
 'filemonkey' : {
   'pattern' : /^https?:\/\/www.filemonkey.in\/file\/.+$/m,
   'multi' : ['nopremium.pl'],
-  'title' : 'Filemonkey.in',
+  'title' : 'Offline: Filemonkey.in',
   'homepage' : 'https://www.filemonkey.in/',
   'check' : function(link,cb,thisArg) {
    OCH_permanentlyoffline(link, cb, thisArg);
