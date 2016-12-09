@@ -476,7 +476,7 @@ check: void check(link, cb, thisArg)
   },
 },
 'mega' : {
-  'pattern' : /^https:\/\/mega\.co\.nz\/\#\!\w+!*(\w|-)*$/m,
+  'pattern' : [/^https?:\/\/mega\.co\.nz\/\#\!\w+!*(\w|-)*$/m, /^https?:\/\/mega\.nz\/\#\!\w+!*(\w|-)*$/m],
   'multi' : ['nopremium.pl'],
   'title' : 'MEGA',
   'homepage' : 'https://mega.co.nz/',
