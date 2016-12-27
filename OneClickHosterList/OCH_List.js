@@ -5,7 +5,7 @@
 // @oujs:author cuzi
 // @description A list of One-Click-Hosters that are supported by nopremium.pl
 // @homepageURL https://github.com/cvzi/Userscripts
-// @version     12
+// @version     13
 // @license     GNUGPL
 // @require     http://openuserjs.org/src/libs/cuzi/RequestQueue.js
 // ==/UserScript==
@@ -238,6 +238,15 @@ check: void check(link, cb, thisArg)
     OCH_ByFindingString(link,"You will be redirected to the homepage", cb, thisArg);
   },
 },
+'dailyuploads' : {
+  'pattern' : /^https?:\/\/dailyuploads\.net\/\w+\/?.*$/m,
+  'multi' : [],
+  'title' : 'Daily Uploads',
+  'homepage' : 'http://dailyuploads.net/',
+  'check' :function(link,cb,thisArg) {
+    OCH_ByFindingString(link,"File Not Found", cb, thisArg);
+  },
+},
 'datafile' : {
   'pattern' : /^http:\/\/www\.datafile\.com\/d\/\w+.*$/m,
   'multi' : ['nopremium.pl'],
@@ -358,6 +367,15 @@ check: void check(link, cb, thisArg)
     OCH_ByFindingString(link,"Not found", cb, thisArg);
   }
 },
+'filescdn' : {
+  'pattern' : /^https:\/\/filescdn\.com\/.+$/m,
+  'multi' : [],
+  'title' : 'filescdn.com',
+  'homepage' : 'https://filescdn.com/',
+  'check' : function(link,cb,thisArg) {
+    OCH_ByFindingString(link,"icon-warning text-danger", cb, thisArg);
+  }
+},
 'firedrive' : {
   'pattern' : /^http:\/\/www\.firedrive\.com\/file\/\w+$/m,
   'multi' : ['nopremium.pl'],
@@ -431,7 +449,7 @@ check: void check(link, cb, thisArg)
   },
 },
 'kingfiles' : {
-  'pattern' : /^https?:\/\/www\.kingfiles\.net\/\w+.*$/m,
+  'pattern' : /^https?:\/\/(www\.)?kingfiles\.net\/\w+.*$/m,
   'multi' : ['nopremium.pl'],
   'title' : 'KingFiles.net',
   'homepage' : 'http://www.kingfiles.net/',
@@ -617,6 +635,15 @@ check: void check(link, cb, thisArg)
     OCH_ByFindingString(link,"File not found.", cb, thisArg);
   },
 },
+'salefiles' : {
+  'pattern' : /^http:\/\/salefiles\.com\/\w+\/?.*$/m,
+  'multi' : [],
+  'title' : 'Salefiles',
+  'homepage' : 'http://salefiles.com',
+  'check' : function(link,cb,thisArg) {
+    OCH_ByFindingString(link,"File Not Found", cb, thisArg);
+  },
+},
 'share-online' : {
   'pattern' : /^http:\/\/www\.share-online\.biz\/dl\/\w+$/m,
   'multi' : ['nopremium.pl'],
@@ -673,10 +700,19 @@ check: void check(link, cb, thisArg)
   },
 },
 'subyshare' : {
-  'pattern' : /^http:\/\/subyshare\.com\/\w+\/.*$/m,
+  'pattern' : /^https?:\/\/subyshare\.com\/\w+\/?.*$/m,
   'multi' : [],
   'title' : 'Subyshare.com',
   'homepage' : 'http://subyshare.com/',
+  'check' : function(link,cb,thisArg) {
+    OCH_ByFindingString(link,"File Not Found", cb, thisArg);
+  },
+},
+'suprafiles' : {
+  'pattern' : /^http:\/\/suprafiles\.net\/\w+\/?.*$/m,
+  'multi' : [],
+  'title' : 'Suprafiles.net',
+  'homepage' : 'http://suprafiles.net/',
   'check' : function(link,cb,thisArg) {
     OCH_ByFindingString(link,"File Not Found", cb, thisArg);
   },
@@ -704,6 +740,15 @@ check: void check(link, cb, thisArg)
   'multi' : [],
   'title' : 'Unlimit Zone',
   'homepage' : 'http://unlimitzone.com/',
+  'check' : function(link,cb,thisArg) {
+    OCH_ByFindingString(link,"File Not Found", cb, thisArg);
+  },
+},
+'up07' : {
+  'pattern' : /^https?:\/\/up07\.net\/\w+$/m,
+  'multi' : [],
+  'title' : 'up07.net',
+  'homepage' : 'http://up07.net/',
   'check' : function(link,cb,thisArg) {
     OCH_ByFindingString(link,"File Not Found", cb, thisArg);
   },
@@ -764,12 +809,21 @@ check: void check(link, cb, thisArg)
   },
 },
 'uploading' : {
-  'pattern' : /^http:\/\/(www\.)?uploading\.site\/\w+(\/.*)?\.htm$/m,
+  'pattern' : /^http:\/\/(www\.)?uploading\.site\/\w+(\/.*)?(\.htm)?$/m,
   'multi' : ['nopremium.pl'],
   'title' : 'Uploading.site',
   'homepage' : 'http://uploading.site/',
   'check' : function(link,cb,thisArg) {
     OCH_ByFindingString(link,["cannot be found", "was removed", "for deletion"], cb, thisArg);
+  },
+},
+'uploadocean' : {
+  'pattern' : /^https?:\/\/uploadocean\.com\/\w+$/m, 
+  'multi' : [],
+  'title' : 'UploadOcean',
+  'homepage' : 'http://uploadocean.com/',
+  'check' : function(link,cb,thisArg) {
+    OCH_ByFindingString(link, 'deleted.png"', cb, thisArg);
   },
 },
 'uploadon' : {
