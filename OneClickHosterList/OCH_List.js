@@ -5,7 +5,7 @@
 // @oujs:author cuzi
 // @description A list of One-Click-Hosters that are supported by nopremium.pl
 // @homepageURL https://github.com/cvzi/Userscripts
-// @version     13
+// @version     14
 // @license     GNUGPL
 // @require     http://openuserjs.org/src/libs/cuzi/RequestQueue.js
 // ==/UserScript==
@@ -218,6 +218,15 @@ check: void check(link, cb, thisArg)
   'homepage' : 'http://catshare.net/',
   'check' :function(link,cb,thisArg) {
     OCH_ByFindingString(link,"Podany plik został usunięty", cb, thisArg);
+  },
+},
+'clicknupload' : {
+  'pattern' : /^https?:\/\/(www\.)?clicknupload\.link\/\w+$/m,
+  'multi' : [],
+  'title' : 'ClicknUpload',
+  'homepage' : 'https://clicknupload.link',
+  'check' :function(link,cb,thisArg) {
+    OCH_ByFindingString(link,"File Not Found", cb, thisArg);
   },
 },
 'cwtv' : {
