@@ -222,7 +222,7 @@ check: void check(link, cb, thisArg)
 },
 'clicknupload' : {
   'pattern' : /^https?:\/\/(www\.)?clicknupload\.link\/\w+$/m,
-  'multi' : [],
+  'multi' : ['nopremium.pl'],
   'title' : 'ClicknUpload',
   'homepage' : 'https://clicknupload.link',
   'check' :function(link,cb,thisArg) {
