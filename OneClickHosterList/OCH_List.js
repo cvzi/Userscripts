@@ -818,7 +818,7 @@ check: void check(link, cb, thisArg)
   },
 },
 'uploading' : {
-  'pattern' : /^http:\/\/(www\.)?uploading\.site\/\w+(\/.*)?(\.htm)?$/m,
+  'pattern' : /^http:\/\/(www\.)?uploading\.site\/\w+.*$/m,
   'multi' : ['nopremium.pl'],
   'title' : 'Uploading.site',
   'homepage' : 'http://uploading.site/',
