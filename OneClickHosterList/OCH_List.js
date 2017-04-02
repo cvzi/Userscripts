@@ -5,7 +5,7 @@
 // @oujs:author cuzi
 // @description A list of One-Click-Hosters that are supported by nopremium.pl
 // @homepageURL https://github.com/cvzi/Userscripts
-// @version     14
+// @version     15
 // @license     GNUGPL
 // @require     http://openuserjs.org/src/libs/cuzi/RequestQueue.js
 // ==/UserScript==
@@ -17,7 +17,6 @@ var rq = new RequestQueue();
 var MAXDOWNLOADSIZE = 2048; // KB
 
 */
-
 
 function OCH_permanentlyoffline(link,cb,thisArg) {
   cb.call(thisArg,link,0); // Offline
@@ -632,7 +631,30 @@ check: void check(link, cb, thisArg)
   'title' : 'Rockfile.eu',
   'homepage' : 'http://rockfile.eu',
   'check' : function(link,cb,thisArg) {
-    OCH_ByFindingString(link,["File Not Found","fa-chain-broken"], cb, thisArg);
+    // Rockfile has cloudfare protection with a cookie check.
+    rq.add({
+      method: "GET",
+      url: link.url,
+      onprogress: function(response) {
+        // abort download of big files
+        if((Math.max(response.loaded,response.total)/1024) > MAXDOWNLOADSIZE) {
+          this.__result.abort();
+          cb.call(thisArg,link,1); // Let's assume big files are online
+        }
+      },
+      onload: function (response){
+        if(response.responseText.indexOf("Checking your browser before accessing") != -1) {
+          cb.call(thisArg,link,-1,"Cloudfare protection, please manually open the website at least once."); // Cloudfare protection
+          return;
+        }
+        else if(response.responseText.indexOf("File Not Found") != -1 || response.responseText.indexOf("fa-chain-broken") != -1 ) {
+          cb.call(thisArg,link,0); // Offline
+          return;
+        }
+        cb.call(thisArg,link,1); // Online
+      }
+    });
+
   },
 },
 'rusfolder' : {
@@ -868,11 +890,11 @@ check: void check(link, cb, thisArg)
   'title' : 'Uptobox',
   'homepage' : 'http://uptobox.com/',
   'check' : function(link,cb,thisArg) {
-    OCH_ByFindingString(link,"File not found", cb, thisArg);
+    OCH_ByFindingString(link,'<span class="para_title">File not found', cb, thisArg);
   },
 },
 'userscloud' : {
-  'pattern' : /^https?:\/\/userscloud\.com\/\w+(\/.+)?$/m,
+  'pattern' : /^https?:\/\/userscloud\.com\/\w+.*$/m,
   'multi' : [],
   'title' : 'Userscloud',
   'homepage' : 'https://userscloud.com/',
