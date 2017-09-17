@@ -5,7 +5,7 @@
 // @oujs:author cuzi
 // @description A list of One-Click-Hosters that are supported by nopremium.pl
 // @homepageURL https://github.com/cvzi/Userscripts
-// @version     15
+// @version     16
 // @license     GNUGPL
 // @require     http://openuserjs.org/src/libs/cuzi/RequestQueue.js
 // ==/UserScript==
@@ -599,7 +599,7 @@ check: void check(link, cb, thisArg)
   },
 },
 'rapidgator' : {
-  'pattern' : [/^http:\/\/rapidgator\.net\/file\/[^#]+$/m,/^http:\/\/rg\.to\/file\/[^#]+$/m],
+  'pattern' : [/^https?:\/\/rapidgator\.net\/file\/[^#]+$/m,/^https?:\/\/rg\.to\/file\/[^#]+$/m],
   'multi' : ['nopremium.pl'],
   'title' : 'Rapidgator.net',
   'homepage' : 'http://rapidgator.net/',
