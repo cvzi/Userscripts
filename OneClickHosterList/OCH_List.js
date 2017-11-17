@@ -1,14 +1,18 @@
 // ==UserScript==
 // @exclude     *
+// ==UserLibrary==
 // @name        OCH List
-// @namespace   cuzi
-// @oujs:author cuzi
 // @description A list of One-Click-Hosters that are supported by nopremium.pl
+// @version     17
+// @license     GPL-3.0
+// ==/UserLibrary==
+// @namespace   cuzi
 // @homepageURL https://github.com/cvzi/Userscripts
-// @version     16
-// @license     GNUGPL
+// @grant       GM_xmlhttpRequest
+// @grant       GM.xmlhttpRequest
 // @require     http://openuserjs.org/src/libs/cuzi/RequestQueue.js
 // ==/UserScript==
+
 "use strict";
 
 /*
