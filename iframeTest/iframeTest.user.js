@@ -8,19 +8,14 @@
 
 if(document.location.search) {
   alert(document.location.search);
-} else {
-
-  var url = "https://cvzi.github.io/Userscripts/index.html"
-
+} else {  
+  // Test iframe
   var iframe = document.createElement("iframe");
-  iframe.src = url + "?iframeWorks";
-
+  iframe.src = "https://cvzi.github.io/Userscripts/index.html?iframeWorks";
   document.body.appendChild(iframe);
 
-
+  // Test emebed
   var embed = document.createElement("embed");
-  embed.src = url + "?embedWorks";
-
-
+  embed.src = "https://cvzi.github.io/Userscripts/index.html?embedWorks";
   document.body.appendChild(embed);
 }
