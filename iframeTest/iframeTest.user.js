@@ -1,5 +1,7 @@
 // ==UserScript==
 // @name        iframe embed Test Greasemonkey 4
+// @namespace   cuzi
+// @license     GPL-3.0
 // @include     /^https:\/\/cvzi\.github\.io\/Userscripts\/index\.html\?link=.+/
 // @include     /^https:\/\/cvzi\.github\.io\/Userscripts\/index\.html/
 // ==/UserScript==
