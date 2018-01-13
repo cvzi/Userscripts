@@ -3,7 +3,7 @@
 // ==UserLibrary==
 // @name        OCH List
 // @description A list of One-Click-Hosters that are supported by nopremium.pl
-// @version     17
+// @version     18
 // @license     GPL-3.0
 // ==/UserLibrary==
 // @namespace   cuzi
@@ -224,10 +224,10 @@ check: void check(link, cb, thisArg)
   },
 },
 'clicknupload' : {
-  'pattern' : /^https?:\/\/(www\.)?clicknupload\.link\/\w+$/m,
+  'pattern' : /^https?:\/\/(www\.)?clicknupload\.(link|org)\/\w+$/m,
   'multi' : ['nopremium.pl'],
   'title' : 'ClicknUpload',
-  'homepage' : 'https://clicknupload.link',
+  'homepage' : 'https://clicknupload.org',
   'check' :function(link,cb,thisArg) {
     OCH_ByFindingString(link,"File Not Found", cb, thisArg);
   },
@@ -442,9 +442,9 @@ check: void check(link, cb, thisArg)
     OCH_permanentlyoffline(link, cb, thisArg);
   }
 },
-'katfile' : {
+'katfile' : { 
   'pattern' : /^https?:\/\/katfile\.com\/\w+\/?.*$/m,
-  'multi' : [],
+  'multi' : ['nopremium.pl'],
   'title' : 'Katfile.com',
   'homepage' : 'http://katfile.com/',
   'check' : function(link,cb,thisArg) {
@@ -915,6 +915,15 @@ check: void check(link, cb, thisArg)
     // At the moment there seems to be no straightforward way to get the online/offline status
     cb.call(thisArg,link,1); // Online
   }
+},
+'vidto' : {
+  'pattern' : /^https?:\/\/vidto\.me\/\w+\.?\w*$/m,
+  'multi' : ['nopremium.pl'],
+  'title' : 'vidto.me',
+  'homepage' : 'http://vidto.me/',
+  'check' : function(link,cb,thisArg) {
+    OCH_ByFindingString(link,"File Not Found", cb, thisArg);
+  },
 },
 'vimeo' : { 
   'pattern' : /^https?:\/\/vimeo\.com\/(.+\/)?\d+\/?$/m,
