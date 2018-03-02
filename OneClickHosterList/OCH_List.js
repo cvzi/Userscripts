@@ -3,7 +3,7 @@
 // ==UserLibrary==
 // @name        OCH List
 // @description A list of One-Click-Hosters that are supported by nopremium.pl
-// @version     18
+// @version     19
 // @license     GPL-3.0
 // ==/UserLibrary==
 // @namespace   cuzi
@@ -232,6 +232,15 @@ check: void check(link, cb, thisArg)
     OCH_ByFindingString(link,"File Not Found", cb, thisArg);
   },
 },
+'cloudyfiles' : { 
+  'pattern' : /^https?:\/\/cloudyfiles\.(com|org)\/\w+.*$/m,
+  'multi' : [],
+  'title' : 'Cloudyfiles.org',
+  'homepage' : 'http://cloudyfiles.org/',
+  'check' :function(link,cb,thisArg) {
+    OCH_ByFindingString(link,"File Not Found", cb, thisArg);
+  },
+},
 'cwtv' : {
   'pattern' : /^https?:\/\/www\.cwtv\.com\/cw-video\/.+$/m,
   'multi' : [],
@@ -349,6 +358,15 @@ check: void check(link, cb, thisArg)
   'homepage' : 'http://www.filefactory.com',
   'check' : function(link,cb,thisArg) {
     OCH_ByMatchingFinalUrl(link,/error\.php\?code\=/, cb, thisArg);
+  }
+},
+'fileflares' : {
+  'pattern' : /^https?:\/\/fileflares.com\/\w+\/?.*$/m,
+  'multi' : [],
+  'title' : 'FileFlares.com',
+  'homepage' : 'http://fileflares.com/',
+  'check' : function(link,cb,thisArg) {
+    OCH_ByFindingString(link,"File Not Found", cb, thisArg);
   }
 },
 'filejoker' : {
@@ -496,6 +514,15 @@ check: void check(link, cb, thisArg)
     OCH_permanentlyoffline(link, cb, thisArg);
   }
 },
+'lunaticfiles' : {
+  'pattern' : /^https?:\/\/lunaticfiles\.com\/\w+\/?.*$/m,
+  'multi' : ['nopremium.pl'],
+  'title' : 'lunaticfiles.com',
+  'homepage' : 'http://lunaticfiles.com/',
+  'check' : function(link,cb,thisArg) {
+    OCH_ByFindingString(link,"File Not Found", cb, thisArg);
+  }
+},
 'mediafire' : {
   'pattern' : [/^https?:\/\/www\.mediafire\.com\/?\?.+$/m,/^https?:\/\/www\.mediafire\.com\/download\/.+$/m],
   'multi' : ['nopremium.pl'],
@@ -527,6 +554,15 @@ check: void check(link, cb, thisArg)
         }
       }
     });
+  },
+},
+'mexashare' : {
+  'pattern' : [/^https?:\/\/(www\.)?mexashare\.com\/\w+\/?.*$/m],
+  'multi' : [],
+  'title' : 'MexaShare',
+  'homepage' : 'http://www.mexashare.com/',
+  'check' : function(link,cb,thisArg) {
+    OCH_ByFindingString(link,"File Not Found", cb, thisArg);
   },
 },
 'nitroflare' : {
@@ -630,10 +666,10 @@ check: void check(link, cb, thisArg)
   },
 },
 'rockfile' : { 
-  'pattern' : /^https?\:\/\/(www\.)?rockfile\.eu\/\w+.*$/m,
+  'pattern' : /^https?\:\/\/(www\.)?rockfile\.(eu|co)\/\w+.*$/m,
   'multi' : ['nopremium.pl'],
-  'title' : 'Rockfile.eu',
-  'homepage' : 'http://rockfile.eu',
+  'title' : 'Rockfile.co',
+  'homepage' : 'http://rockfile.co',
   'check' : function(link,cb,thisArg) {
     // Rockfile has cloudfare protection with a cookie check.
     rq.add({
