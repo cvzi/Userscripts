@@ -780,7 +780,7 @@ check: void check(link, cb, thisArg)
   },
 },
 'suprafiles' : {
-  'pattern' : /^http:\/\/suprafiles\.net\/\w+\/?.*$/m,
+  'pattern' : /^https?:\/\/suprafiles\.(net|org)\/\w+\/?.*$/m,
   'multi' : [],
   'title' : 'Suprafiles.net',
   'homepage' : 'http://suprafiles.net/',
