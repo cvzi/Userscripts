@@ -3,7 +3,7 @@
 // ==UserLibrary==
 // @name        OCH List
 // @description A list of One-Click-Hosters that are supported by nopremium.pl
-// @version     19
+// @version     21
 // @license     GPL-3.0
 // ==/UserLibrary==
 // @namespace   cuzi
@@ -19,14 +19,23 @@
 
 var rq = new RequestQueue();
 var MAXDOWNLOADSIZE = 2048; // KB
-
 */
 
-function OCH_permanentlyoffline(link,cb,thisArg) {
+function getOCH(rq, MAXDOWNLOADSIZE) { 
+
+if(!rq) {
+  rq = {"add" : function() {console.log("OCH List: Error: No RequestQueue() parameter set")}}
+}
+if(!MAXDOWNLOADSIZE) {
+  MAXDOWNLOADSIZE = 2048
+}
+
+
+var OCH_permanentlyoffline = function(link,cb,thisArg) {
   cb.call(thisArg,link,0); // Offline
 }
 
-function OCH_ByFindingString(link,s,cb,thisArg,useURL) {
+var OCH_ByFindingString = function(link,s,cb,thisArg,useURL) {
   // Offline if one of the strings [s] is found in the responseText
   if(typeof s == "string") {
     s = [s];
@@ -52,7 +61,7 @@ function OCH_ByFindingString(link,s,cb,thisArg,useURL) {
     }
   });
 }
-function OCH_ByNotFindingString(link,s,cb,thisArg,useURL) {
+var OCH_ByNotFindingString = function(link,s,cb,thisArg,useURL) {
   // Offline if none of the strings [s] is found in the responseText
   if(typeof s == "string") {
     s = [s];
@@ -78,7 +87,7 @@ function OCH_ByNotFindingString(link,s,cb,thisArg,useURL) {
     }
   });
 }
-function OCH_ByMatchingFinalUrl(link,re,cb,thisArg,useURL) {
+var OCH_ByMatchingFinalUrl = function(link,re,cb,thisArg,useURL) {
   // Offline if one of the RegEx [re] matches the finalUrl
   if(!Array.isArray(re)) {
     re = [re];
@@ -107,7 +116,7 @@ function OCH_ByMatchingFinalUrl(link,re,cb,thisArg,useURL) {
   });
 }
 
-var OCH = {
+return {
 
 /*
 
@@ -233,7 +242,7 @@ check: void check(link, cb, thisArg)
   },
 },
 'cloudyfiles' : { 
-  'pattern' : /^https?:\/\/cloudyfiles\.(com|org)\/\w+.*$/m,
+  'pattern' : /^https?:\/\/cloudyfiles\.(me|com|org)\/\w+.*$/m,
   'multi' : [],
   'title' : 'Cloudyfiles.org',
   'homepage' : 'http://cloudyfiles.org/',
@@ -313,6 +322,15 @@ check: void check(link, cb, thisArg)
     OCH_ByFindingString(link,'<b class="err">', cb, thisArg);
   },
 },
+'fileal' : {
+  'pattern' : /^https?:\/\/(www\.)?file\.al\/\w+\/?.*$/m,
+  'multi' : [],
+  'title' : 'File.AL',
+  'homepage' : 'https://file.al/',
+  'check' : function(link,cb,thisArg) {
+    OCH_ByFindingString(link,'File Not Found', cb, thisArg);
+  },
+},
 'fileboom' : {
   'pattern' : [/^https?:\/\/(www\.)?fileboom\.me\/\w+\/?.*$/m, /^https?:\/\/(www\.)?fboom\.me\/\w+\/?.*$/m],
   'multi' : [],
@@ -369,6 +387,15 @@ check: void check(link, cb, thisArg)
     OCH_ByFindingString(link,"File Not Found", cb, thisArg);
   }
 },
+'filefox' : {
+  'pattern' : /^https?:\/\/(www\.)?filefox\.cc\/\w+\/?.*$/m,
+  'multi' : [],
+  'title' : 'FileFox.cc',
+  'homepage' : 'https://filefox.cc/',
+  'check' : function(link,cb,thisArg) {
+    OCH_ByFindingString(link,'File could not be found', cb, thisArg);
+  },
+}, 
 'filejoker' : {
   'pattern' : /^https?:\/\/(www\.)?filejoker\.net\/\w+\/?.*$/m,
   'multi' : [],
@@ -404,6 +431,24 @@ check: void check(link, cb, thisArg)
   'homepage' : 'https://filescdn.com/',
   'check' : function(link,cb,thisArg) {
     OCH_ByFindingString(link,"icon-warning text-danger", cb, thisArg);
+  }
+},
+'filespace' : {
+  'pattern' : /^https?:\/\/(www\.)?filespace\.com\/\w+\/?$/m,
+  'multi' : [],
+  'title' : 'FileSpace',
+  'homepage' : 'http://filespace.com/',
+  'check' : function(link,cb,thisArg) {
+    OCH_ByFindingString(link,"File not found", cb, thisArg);
+  }
+},
+'fileupload' : {
+  'pattern' : /^https?:\/\/(www\.)?file-upload\.com\/\w+\/?$/m,
+  'multi' : [],
+  'title' : 'FileUpload',
+  'homepage' : 'https://www.file-upload.com/',
+  'check' : function(link,cb,thisArg) {
+    OCH_ByFindingString(link,"File Not Found", cb, thisArg);
   }
 },
 'firedrive' : {
@@ -470,12 +515,42 @@ check: void check(link, cb, thisArg)
   },
 },
 'keep2share' : {
-  'pattern' : [/^https?:\/\/keep2share\.cc\/file\/\w+\/?.*$/m, /^https?:\/\/k2s\.cc\/file\/\w+\/?.*$/m],
+  'pattern' : [/^https?:\/\/keep2share\.cc\/file\/\w+\/?.*$/m, /^https?:\/\/(spa\.)?k2s\.cc\/file\/\w+\/?.*$/m],
   'multi' : [],
   'title' : 'Keep2Share',
   'homepage' : 'https://keep2share.cc/',
   'check' : function(link,cb,thisArg) {
-    OCH_ByFindingString(link,"File not found", cb, thisArg);
+    //  https://api.k2s.cc/v1/files/{id}
+    var fileid = link.url.match(/file\/(\w+)\//)[1];
+    rq.add({
+      method: "GET",
+      url: "https://api.k2s.cc/v1/files/" + fileid,
+      onload: function (response){
+        if(response.status == 401) {
+           cb.call(thisArg,link,-1,"Please manually open the keep2share website at least once to initiate a proper session.");
+           return;
+        }
+        if(response.status != 200 || !response.responseText) {
+           cb.call(thisArg,link,0); // Offline
+           return;
+        } else {
+          var jdata = JSON.parse(response.responseText);
+          if(jdata["id"] != fileid) {
+            cb.call(thisArg,link,0); // Offline
+            return;
+          }
+          if(jdata["isDeleted"]) {
+            cb.call(thisArg,link,0); // Offline
+            return;
+          }
+          
+          cb.call(thisArg,link,1); // Online
+        }
+      },
+      onerror: function(response) {
+        cb.call(thisArg,link,0); // Offline
+      }
+    });
   },
 },
 'kingfiles' : {
@@ -780,10 +855,10 @@ check: void check(link, cb, thisArg)
   },
 },
 'suprafiles' : {
-  'pattern' : /^https?:\/\/suprafiles\.(net|org)\/\w+\/?.*$/m,
+  'pattern' : /^https?:\/\/suprafiles\.(me|net|org)\/\w+\/?.*$/m,
   'multi' : [],
-  'title' : 'Suprafiles.net',
-  'homepage' : 'http://suprafiles.net/',
+  'title' : 'Suprafiles',
+  'homepage' : 'http://suprafiles.org/',
   'check' : function(link,cb,thisArg) {
     OCH_ByFindingString(link,"File Not Found", cb, thisArg);
   },
@@ -840,6 +915,15 @@ check: void check(link, cb, thisArg)
   'homepage' : 'http://www.uploadable.ch/',
   'check' : function(link,cb,thisArg) {
     OCH_permanentlyoffline(link, cb, thisArg);
+  }
+},
+'uploadac' : {
+  'pattern' : [/^https?:\/\/upload\.ac\/\w+\/?.*$/m, /^https?:\/\/uplod\.io\/\w+\/?.*$/m],
+  'multi' : [],
+  'title' : 'Upload.ac',
+  'homepage' : 'https://upload.ac/',
+  'check' : function(link,cb,thisArg) {
+    OCH_ByFindingString(link,"No File Found", cb, thisArg);
   }
 },
 'uploadboy' : {
@@ -999,4 +1083,5 @@ check: void check(link, cb, thisArg)
 }
 
 
+}
 }
