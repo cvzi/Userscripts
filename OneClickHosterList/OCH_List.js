@@ -742,7 +742,7 @@ check: void check(link, cb, thisArg)
 },
 'rockfile' : { 
   'pattern' : /^https?\:\/\/(www\.)?rockfile\.(eu|co)\/\w+.*$/m,
-  'multi' : ['nopremium.pl'],
+  'multi' : [],
   'title' : 'Rockfile.co',
   'homepage' : 'http://rockfile.co',
   'check' : function(link,cb,thisArg) {
