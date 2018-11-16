@@ -3,8 +3,8 @@
 // ==UserLibrary==
 // @name        OCH List
 // @description A list of One-Click-Hosters that are supported by nopremium.pl
-// @version     21
-// @license     GPL-3.0-or-later; http://www.gnu.org/licenses/gpl-3.0.txt
+// @version     22
+// @license     GPL-3.0
 // ==/UserLibrary==
 // @namespace   cuzi
 // @homepageURL https://github.com/cvzi/Userscripts
@@ -12,7 +12,6 @@
 // @grant       GM.xmlhttpRequest
 // @require     http://openuserjs.org/src/libs/cuzi/RequestQueue.js
 // ==/UserScript==
-
 
 "use strict";
 
@@ -176,7 +175,7 @@ check: void check(link, cb, thisArg)
   'title' : '4 Down Files',
   'homepage' : 'http://4downfiles.com/',
   'check' : function(link,cb,thisArg) {
-    OCH_ByFindingString(link,"File Not Found", cb, thisArg);
+    OCH_ByFindingString(link, "File Not Found", cb, thisArg);
   },
 },
 'alfafile' : {
@@ -185,7 +184,16 @@ check: void check(link, cb, thisArg)
   'title' : 'Alfafile',
   'homepage' : 'https://alfafile.net',
   'check' : function(link,cb,thisArg) {
-    OCH_ByFindingString(link,"error-box", cb, thisArg);
+    OCH_ByFindingString(link, "error-box", cb, thisArg);
+  },
+},
+'ayefiles' : {
+  'pattern' : /^https?:\/\/ayefiles\.com\/\w+\/?.*$/m,
+  'multi' : [],
+  'title' : 'AyeFiles',
+  'homepage' : 'https://ayefiles.com/',
+  'check' : function(link,cb,thisArg) {
+    OCH_ByFindingString(link, "File Not Found", cb, thisArg);
   },
 },
 'bayfiles' : {
@@ -304,6 +312,15 @@ check: void check(link, cb, thisArg)
   'check' : function(link,cb,thisArg) {
     OCH_permanentlyoffline(link, cb, thisArg);
   }
+},
+'douploads' : {
+  'pattern' : /^https?:\/\/(www\.)?douploads\.com\/\w{8}\w+$/m,
+  'multi' : [],
+  'title' : 'DoUploads',
+  'homepage' : 'https://douploads.com/',
+  'check' : function(link,cb,thisArg) {
+    OCH_ByFindingString(link,"File Not Found", cb, thisArg);
+  },
 },
 'expressleech' : {
   'pattern' : /^https?:\/\/(www\.)?expressleech\.com\/\w+\.html$/m,
@@ -743,7 +760,7 @@ check: void check(link, cb, thisArg)
 },
 'rockfile' : { 
   'pattern' : /^https?\:\/\/(www\.)?rockfile\.(eu|co)\/\w+.*$/m,
-  'multi' : [],
+  'multi' : ['nopremium.pl'],
   'title' : 'Rockfile.co',
   'homepage' : 'http://rockfile.co',
   'check' : function(link,cb,thisArg) {
