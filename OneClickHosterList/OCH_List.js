@@ -251,7 +251,7 @@ check: void check(link, cb, thisArg)
   },
 },
 'cloudyfiles' : { 
-  'pattern' : /^https?:\/\/cloudyfiles\.(me|com|org)\/\w+.*$/m,
+  'pattern' : [/^https?:\/\/cloudyfiles\.(me|com|org)\/\w+.*$/m, /^https?:\/\/businessnewsstories\.online\/\w+.*$/m],
   'multi' : [],
   'title' : 'Cloudyfiles.org',
   'homepage' : 'http://cloudyfiles.org/',
@@ -873,7 +873,7 @@ check: void check(link, cb, thisArg)
   },
 },
 'suprafiles' : {
-  'pattern' : /^https?:\/\/suprafiles\.(me|net|org)\/\w+\/?.*$/m,
+  'pattern' : [/^https?:\/\/suprafiles\.(me|net|org)\/\w+\/?.*$/m, /^https?:\/\/srfiles\.com\/\w+\/?.*$/m],
   'multi' : [],
   'title' : 'Suprafiles',
   'homepage' : 'http://suprafiles.org/',
