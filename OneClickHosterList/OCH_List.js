@@ -4,7 +4,7 @@
 // @name        OCH List
 // @description A list of One-Click-Hosters that are supported by nopremium.pl
 // @version     22
-// @license     GPL-3.0
+// @license     GPL-3.0-or-later; http://www.gnu.org/licenses/gpl-3.0.txt
 // ==/UserLibrary==
 // @namespace   cuzi
 // @homepageURL https://github.com/cvzi/Userscripts
@@ -760,7 +760,7 @@ check: void check(link, cb, thisArg)
 },
 'rockfile' : { 
   'pattern' : /^https?\:\/\/(www\.)?rockfile\.(eu|co)\/\w+.*$/m,
-  'multi' : ['nopremium.pl'],
+  'multi' : [],
   'title' : 'Rockfile.co',
   'homepage' : 'http://rockfile.co',
   'check' : function(link,cb,thisArg) {
