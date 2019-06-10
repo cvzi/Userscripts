@@ -6,7 +6,7 @@
 // @homepageURL https://openuserjs.org/scripts/cuzi/Multi-OCH_Helper
 // @updateURL   https://openuserjs.org/meta/cuzi/Multi-OCH_Helper.meta.js
 // @icon        https://greasyfork.org/system/screenshots/screenshots/000/003/479/original/icon.png
-// @version     15.6
+// @version     15.7
 
 // @include     /^https:\/\/cvzi\.github\.io\/Userscripts\/index\.html\?link=.+/
 
@@ -40,7 +40,7 @@
 // @include     /^http:\/\/billionuploads\.com\/\w+$/
 // @include     /^http:\/\/bitshare\.com\/files\/\w+\/.+\.html$/
 // @include     /^https?:\/\/(www\.)?catshare\.net\/.+$/
-// @include     /^https?:\/\/(www\.)?clicknupload\.(link|info|org)\/\w+$/
+// @include     /^https?:\/\/(www\.)?clicknupload\.(link|info|org)\/\w+\/?.*$/
 // @include     /^https?:\/\/www\.cwtv\.com\/cw-video\/.+$/
 // @include     /^http:\/\/www\.datafile\.com\/d\/\w+.*$/
 // @include     /^https?:\/\/www\.dailymotion\.com\/video\/\w+.*$/
@@ -80,7 +80,7 @@
 // @include     /^https?:\/\/(www\.)?storbit\.net\/file\/.+$/
 // @include     /^http:\/\/streamcloud\.eu\/\w+$/
 // @include     /^https?:\/\/streamin\.to\/.+$/
-// @include     /^http:\/\/turbobit\.net\/\w+.*\.html$/
+// @include     /^https?:\/\/turbobit\.net\/\w+.*\.html.*$/
 // @include     /^https?:\/\/(www\.)?tusfiles\.net\/\w+$/
 // @include     /^http:\/\/(www\.)?uploadboy\.com\/\w+\.html$/
 // @include     /^https?:\/\/uploaded\.(net|to)\/file\/.+$/
@@ -136,6 +136,8 @@
 var s_myname = "Multi-OCH Helper";
 var s_referer = "multiochhelper";
 var h_myname = "Multi-OCH Helper Highlight links";
+
+var chrome = ~navigator.userAgent.indexOf("Chrome")
 
 var config = {
   position : [["bottom","top"],["left","right"]],
@@ -297,6 +299,7 @@ var multi = {
         });
         await GM.setValue(self.key+"_status",JSON.stringify(self.status));
         await GM.setValue(self.key+"_status_time",""+(new Date()));
+        console.log(s_myname+": "+self.name+": Hosters updated");
       } else {
         alert(s_myname+"\n\nError: wrong update URL");
       }
@@ -1081,12 +1084,12 @@ async function aboutMe() {
 
       $form.append("<h3>Other options</h3>");
 
-      $('<input type="button">').val("Clear cache ("+ humanBytes(await GM.getValue("cachedDownloadLinks","{}").length-2)+")").appendTo($form).click(async function() {
+      $('<input type="button">').val("Clear cache ("+ humanBytes((await GM.getValue("cachedDownloadLinks","{}")).length-2)+")").appendTo($form).click(async function() {
         if(!confirm(s_myname+"\n\nReally delete cached links?")) return;
 
         await GM.setValue("cachedDownloadLinks","{}");
 
-        this.value = "Clear cache ("+ humanBytes(await GM.getValue("cachedDownloadLinks","{}").length-2)+")";
+        this.value = "Clear cache ("+ humanBytes((await GM.getValue("cachedDownloadLinks","{}")).length-2)+")";
         alert(s_myname+"\n\nCache is empty!");
       });
 
@@ -1121,7 +1124,10 @@ async function aboutMe() {
       $('<input type="button">').val("Debug info").appendTo($body).click(inspectGMvalues);
 
   });
-  $frame.attr("src","about:blank");
+  if(chrome) {
+    $frame.attr("src","about:blank");
+  }
+  
 }
 
 
@@ -1197,6 +1203,9 @@ function inspectGMvalues() {
       },1000);
 
   });
+  if(chrome) {
+    $frame.attr("src","about:blank");
+  }
 }
 
 
@@ -1568,7 +1577,9 @@ function showLinks(urls,cb,append,n) {
       });
 
   });
-  $frame.attr("src","about:blank");
+  if(chrome) {
+    $frame.attr("src","about:blank");
+  }
 }
 
 
@@ -1802,8 +1813,7 @@ function getShareBizLinks(cb,noClickNLoad) {
   // Decide whether to use the Click'n'Load, the dlc or the rsdf container
 
   // Try Click'n'Load
-  if($("#swfcontainer") && !noClickNLoad) {
-
+  if($("#swfcontainer") && $("#swfcontainer")[0] && !noClickNLoad) {
 
 
     var secret = $("#swfcontainer")[0].data.split("code=").pop();
@@ -2715,7 +2725,9 @@ function linkSelector(links) {
 
     $loader.remove();
   });
-  $frame.attr("src","about:blank");
+  if(chrome) {
+    $frame.attr("src","about:blank");
+  }
 }
 
 
