@@ -6,7 +6,7 @@
 // @homepageURL https://openuserjs.org/scripts/cuzi/Multi-OCH_Helper
 // @updateURL   https://openuserjs.org/meta/cuzi/Multi-OCH_Helper.meta.js
 // @icon        https://greasyfork.org/system/screenshots/screenshots/000/003/479/original/icon.png
-// @version     15.7
+// @version     15.8
 
 // @include     /^https:\/\/cvzi\.github\.io\/Userscripts\/index\.html\?link=.+/
 
@@ -219,9 +219,6 @@ var SPINNERCSS =   "/* http://www.designcouch.com/home/why/2013/05/23/dead-simpl
     width:16px;\
     margin:0px auto;\
     position:relative;\
-    -webkit-animation: rotation .6s infinite linear;\
-    -moz-animation: rotation .6s infinite linear;\
-    -o-animation: rotation .6s infinite linear;\
     animation: rotation .6s infinite linear;\
     border-left:6px solid rgba(0,174,239,.15);\
     border-right:6px solid rgba(0,174,239,.15);\
@@ -229,29 +226,12 @@ var SPINNERCSS =   "/* http://www.designcouch.com/home/why/2013/05/23/dead-simpl
     border-top:6px solid rgba(0,174,239,.8);\
     border-radius:100%;\
   }\
-  @-webkit-keyframes rotation {\
-    from {-webkit-transform: rotate(0deg);}\
-    to {-webkit-transform: rotate(359deg);}\
-  }\
-  @-moz-keyframes rotation {\
-    from {-moz-transform: rotate(0deg);}\
-    to {-moz-transform: rotate(359deg);}\
-  }\
-  @-o-keyframes rotation {\
-    from {-o-transform: rotate(0deg);}\
-    to {-o-transform: rotate(359deg);}\
-  }\
-  \
   @keyframes rotation {\
-    from {transform: rotate(0deg);}\
-    to {transform: rotate(359deg);}\
+    from {transform: rotate(0deg)}\
+    to {transform: rotate(359deg)}\
   }\
 ";
 var LOADINGBARBG = "background: #b4e391;\
-background: -moz-linear-gradient(top,  #b4e391 0%, #61c419 50%, #b4e391 100%);\
-background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#b4e391), color-stop(50%,#61c419), color-stop(100%,#b4e391));\
-background: -webkit-linear-gradient(top,  #b4e391 0%,#61c419 50%,#b4e391 100%);\
-background: -o-linear-gradient(top,  #b4e391 0%,#61c419 50%,#b4e391 100%);\
 background: linear-gradient(to bottom,  #b4e391 0%,#61c419 50%,#b4e391 100%);"
 
 
@@ -2943,7 +2923,7 @@ function button(label) {
     color:White;\
     border:1px solid #8B3D92;\
     background-color:#B555C5;\
-    background:-moz-linear-gradient(center top , #B555C5, #8B3D92);\
+    background:radial-gradient(ellipse at center, #B555C5, #8B3D92);\
     list-style:none outside;\
   }\
   #multiochhelper div#multiochhelper_status_loader {\
@@ -2960,7 +2940,7 @@ function button(label) {
   }\
   #multiochhelper ul li:hover {\
     background-color:#CC6BDD;\
-    background:-moz-linear-gradient(center top , #CC6BDD, #8B3D92);\
+    background:radial-gradient(ellipse at center, #CC6BDD, #8B3D92); \
   }\
   #multiochhelper select,#multiochhelper input {\
     border-radius:0;\
