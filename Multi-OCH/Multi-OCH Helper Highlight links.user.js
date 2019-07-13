@@ -468,19 +468,19 @@ window.addEventListener("message", function(e){
       // Alert on page, not in frame
       alert(e.data.str);
       break;
-      
+
     case "findLinks":
       // Research links
       window.setTimeout(function() { numberFoundLinks = attachEvents(); }, 0);
-      break; 
-      
-      
+      break;
+
+
   }
 
 }, true);
 
 
-  
+
 
 })();
 

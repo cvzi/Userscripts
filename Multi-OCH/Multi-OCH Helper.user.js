@@ -1107,7 +1107,7 @@ async function aboutMe() {
   if(chrome) {
     $frame.attr("src","about:blank");
   }
-  
+
 }
 
 
@@ -2807,10 +2807,10 @@ function menu(links) {
   }
 
   $entry = menuentry("Show extracted links");
-  $entry.click(function() { 
-    alert(links.join("\n")); 
-    if(parent.parent != window) { 
-      parent.parent.postMessage({ "iAm": "Unrestrict.li", "type": "alert", "str" : links.join("\n")}, '*'); 
+  $entry.click(function() {
+    alert(links.join("\n"));
+    if(parent.parent != window) {
+      parent.parent.postMessage({ "iAm": "Unrestrict.li", "type": "alert", "str" : links.join("\n")}, '*');
     }
   });
 
@@ -2977,7 +2977,7 @@ function button(label) {
   $statustext.attr("id","multiochhelper_status_text");
   var $statusclear = $("<div>").appendTo($status);
   $statusclear.attr("id","multiochhelper_status_clear");
-  
+
   var $ul = $("<ul>").appendTo($div);
 
   // Button
@@ -3094,7 +3094,7 @@ if(document.location.href.indexOf("nopremium.pl") != -1) {
         getFilecryptcc(JSON.parse(event.data.filecryptData), removeImg);
       }
     }, false);
-    
+
   }
 
 } else if (document.location.href.substring(7,19) == "linkcrypt.ws") {
