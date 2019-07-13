@@ -21,7 +21,7 @@ var rq = new RequestQueue();
 var MAXDOWNLOADSIZE = 2048; // KB
 */
 
-function getOCH(rq, MAXDOWNLOADSIZE) { 
+function getOCH(rq, MAXDOWNLOADSIZE) {
 
 if(!rq) {
   rq = {"add" : function() {console.log("OCH List: Error: No RequestQueue() parameter set")}}
@@ -105,7 +105,7 @@ var OCH_ByMatchingFinalUrl = function(link,re,cb,thisArg,useURL) {
     },
     onload: function (response){
       for(var i = 0; i < re.length; i++) {
-        if(re[i].test(response.finalUrl)) { 
+        if(re[i].test(response.finalUrl)) {
           // Link is offline
           cb.call(thisArg,link,0);
           return;
@@ -130,7 +130,7 @@ check: void check(link, cb, thisArg)
        link : the original link object
        result: 1 -> online, 0 -> offline, -1 -> error
        errorstring: may contain error details e.g. the request result, only set if result == -1
-  thisArg : The value of this provided for the call to cb. 
+  thisArg : The value of this provided for the call to cb.
 */
 
 '180upload' : {
@@ -152,7 +152,7 @@ check: void check(link, cb, thisArg)
   }
 },
 '2shared' : {
-  'pattern' : /^http:\/\/www\.2shared\.com\/[a-z]+\/\w+\/?(.+\.html)?$/, 
+  'pattern' : /^http:\/\/www\.2shared\.com\/[a-z]+\/\w+\/?(.+\.html)?$/,
   'multi' : [],
   'title' : '2Shared',
   'homepage' : 'http://www.2shared.com/',
@@ -161,7 +161,7 @@ check: void check(link, cb, thisArg)
   }
 },
 '4shared' : {
-  'pattern' : /^http:\/\/www\.4shared\.com\/[a-z]+\/\w+\/?(.+\.html)?$/, 
+  'pattern' : /^http:\/\/www\.4shared\.com\/[a-z]+\/\w+\/?(.+\.html)?$/,
   'multi' : ['nopremium.pl'],
   'title' : '4shared.com',
   'homepage' : 'http://www.4shared.com/',
@@ -250,7 +250,7 @@ check: void check(link, cb, thisArg)
     OCH_ByFindingString(link,"File Not Found", cb, thisArg);
   },
 },
-'cloudyfiles' : { 
+'cloudyfiles' : {
   'pattern' : [/^https?:\/\/cloudyfiles\.(me|com|org)\/\w+.*$/m, /^https?:\/\/businessnewsstories\.online\/\w+.*$/m],
   'multi' : [],
   'title' : 'Cloudyfiles.org',
@@ -332,7 +332,7 @@ check: void check(link, cb, thisArg)
   },
 },
 'faststore' : {
-  'pattern' : /^https?:\/\/(www\.)?faststore\.org\/.+$/m,  
+  'pattern' : /^https?:\/\/(www\.)?faststore\.org\/.+$/m,
   'multi' : [],
   'title' : 'Fast store',
   'homepage' : 'http://faststore.org/',
@@ -373,7 +373,7 @@ check: void check(link, cb, thisArg)
       onload: function (response){
         var result = JSON.parse(response.responseText);
         if(result.status == "ok") {
-          if(result.name) { 
+          if(result.name) {
             // Link is online
             cb.call(thisArg,link,1);
           } else {
@@ -413,7 +413,7 @@ check: void check(link, cb, thisArg)
   'check' : function(link,cb,thisArg) {
     OCH_ByFindingString(link,'File could not be found', cb, thisArg);
   },
-}, 
+},
 'filejoker' : {
   'pattern' : /^https?:\/\/(www\.)?filejoker\.net\/\w+\/?.*$/m,
   'multi' : [],
@@ -523,7 +523,7 @@ check: void check(link, cb, thisArg)
     OCH_permanentlyoffline(link, cb, thisArg);
   }
 },
-'katfile' : { 
+'katfile' : {
   'pattern' : /^https?:\/\/katfile\.com\/\w+\/?.*$/m,
   'multi' : ['nopremium.pl'],
   'title' : 'Katfile.com',
@@ -561,7 +561,7 @@ check: void check(link, cb, thisArg)
             cb.call(thisArg,link,0); // Offline
             return;
           }
-          
+
           cb.call(thisArg,link,1); // Online
         }
       },
@@ -638,7 +638,7 @@ check: void check(link, cb, thisArg)
       data: '[{"a":"g","p":"' + link.url.match(/\#\!(\w+)\!/)[1] + '"}]',
       headers: {"Content-Type": "application/json"},
       onload: function (response){
-        if(typeof JSON.parse(response.responseText)[0] == 'number') { 
+        if(typeof JSON.parse(response.responseText)[0] == 'number') {
           // Link is offline
           cb.call(thisArg,link,0);
         } else {
@@ -690,7 +690,7 @@ check: void check(link, cb, thisArg)
       onload: function (response){
         var result = JSON.parse(response.responseText);
         if(result[0] == 200) {
-          if(result[1][0].state == "online") { 
+          if(result[1][0].state == "online") {
             // Link is online
             cb.call(thisArg,link,1);
           } else {
@@ -758,7 +758,7 @@ check: void check(link, cb, thisArg)
     OCH_ByFindingString(link,"File Not Found", cb, thisArg);
   },
 },
-'rockfile' : { 
+'rockfile' : {
   'pattern' : /^https?\:\/\/(www\.)?rockfile\.(eu|co)\/\w+.*$/m,
   'multi' : [],
   'title' : 'Rockfile.co',
@@ -991,7 +991,7 @@ check: void check(link, cb, thisArg)
   },
 },
 'uploadocean' : {
-  'pattern' : /^https?:\/\/uploadocean\.com\/\w+$/m, 
+  'pattern' : /^https?:\/\/uploadocean\.com\/\w+$/m,
   'multi' : [],
   'title' : 'UploadOcean',
   'homepage' : 'http://uploadocean.com/',
@@ -1000,7 +1000,7 @@ check: void check(link, cb, thisArg)
   },
 },
 'uploadon' : {
-  'pattern' : /^http:\/\/uploadon\.me\/\w+\.html$/m, 
+  'pattern' : /^http:\/\/uploadon\.me\/\w+\.html$/m,
   'multi' : [],
   'title' : 'Uploadon.me',
   'homepage' : 'http://uploadon.me/',
@@ -1044,7 +1044,7 @@ check: void check(link, cb, thisArg)
     OCH_ByFindingString(link,"label-danger", cb, thisArg);
   },
 },
-'vevo' : { 
+'vevo' : {
   'pattern' : /^https?:\/\/www\.vevo\.com\/watch\/.+$/m,
   'multi' : [],
   'title' : 'VEVO',
@@ -1063,7 +1063,7 @@ check: void check(link, cb, thisArg)
     OCH_ByFindingString(link,"File Not Found", cb, thisArg);
   },
 },
-'vimeo' : { 
+'vimeo' : {
   'pattern' : /^https?:\/\/vimeo\.com\/(.+\/)?\d+\/?$/m,
   'multi' : [],
   'title' : 'Vimeo',
