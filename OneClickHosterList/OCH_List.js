@@ -402,7 +402,7 @@ check: void check(link, cb, thisArg)
   'title' : 'FileFlares.com',
   'homepage' : 'http://fileflares.com/',
   'check' : function(link,cb,thisArg) {
-    OCH_ByFindingString(link,"File Not Found", cb, thisArg);
+    OCH_ByFindingString(link,['File Not Found', 'The file was deleted'], cb, thisArg);
   }
 },
 'filefox' : {
