@@ -3,7 +3,7 @@
 // ==UserLibrary==
 // @name        OCH List
 // @description A list of One-Click-Hosters that are supported by nopremium.pl
-// @version     22
+// @version     22-changed
 // @license     GPL-3.0-or-later; http://www.gnu.org/licenses/gpl-3.0.txt
 // ==/UserLibrary==
 // @namespace   cuzi
@@ -242,7 +242,7 @@ check: void check(link, cb, thisArg)
   },
 },
 'clicknupload' : {
-  'pattern' : /^https?:\/\/(www\.)?clicknupload\.(link|org)\/\w+$/m,
+  'pattern' : /^https?:\/\/(www\.)?clicknupload\.(link|org)\/\w+\/?.*$/m,
   'multi' : ['nopremium.pl'],
   'title' : 'ClicknUpload',
   'homepage' : 'https://clicknupload.org',
@@ -882,7 +882,7 @@ check: void check(link, cb, thisArg)
   },
 },
 'turbobit' : {
-  'pattern' : /^http:\/\/turbobit\.net\/\w+.*\.html$/m,
+  'pattern' : /^https?:\/\/turbobit\.net\/\w+.*\.html$/m,
   'multi' : ['nopremium.pl'],
   'title' : 'turbobit.net',
   'homepage' : 'http://turbobit.net/',
