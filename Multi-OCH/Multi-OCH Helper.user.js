@@ -97,7 +97,7 @@
 // @include     /^http:\/\/xerver\.co\/\w+.*$/
 // @include     /^http:\/\/www\d*\.zippyshare\.com\/v\/\w+\/file\.html$/
 
-// @require     https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js
+// @require     https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js
 // @require     https://greasyfork.org/scripts/13883-aes-js/code/aesjs.js
 // @require     https://greasemonkey.github.io/gm4-polyfill/gm4-polyfill.js
 // @grant       GM_registerMenuCommand
