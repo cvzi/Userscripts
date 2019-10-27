@@ -6,7 +6,7 @@
 // @homepageURL https://openuserjs.org/scripts/cuzi/Multi-OCH_Helper
 // @updateURL   https://openuserjs.org/meta/cuzi/Multi-OCH_Helper.meta.js
 // @icon        https://greasyfork.org/system/screenshots/screenshots/000/003/479/original/icon.png
-// @version     15.8
+// @version     15.9
 
 // @include     /^https:\/\/cvzi\.github\.io\/Userscripts\/index\.html\?link=.+/
 
@@ -179,6 +179,8 @@ for(var key in config) {
   if(key in savedsettings) { // Saved
     if(config[key] == 'int') { // Int
       settings[key] = parseInt(savedsettings[key],10);
+    } else if(config[key] == 'string') { // String
+      settings[key] = savedsettings[key].toString()
     } else if(config[key] == 'bool') { // Bool
       settings[key] = (savedsettings[key]=="true"||savedsettings[key]===true);
     } else if(Array.isArray(savedsettings[key])) { // Nested array
@@ -192,7 +194,9 @@ for(var key in config) {
   } else { // Default
     if(config[key] == 'int') { // Int
       settings[key] = config[key+"_range"][1];
-    }else if(config[key] == 'bool') { // Bool
+    } else if(config[key] == 'string') { // String
+      settings[key] = '' // String defaults to empty string
+    } else if(config[key] == 'bool') { // Bool
       settings[key] = true;
     } else if(Array.isArray(config[key][0])) { // Nested array defaults to first value for each array
       settings[key] = [];
@@ -251,6 +255,12 @@ var links_beforeSelection = false;
 var multi = {
   'premiumize.me' : new (function() {
     var self = this;
+    this.config = {
+      'apikey' : 'string',
+      'apikey_quest' : 'Enter your premiumize.me API key',
+      'apikey_prefix' :  'API key: ',
+      'apikey_suffix' :  ' find it under <a target="_blank" href="https://www.premiumize.me/account">https://www.premiumize.me/account</a>'
+    };
     this.key = 'premiumize.me';
     this.name = 'premiumize';
     this.homepage =  'https://www.premiumize.me/';
@@ -264,6 +274,75 @@ var multi = {
       self.lastUpdate = new Date(await GM.getValue(self.key+"_status_time",0));
     };
 
+    this.settings = {};
+    this.loadSettings = async function(silent) {
+      // Load settings, use first value as default
+      var savedsettings = JSON.parse(await GM.getValue(self.key+"_settings","{}"));
+
+      for(var key in self.config) {
+         if(key.endsWith("desc") || key.endsWith("range") || key.endsWith("quest") || key.endsWith("prefix") || key.endsWith("suffix")) {
+           continue;
+         }
+        if(key in savedsettings) { // Saved
+          if(self.config[key] == 'int') { // Int
+            self.settings[key] = parseInt(savedsettings[key],10);
+          } else if(self.config[key] == 'string') { // String
+            self.settings[key] = savedsettings[key].toString();
+          } else if(config[key] == 'bool') { // Bool
+            self.settings[key] = savedsettings[key]=="true"||savedsettings[key]===true;
+          } else if(Array.isArray(savedsettings[key])) { // Nested array
+            self.settings[key] = [];
+            for(var i = 0; i < savedsettings[key].length; i++) {
+              self.settings[key].push(savedsettings[key][i]);
+            }
+          } else { // Array
+            self.settings[key] = savedsettings[key];
+          }
+        } else { // Default
+          if(self.config[key] == 'int') { // Int
+            self.settings[key] = self.config[key+"_range"][1];
+          } else if(self.config[key] == 'string') { // String
+            self.settings[key] = ''; // String defaults to empty string
+          } else if(config[key] == 'bool') { // Bool
+            self.settings[key] = true;
+          } else if(Array.isArray(self.config[key][0])) { // Nested array defaults to first value for each array
+            self.settings[key] = [];
+            for(var i = 0; i < self.config[key].length; i++) {
+              self.settings[key].push(self.config[key][i][0]);
+            }
+          } else {
+            self.settings[key] = self.config[key][0]; // Array defaults to first value
+          }
+        }
+      }
+
+      if(!self.settings.apikey && !silent) {
+        // Try to get the apikey from the website
+        GM.xmlHttpRequest({
+          method: "GET",
+          url: self.homepage+"account",
+          onerror: function(response) {
+            console.log("GM.xmlHttpRequest error: "+self.homepage+"api/transfer/create");
+            console.log(response);
+            setStatus('You have not set you premiumize.me Api key ')
+          },
+          onload: function(response) {
+            let s = ''
+            try {
+              s = response.responseText.split('class="apipass"')[1].split('</')[0].split('>')[1]
+            } catch(e) {
+            }
+            if (s) {
+              self.settings.apikey = s
+              GM.setValue(self.key+"_settings", JSON.stringify(self.settings));
+              console.log('premiumize.me API Key was loaded from account and saved!')
+            } else {
+              setStatus('You need to set you premiumize.me Api key')
+            }
+          }
+        });
+      }
+    };
 
     this.updateStatus = async function() { // Update list of online hosters
       if(document.location.href.match(self.updateStatusURL)) {
@@ -357,7 +436,7 @@ var multi = {
       GM.xmlHttpRequest({
         method: "POST",
         url: self.homepage+"api/transfer/create",
-        data: "src="+encodeURIComponent(url)+"&seed=2or48h",
+        data: "apikey="+encodeURIComponent(self.settings.apikey)+"&src="+encodeURIComponent(url)+"&seed=2or48h",
         headers: {
           "Content-Type": "application/x-www-form-urlencoded",
           "Cache-Control" : "no-cache",
@@ -416,7 +495,7 @@ var multi = {
     };
 
     this.settings = {};
-    this.loadSettings = async function() {
+    this.loadSettings = async function(silent) {
 
       // Load settings, use first value as default
       var savedsettings = JSON.parse(await GM.getValue(self.key+"_settings","{}"));
@@ -428,7 +507,9 @@ var multi = {
         if(key in savedsettings) { // Saved
           if(self.config[key] == 'int') { // Int
             self.settings[key] = parseInt(savedsettings[key],10);
-          }else if(config[key] == 'bool') { // Bool
+          } else if(self.config[key] == 'string') { // String
+            self.settings[key] = savedsettings[key].toString();
+          } else if(config[key] == 'bool') { // Bool
             self.settings[key] = savedsettings[key]=="true"||savedsettings[key]===true;
           } else if(Array.isArray(savedsettings[key])) { // Nested array
             self.settings[key] = [];
@@ -441,7 +522,9 @@ var multi = {
         } else { // Default
           if(self.config[key] == 'int') { // Int
             self.settings[key] = self.config[key+"_range"][1];
-        } else if(config[key] == 'bool') { // Bool
+          } else if(self.config[key] == 'string') { // String
+            self.settings[key] = ''; // String defaults to empty string
+          } else if(config[key] == 'bool') { // Bool
             self.settings[key] = true;
           } else if(Array.isArray(self.config[key][0])) { // Nested array defaults to first value for each array
             self.settings[key] = [];
@@ -803,7 +886,7 @@ var currentdebrid = await GM.getValue("currentdebrid",debridprovider[0]);
 
 for(var key in multi) {
   await multi[key].init();
-  if(multi[key] == currentdebrid) {
+  if(key == currentdebrid) {
       await multi[key].loadSettings();
       continue;
   }
@@ -896,6 +979,8 @@ function configForm($form,c,s,formid) {
         $input.prop("max",c[key+"_range"][2]);
         $input.prop("title",c[key+"_range"][0]+" - "+c[key+"_range"][2]);
       }
+    } else if(c[key] == 'string') { // String
+      $('<input type="text">').addClass("form_"+formid).data("key",key).data("parse","string").val(s[key]).appendTo($p);
     } else if(c[key] == 'bool') { // Bool
 
       var $select = $('<select></select>').addClass("form_"+formid).data("key",key).data("parse","bool").appendTo($p);
@@ -1018,6 +1103,10 @@ async function aboutMe() {
   var $popup = popup.node;
   var $frame = $('<iframe width="'+(window.innerWidth-250)+'" height="'+(window.innerHeight-150)+'" style="border:0">').appendTo($popup);
   $frame.bind('load', async function(e) {
+      // Load settings for all
+      for(var key in multi) {
+        await multi[key].loadSettings(true);
+      }
 
       var $body = $($frame[0].contentDocument.getElementsByTagName('body')[0]);
 
@@ -2852,7 +2941,7 @@ function menu(links) {
 
 
   if(!show_oneclick_FromHighlighScript_allLinks) {
-    $entry = menuentry($('<span style="cursor:default; color:silver">Userscript menu</span>').click(async function(ev) { ev.stopPropagation(); await aboutMe(); })).css("cursor","default");
+    $entry = menuentry($('<span style="cursor:default; color:silver">Userscript menu</span>').click(function(ev) { ev.stopPropagation(); aboutMe(); })).css("cursor","default");
     $('<span style="cursor:pointer; color:White; border: 1px solid White; border-radius:3px; padding:0px; margin-left:20px; font-weight:bold ; " title="Close menu">X</span>').click(function() {$("#multiochhelper").remove();}).appendTo($entry);
   }
 }
