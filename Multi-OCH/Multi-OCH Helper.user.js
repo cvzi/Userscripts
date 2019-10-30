@@ -323,7 +323,7 @@ var multi = {
           method: "GET",
           url: self.homepage+"account",
           onerror: function(response) {
-            console.log('premiumize.me API Key could not be loaded')
+            console.log(s_myname+": premiumize.me API Key could not be loaded")
             setStatus('You have not set you premiumize.me Api key ')
           },
           onload: function(response) {
@@ -335,7 +335,7 @@ var multi = {
             if (s) {
               self.settings.apikey = s
               GM.setValue(self.key+"_settings", JSON.stringify(self.settings));
-              console.log('premiumize.me API Key was loaded from account and saved!')
+              console.log(s_myname+": premiumize.me API Key was loaded from account and saved!")
             } else {
               setStatus('You need to set you premiumize.me Api key')
             }
@@ -349,16 +349,16 @@ var multi = {
         // Read and save current status of all hosters
         self.status = {};
 
-        $(".table.table-condensed tr>td:first-child").each(function() {
+        $("table.table tr>td:first-child").each(function() {
           var text = $(this).text();
-          if(text.match(/^\s*[0-9a-z-]+\.\w{0,3}\s*$/)) {
-            var name = text.match(/^\s*([0-9a-z-]+)\.\w{0,3}\s*$/)[1];
-            self.status[name] = true;
+          if(text.match(/^\s*[0-9a-z-]+\.\w{0,3}\s*$/i)) {
+            var name = text.match(/^\s*([0-9a-z-]+)\.\w{0,3}\s*$/i)[1];
+            self.status[name.toLowerCase()] = true;
           }
         });
         await GM.setValue(self.key+"_status",JSON.stringify(self.status));
         await GM.setValue(self.key+"_status_time",""+(new Date()));
-        console.log(s_myname+": "+self.name+": Hosters updated");
+        console.log(s_myname+": "+self.name+": Hosters ("+Object.keys(self.status).length+") updated");
       } else {
         alert(s_myname+"\n\nError: wrong update URL");
       }
@@ -449,12 +449,11 @@ var multi = {
           "Cache-Control" : "no-cache"
         },
         onerror: function(response) {
-          console.log("GM.xmlHttpRequest error: "+self.homepage+"api/transfer/create");
+          console.log(s_myname+": GM.xmlHttpRequest error: "+self.homepage+"api/transfer/create");
           console.log(response);
           cb(false, url, 'GM.xmlHttpRequest error: api/transfer/create');
         },
         onload: function(response) {
-          console.log(response.responseText)
           var result = JSON.parse(response.responseText);
           /* 
           {"status":"success","type":"savetocloud","id":"gfwRtdgd5fgdfgfhgfhf","name":"test.zip"}
@@ -491,12 +490,11 @@ var multi = {
           "Cache-Control" : "no-cache"
         },
         onerror: function(response) {
-          console.log("GM.xmlHttpRequest error: "+self.homepage+"api/transfer/list");
+          console.log(s_myname+": GM.xmlHttpRequest error: "+self.homepage+"api/transfer/list");
           console.log(response);
           cb(false, url, "GM.xmlHttpRequest error: /api/transfer/list");
         },
         onload: function(response) {
-          console.log(response.responseText)
           var result = JSON.parse(response.responseText);
           /* 
           {
@@ -571,12 +569,11 @@ var multi = {
           "Cache-Control" : "no-cache"
         },
         onerror: function(response) {
-          console.log("GM.xmlHttpRequest error: "+self.homepage+"api/item/details");
+          console.log(s_myname+": GM.xmlHttpRequest error: "+self.homepage+"api/item/details");
           console.log(response);
           cb(false, url, "GM.xmlHttpRequest error: /api/item/details");
         },
         onload: function(response) {
-          console.log(response.responseText)
           var result = JSON.parse(response.responseText);
           /* 
           {
@@ -697,6 +694,7 @@ var multi = {
         });
         await GM.setValue(self.key+"_status",JSON.stringify(self.status));
         await GM.setValue(self.key+"_status_time",""+(new Date()));
+        console.log(s_myname+": "+self.name+": Hosters ("+Object.keys(self.status).length+") updated");
       } else {
         alert(s_myname+"\n\nError: wrong update URL");
       }
@@ -931,7 +929,7 @@ var multi = {
           try {
             data = JSON.parse(response.responseText);
           } catch(e) {
-            console.log(e);
+            console.log(s_myname+": " + e);
             console.log(response.responseText);
             window.setTimeout(function() {
               self._getProgress(cb,$node,N,ids);
@@ -1470,7 +1468,7 @@ function xmlHttpRequestBinary(obj) {
     for(var i = 0; i < s.length; i++) {
       var v = s.charCodeAt(i);
       if(v > 255) {
-        console.log("This is strange: "+s[i]+" => "+v);
+        console.log(s_myname+": This is strange: "+s[i]+" => "+v);
       } else {
         res += s[i];
       }
