@@ -183,7 +183,15 @@ for(var key in config) {
       settings[key] = savedsettings[key].toString()
     } else if(config[key] == 'bool') { // Bool
       settings[key] = (savedsettings[key]=="true"||savedsettings[key]===true);
-    } else if(Array.isArray(savedsettings[key])) { // Nested array
+    } else if(Array.isArray(config[key][0])) { // Nested array
+      if (!Array.isArray(savedsettings[key])) {
+          try {
+            const tmp = JSON.parse(savedsettings[key])
+            if(Array.isArray(tmp)) {
+              savedsettings[key] = tmp
+            }
+          } catch(e) {}
+      }
       settings[key] = [];
       for(var i = 0; i < savedsettings[key].length; i++) {
         settings[key].push(savedsettings[key][i]);
@@ -335,6 +343,7 @@ var multi = {
             if (s) {
               self.settings.apikey = s
               GM.setValue(self.key+"_settings", JSON.stringify(self.settings));
+
               console.log(s_myname+": premiumize.me API Key was loaded from account and saved!")
             } else {
               setStatus('You need to set you premiumize.me Api key')
@@ -455,7 +464,7 @@ var multi = {
         },
         onload: function(response) {
           var result = JSON.parse(response.responseText);
-          /* 
+          /*
           {"status":"success","type":"savetocloud","id":"gfwRtdgd5fgdfgfhgfhf","name":"test.zip"}
           {"status":"error","error":"duplicate","id":"gfdgd5fgFddfgfhgfhf","message":"You already have this job added."}
           {"status":"error","message":"This link is not available on the file hoster website"}
@@ -480,7 +489,7 @@ var multi = {
       });
 
     };
-    
+
     this._getFileFromTransfer = function(url, transferId, cb) {
       GM.xmlHttpRequest({
         method: "GET",
@@ -496,7 +505,7 @@ var multi = {
         },
         onload: function(response) {
           var result = JSON.parse(response.responseText);
-          /* 
+          /*
           {
             "status": "success",
             "transfers": [
@@ -548,17 +557,17 @@ var multi = {
                 return
               }
             }
-            
+
           }
           if('message' in result && result.message) {
-            alert(s_myname+'\n\nCould not get /api/transfer/list\nError:\n'+result.message) 
+            alert(s_myname+'\n\nCould not get /api/transfer/list\nError:\n'+result.message)
           }
           cb(false, url, 'Could not find url in transfer list');
         }
       });
 
     };
-    
+
     this._getSingleLink = function(url, fileId, cb) {
       GM.xmlHttpRequest({
         method: "POST",
@@ -575,7 +584,7 @@ var multi = {
         },
         onload: function(response) {
           var result = JSON.parse(response.responseText);
-          /* 
+          /*
           {
             "id": "xxXxXxxxXxxx",
             "name": "test.zip",
@@ -608,8 +617,8 @@ var multi = {
       });
 
     };
-    
-    
+
+
 
 
   })(),
@@ -1217,12 +1226,11 @@ async function saveSettings(ev) {
     var value = $this.val();
     var parse = $this.data("parse");
     if(typeof index != 'undefined') { // Nested Array
-      if(!Array.isArray(newsettings[namespace][key])) {
+      if(!(key in newsettings[namespace]) || !Array.isArray(newsettings[namespace][key])) {
         newsettings[namespace][key] = [];
       }
       newsettings[namespace][key][index] = value;
     } else { // Normal
-
       if(parse == 'int') {
         value = parseInt(value,10);
       } else if(parse == 'bool') {
@@ -1231,7 +1239,6 @@ async function saveSettings(ev) {
       newsettings[namespace][key] = value;
     }
   });
-
 
   await GM.setValue("setup",true);
   await GM.setValue("currentdebrid",currentdebrid);
@@ -3028,8 +3035,10 @@ function menu(links) {
     GM.xmlHttpRequest({
       method : 'GET',
       url: JDOWNLOADER+"flash/",
+      onerror: function (){
+      },
       onload: function (resp){
-        if(resp.responseText.startsWith("JDownloader")) {
+        if(resp && resp.responseText && resp.responseText.startsWith("JDownloader")) {
           $("#multiochhelperjdbutton").show();
         }
       }
@@ -3223,8 +3232,10 @@ function button(label) {
   return $entry
 }
 
+const is_setup = await GM.getValue("setup",false)
+
 // Update hoster status
-if(await GM.getValue("setup",false)) {
+if(is_setup) {
   var updatinghosters = false;
   for(var key in multi) {
     if(multi[key].updateStatusURLpattern.test(document.location.href)) { //  usually in this is true in the iframe which is defined below
@@ -3236,7 +3247,7 @@ if(await GM.getValue("setup",false)) {
 }
 
 // Create iframes to check hoster status:
-if(!updatinghosters && await GM.getValue("setup",false)) {
+if(!updatinghosters && is_setup) {
   var now = new Date();
   for(var key in multi) {
     if((now - multi[key].lastUpdate) > (settings.updateHosterStatusInterval*60*60*1000) ) {
@@ -3252,7 +3263,7 @@ if(!updatinghosters && await GM.getValue("setup",false)) {
 
 // Setup
 if(!updatinghosters) {
-  if(! await GM.getValue("setup",false)) {
+  if(! is_setup) {
     await aboutMe();
     if(!confirm(s_myname+" Setup\n\nPlease take some time to configure "+s_myname+" and then save the settings!\n\nPress cancel to continue with the default configuration!")) {
       await GM.setValue("setup",true);
