@@ -6,7 +6,7 @@
 // @homepageURL https://openuserjs.org/scripts/cuzi/Multi-OCH_Helper
 // @updateURL   https://openuserjs.org/meta/cuzi/Multi-OCH_Helper.meta.js
 // @icon        https://greasyfork.org/system/screenshots/screenshots/000/003/479/original/icon.png
-// @version     15.9
+// @version     16.0
 
 // @include     /^https:\/\/cvzi\.github\.io\/Userscripts\/index\.html\?link=.+/
 
@@ -266,7 +266,8 @@ var multi = {
     this.homepage =  'https://www.premiumize.me/';
     this.updateStatusURL = 'https://www.premiumize.me/hosters';
     this.updateStatusURLpattern = /https:\/\/www\.premiumize\.me\/hosters\/?/;
-    this.updateDownloadProgressInterval = 500;
+    this.updateDownloadProgressInterval = 5000;
+    this.updateDownloadProgressInterfaceInterval = 500;
 
     this.status = {};
     this.init = async function() {
@@ -322,8 +323,7 @@ var multi = {
           method: "GET",
           url: self.homepage+"account",
           onerror: function(response) {
-            console.log("GM.xmlHttpRequest error: "+self.homepage+"api/transfer/create");
-            console.log(response);
+            console.log('premiumize.me API Key could not be loaded')
             setStatus('You have not set you premiumize.me Api key ')
           },
           onload: function(response) {
@@ -400,11 +400,11 @@ var multi = {
       var downloadLinks = [];
       var errors = [];
       for(var i = 0; i < urls.length; i++) {
-        this._getSingleLink(urls[i], function(downloadlink, originallink) {
+        this._addSingleTransfer(urls[i], function(downloadlink, originallink, message) {
           if(downloadlink) {
             downloadLinks.push(downloadlink);
           } else {
-            errors.push(originallink);
+            errors.push([originallink, message]);
           }
         });
       }
@@ -419,51 +419,200 @@ var multi = {
           return;
         }
 
-        if(N == downloadLinks.length+errors.length) { // All finished
+        if(N == errors.length) { // All errors
+          cb(false, -1);
+          if (errors.length == 1 && errors[0][1]) {
+            setStatus(errors[0][1], 0);
+          } else {
+            alert("Errors occured\n"+errors.length+" links failed:\n\n"+errors.join("\n"));
+          }
+        } else if(N == downloadLinks.length+errors.length) { // All finished
           cb(downloadLinks);
           if(errors.length > 0) { // Errors occured
             alert("Errors occured\n"+errors.length+" links failed:\n\n"+errors.join("\n"));
           }
         } else { // not finished yet
-          window.setTimeout(checkprogress, self.updateDownloadProgressInterval);
+          window.setTimeout(checkprogress, self.updateDownloadProgressInterfaceInterval);
         }
       };
-      window.setTimeout(checkprogress, 2*N*self.updateDownloadProgressInterval);
+      window.setTimeout(checkprogress, self.updateDownloadProgressInterfaceInterval * Math.max(5, N));
     };
 
 
-    this._getSingleLink = function(url, cb) {
+    this._addSingleTransfer = function(url, cb) {
       GM.xmlHttpRequest({
         method: "POST",
         url: self.homepage+"api/transfer/create",
-        data: "apikey="+encodeURIComponent(self.settings.apikey)+"&src="+encodeURIComponent(url)+"&seed=2or48h",
+        data: "apikey="+encodeURIComponent(self.settings.apikey)+"&src="+encodeURIComponent(url),
         headers: {
           "Content-Type": "application/x-www-form-urlencoded",
-          "Cache-Control" : "no-cache",
-          // "Referer" : "https://www.premiumize.me/downloader" // FIREFOX57
+          "Cache-Control" : "no-cache"
         },
         onerror: function(response) {
           console.log("GM.xmlHttpRequest error: "+self.homepage+"api/transfer/create");
           console.log(response);
-          cb(false, url);
+          cb(false, url, 'GM.xmlHttpRequest error: api/transfer/create');
         },
         onload: function(response) {
+          console.log(response.responseText)
           var result = JSON.parse(response.responseText);
-          if(result["status"] != "success") {
+          /* 
+          {"status":"success","type":"savetocloud","id":"gfwRtdgd5fgdfgfhgfhf","name":"test.zip"}
+          {"status":"error","error":"duplicate","id":"gfdgd5fgFddfgfhgfhf","message":"You already have this job added."}
+          {"status":"error","message":"This link is not available on the file hoster website"}
+          */
+          if("id" in result && result.id) {
+            window.setTimeout(function() {
+              self._getFileFromTransfer(url, result.id, cb)
+            }, 1000)
+            if("message" in result) {
+              addStatus(result["message"],-1);
+            }
+          } else {
             if("message" in result && !self._notLoggedIn) {
-              setStatus(result["message"],-1);
+              addStatus(result["message"],-1);
               if(~result["message"].indexOf("log")) {
                 self._notLoggedIn = true;
               }
             }
-            cb(false, url);
-          } else {
-            cb(result.location, url);
+            cb(false, url, "message" in result?result["message"]:response.responseText);
           }
         }
       });
 
     };
+    
+    this._getFileFromTransfer = function(url, transferId, cb) {
+      GM.xmlHttpRequest({
+        method: "GET",
+        url: self.homepage+"api/transfer/list?apikey=" + encodeURIComponent(self.settings.apikey),
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+          "Cache-Control" : "no-cache"
+        },
+        onerror: function(response) {
+          console.log("GM.xmlHttpRequest error: "+self.homepage+"api/transfer/list");
+          console.log(response);
+          cb(false, url, "GM.xmlHttpRequest error: /api/transfer/list");
+        },
+        onload: function(response) {
+          console.log(response.responseText)
+          var result = JSON.parse(response.responseText);
+          /* 
+          {
+            "status": "success",
+            "transfers": [
+              {
+                "id": "xXFDSXXFDSGD",
+                "name": "test.zip",
+                "message": null,
+                "status": "finished",
+                "progress": 0,
+                "folder_id": "gfjdfsuigjfdoikfsadf",
+                "file_id": "trhgf982u30fjklfsdag"
+              }
+            ]
+          }
+          {
+            "status": "success",
+            "transfers": [
+              {
+                "id":"xXFDSXXFDSGD",
+                "name":"test.zip",
+                "message":"Initializing Download...",
+                "status":"running",
+                "progress":0,
+                "folder_id":"gfjdfsuigjfdoikfsadf",
+                "file_id":null
+              }
+            ]
+          }
+          */
+          if(result.status == "success" && "transfers" in result) {
+            for(let i = 0; i < result.transfers.length; i++) {
+              if (result.transfers[i].id == transferId) {
+
+                if (result.transfers[i].file_id) {
+                  // Finished
+                  window.setTimeout(function() {
+                    self._getSingleLink(url, result.transfers[i].file_id, cb)
+                  }, result.transfers[i].status == "finished"?10:self.updateDownloadProgressInterval)
+                } else {
+                  // Downloading
+                  if('message' in result.transfers[i] && result.transfers[i].message) {
+                    setStatus(result.transfers[i].message,-1);
+                  }
+                  window.setTimeout(function() {
+                    self._getFileFromTransfer(url, transferId, cb)
+                  }, self.updateDownloadProgressInterval)
+                }
+
+                return
+              }
+            }
+            
+          }
+          if('message' in result && result.message) {
+            alert(s_myname+'\n\nCould not get /api/transfer/list\nError:\n'+result.message) 
+          }
+          cb(false, url, 'Could not find url in transfer list');
+        }
+      });
+
+    };
+    
+    this._getSingleLink = function(url, fileId, cb) {
+      GM.xmlHttpRequest({
+        method: "POST",
+        url: self.homepage+"api/item/details",
+        data: "apikey="+encodeURIComponent(self.settings.apikey)+"&id="+encodeURIComponent(fileId),
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+          "Cache-Control" : "no-cache"
+        },
+        onerror: function(response) {
+          console.log("GM.xmlHttpRequest error: "+self.homepage+"api/item/details");
+          console.log(response);
+          cb(false, url, "GM.xmlHttpRequest error: /api/item/details");
+        },
+        onload: function(response) {
+          console.log(response.responseText)
+          var result = JSON.parse(response.responseText);
+          /* 
+          {
+            "id": "xxXxXxxxXxxx",
+            "name": "test.zip",
+            "size": 156,
+            "created_at": 1572458477,
+            "transcode_status": "not_applicable",
+            "folder_id": "XxXXXxxxxxx",
+            "ip": "1.1.1.1",
+            "acodec": "",
+            "vcodec": "",
+            "mime_type": "application/zip",
+            "opensubtitles_hash": "",
+            "resx": "",
+            "resy": "",
+            "duration": "",
+            "virus_scan": "ok",
+            "type": "file",
+            "link": "https://down.host.example.com/dl/abcdefg/test.zip",
+            "stream_link": null
+          }
+          */
+          if("link" in result && result.link) {
+            cb(result.link, url);
+          } else {
+            window.setTimeout(function () {
+              self._getSingleLink(url, fileId, cb)
+            }, self.updateDownloadProgressInterval)
+          }
+        }
+      });
+
+    };
+    
+    
 
 
   })(),
@@ -1552,8 +1701,7 @@ async function download(urls,cb) {
 async function clipboard(urls,cb) {
 
   // Get download links and copy them into clipboard
-
-  await generateLinks(urls,function(result) {
+  generateLinks(urls,function(result) {
     if(result) {
       try {
         GM.setClipboard(result.join("\r\n"));
@@ -1572,7 +1720,7 @@ async function clipboard(urls,cb) {
 async function sendToJD(urls,cb) {
 
   // Get download links and send them to JDownloader
-  await generateLinks(urls,function(result) {
+  generateLinks(urls,function(result) {
     if(result) {
       setStatus("Waiting for JDownloader",-1);
 
