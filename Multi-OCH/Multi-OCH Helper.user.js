@@ -6,7 +6,7 @@
 // @homepageURL https://openuserjs.org/scripts/cuzi/Multi-OCH_Helper
 // @updateURL   https://openuserjs.org/meta/cuzi/Multi-OCH_Helper.meta.js
 // @icon        https://greasyfork.org/system/screenshots/screenshots/000/003/479/original/icon.png
-// @version     16.0
+// @version     16.1
 
 // @include     /^https:\/\/cvzi\.github\.io\/Userscripts\/index\.html\?link=.+/
 
@@ -31,70 +31,62 @@
 // @include     http*://relink.to/view.php?id=*
 // @include     http://extreme-protect.net/*
 
-// @include     /^http:\/\/180upload\.com\/\w+$/
-// @include     /^https?:\/\/(www\.)?1fichier\.com\/\?.+$/
+// @include     /^https?:\/\/(www\.)?1fichier\.com\/.+$/
 // @include     /^https?:\/\/\w+\.1fichier\.com\/?.*$/
-// @include     /^http:\/\/www\.(2|4)shared\.com\/[a-z]+\/\w+\/?(.+\.html)?$/
+// @include     /^http:\/\/www\.4shared\.com\/[a-z]+\/\w+\/?(.+\.html)?$/
 // @include     /^https?:\/\/(www\.)?alfafile\.net\/file\/.+$/
 // @include     /^https?:\/\/(www\.)?bayfiles\.(net|com)\/file\/\w+\/.+$/
 // @include     /^http:\/\/billionuploads\.com\/\w+$/
-// @include     /^http:\/\/bitshare\.com\/files\/\w+\/.+\.html$/
 // @include     /^https?:\/\/(www\.)?catshare\.net\/.+$/
-// @include     /^https?:\/\/(www\.)?clicknupload\.(link|info|org)\/\w+\/?.*$/
-// @include     /^https?:\/\/www\.cwtv\.com\/cw-video\/.+$/
-// @include     /^http:\/\/www\.datafile\.com\/d\/\w+.*$/
-// @include     /^https?:\/\/www\.dailymotion\.com\/video\/\w+.*$/
-// @include     /^https?:\/\/(www\.)?devilshare\.net\/view\/\w+\/?.*$/
-// @include     http://filecloud.io/download.html
-// @include     /^http:\/\/filecloud\.io\/\w+(\/.*)?$/
+// @include     /^https?:\/\/(www\.)?clicknupload\.(link|org)\/\w+\/?.*$/
+// @include     /^https?:\/\/(www\.)?datei\.to\/\?\w+$/
+// @include     /^https?:\/\/(www\.)?ddl\.to\/\w+$/
+// @include     /^https?:\/\/(www\.)?devilshare\.net\/view.+$/
+// @include     /^https?:\/\/(www\.)?file\.al\/\w+\/?.*$/
 // @include     /^https?:\/\/(www\.)?filefactory\.com\/file\/.+$/
-// @include     /^http:\/\/(www\.)?filefactory\.com\/stream\/.+$/
 // @include     /^https?:\/\/www.filemonkey.in\/file\/.+$/
-// @include     /^https?:\/\/fileom\.com\/\w+.*$/
-// @include     /^https?\:\/\/(www\.)?fileparadox\.(in|com)\/\w+.*$/
+// @include     /^https:\/\/filer\.net\/get\/\w+$/
+// @include     /^https?:\/\/(www\.)?filespace\.com\/\w+\/?$/
+// @include     /^https?:\/\/filestore\.to\/\?d=\w+$/
 // @include     /^http:\/\/www\.firedrive\.com\/file\/\w+$/
-// @include     /^http:\/\/freakshare\.com\/files\/\w+\/.+\.html$/
-// @include     /^http:\/\/dl\.free\.fr\/\w+$/
-// @include     /^https?:\/\/(www\.)?gboxes\.com\/.+$/
+// @include     /^https?:\/\/fireget\.com\/\w+\/?.*$/
 // @include     /^https?\:\/\/(www\.)?hitfile\.net\/\w+.*$/
+// @include     /^https?\:\/\/(www\.)?hil\.to\/\w+.*$/
 // @include     /^http:\/\/hugefiles\.net\/\w+\/?.*$/
+// @include     /^https:\/\/isra\.cloud\/\w+\/?.*$/
 // @include     /^https?:\/\/katfile\.com\/\w+\/?.*$/
-// @include     /^https?:\/\/www\.kingfiles\.net\/\w+.*$/
-// @include     /^https?:\/\/(\w+\.)?letitbit\.net\/download\/(\w|\.)+\/.*$/
 // @include     /^https?:\/\/lunaticfiles\.com\/\w+\/?.*$/
 // @include     /^https?:\/\/www\.mediafire\.com\/?\?.+$/
 // @include     /^https?:\/\/www\.mediafire\.com\/download\/.+$/
 // @include     /^https?:\/\/mega\.co\.nz\/\#\!\w+!*(\w|-)*$/
 // @include     /^https?:\/\/mega\.nz\/\#\!\w+!*(\w|-)*$/
-// @include     /^https?:\/\/netload.in\/\w+\/(\w|-|\.)+$/
-// @include     /^https?:\/\/netload.in\/(\w|-|\.)+\.htm$/
-// @include     /^https?:\/\/www\.oboom\.com\/\w+.*$/
+// @include     /^https?:\/\/modsbase\.com\/\w+\/?.*$/
 // @include     /^https?:\/\/openload\.co\/f\/.+$/
-// @include     /^https?:\/\/rapidgator\.net\/file\/.+$/
-// @include     /^http:\/\/rg\.to\/file\/\w+\/.+\.html$/
+// @include     /^https?:\/\/rapidgator\.net\/file\/[^#]+$/
+// @include     /^https?:\/\/rg\.to\/file\/[^#]+$/
 // @include     /^https?:\/\/(\w+\.)?rapidu\.net\/\w+.*$/
-// @include     /^http:\/\/www\.share-online\.biz\/dl\/\w+$/
-// @include     /^https?\:\/\/(www\.)?rockfile\.eu\/\w+.*$/
+// @include     /^https?\:\/\/(www\.)?rockfile\.(eu|co)\/\w+.*$/
 // @include     /^http:\/\/www\.sockshare\.com\/file\/\w+$/
-// @include     /^https?:\/\/soundcloud.com\/(\w|-)+\/(\w|-)+$/
 // @include     /^https?:\/\/(www\.)?storbit\.net\/file\/.+$/
-// @include     /^http:\/\/streamcloud\.eu\/\w+$/
+// @include     /^https?:\/\/(www\.)?spicyfile\.com\/\w+$/
 // @include     /^https?:\/\/streamin\.to\/.+$/
-// @include     /^https?:\/\/turbobit\.net\/\w+.*\.html.*$/
+// @include     /^https?:\/\/turbobit\.net\/\w+.*\.html$/
 // @include     /^https?:\/\/(www\.)?tusfiles\.net\/\w+$/
-// @include     /^http:\/\/(www\.)?uploadboy\.com\/\w+\.html$/
+// @include     /^https?:\/\/ubiqfile\.com\/\w+$/
+// @include     /^https?:\/\/uploadboy\.(me|com)\/\w+\/?.*$/
 // @include     /^https?:\/\/uploaded\.(net|to)\/file\/.+$/
+// @include     /^http:\/\/ul\.to\/.+$/
 // @include     /^https?:\/\/uploadgig\.com\/file\/download\/\w+\/?.*$/
+// @include     /^http:\/\/uploading\.com\/\w+\/?.*$/
 // @include     /^http:\/\/(www\.)?uploading\.site\/\w+.*$/
 // @include     /^http:\/\/uploadrocket\.net\/\w+(\/|\w|-|\.)+(\.html)?$/
-// @include     /^http:\/\/ul\.to\/.+$/
-// @include     /^http:\/\/uppit\.com\/\w+(\/.*)?$/
-// @include     /^http:\/\/uptobox.com\/\w+$/
+// @include     /^http:\/\/uptobox.com\/\w+(\/.*)?$/
+// @include     /^https?:\/\/userscloud\.com\/\w+.*$/
 // @include     /^https?:\/\/vidto\.me\/\w+\.?\w*$/
-// @include     /^https?:\/\/vimeo\.com\/(.+\/)?\d+\/?$/
-// @include     /^http:\/\/\w+.vip-file\.com\/downloadlib\/.*$/
+// @include     /^https?:\/\/www\.wdupload\.com\/file\/\w+\/?.*$/
+// @include     /^https?:\/\/worldbytez\.com\/\w+$/
+// @include     /^https?:\/\/(www\.)?xubster\.com\/\w+\/?.*$/
 // @include     /^https?:\/\/www\.youtube\.com\/watch(\?v=|\/).+$/
-// @include     /^http:\/\/xerver\.co\/\w+.*$/
 // @include     /^http:\/\/www\d*\.zippyshare\.com\/v\/\w+\/file\.html$/
 
 // @require     https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js
@@ -360,8 +352,8 @@ var multi = {
 
         $("table.table tr>td:first-child").each(function() {
           var text = $(this).text();
-          if(text.match(/^\s*[0-9a-z-]+\.\w{0,3}\s*$/i)) {
-            var name = text.match(/^\s*([0-9a-z-]+)\.\w{0,3}\s*$/i)[1];
+          if(text.match(/^\s*[0-9a-z-]+\.\w{0,6}\s*$/i)) {
+            var name = text.match(/^\s*([0-9a-z-]+)\.\w{0,6}\s*$/i)[1];
             self.status[name.toLowerCase()] = true;
           }
         });

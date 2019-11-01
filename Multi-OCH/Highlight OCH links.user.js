@@ -12,7 +12,7 @@
 // @grant       GM_xmlhttpRequest
 // @grant       GM.xmlHttpRequest
 // @connect     *
-// @version     17
+// @version     18
 // @include     *
 // @exclude     *.yahoo.*
 // @exclude     *.google.*

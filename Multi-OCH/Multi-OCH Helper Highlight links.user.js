@@ -15,7 +15,7 @@
 // @exclude     *duckduckgo.com*
 // @exclude     *bandcamp.com*
 // @exclude     *.tumblr.com*
-// @version     10.3
+// @version     10.4
 // @grant       GM_setValue
 // @grant       GM_getValue
 // @grant       GM.setValue
@@ -85,20 +85,55 @@ var multi = {
 
     this.updateStatus = async function() { // Update list of online hosters
       if(document.location.href.match(self.updateStatusURL)) {
-          if($J("#servers a[title]").length > 0) {
-          // Read and save current status of all hosters
-          self.status = {};
-          $J("#servers a[title]").each(function() {
+        // Read and save current status of all hosters
+        self.status = {};
+        $J("#servers a[title]").each(function() {
+          var name = mapHosterName(this.title);
+          self.status[name] = true;
+        });
+        await GM.setValue(self.key+"_status",JSON.stringify(self.status));
+        await GM.setValue(self.key+"_status_time",""+(new Date()));
+        console.log(s_myname+": "+self.name+": Hosters ("+Object.keys(self.status).length+") updated");
+      } else {
+        alert(s_myname+"\n\nError: wrong update URL");
+      }
+    };
+    this.isOnline = function(hostername) {
+      return hostername in self.status && self.status[hostername];
+    };
+  })(),
+  'premiumize.me' : new (function() {
+    var self = this;
+    this.key = 'premiumize.me';
+    this.name = 'premiumize';
+    this.homepage =  'https://www.premiumize.me/';
 
-            var name = mapHosterName(this.title);
+    var mapHosterName = function(name) { return name.replace("-","")};
 
-            self.status[name] = true;
-          });
-          await GM.setValue(self.key+"_status",JSON.stringify(self.status));
-          await GM.setValue(self.key+"_status_time",""+(new Date()));
-        } else {
-          console.log("No hoster information found: "+self.updateStatusURL);
-        }
+    this.updateStatusURL = 'https://www.premiumize.me/hosters';
+    this.updateStatusURLpattern = /https:\/\/www\.premiumize\.me\/hosters\/?/;
+
+    this.status = {};
+    this.init = async function() {
+      self.lastUpdate = new Date(await GM.getValue(self.key+"_status_time",0));
+      self.status = JSON.parse(await GM.getValue(self.key+"_status","{}"));
+    };
+
+    this.updateStatus = async function() { // Update list of online hosters
+      if(document.location.href.match(self.updateStatusURL)) {
+        // Read and save current status of all hosters
+        self.status = {};
+
+        $J("table.table tr>td:first-child").each(function() {
+          var text = $(this).text();
+          if(text.match(/^\s*[0-9a-z-]+\.\w{0,6}\s*$/i)) {
+            var name = text.match(/^\s*([0-9a-z-]+)\.\w{0,6}\s*$/i)[1];
+            self.status[name.toLowerCase()] = true;
+          }
+        });
+        await GM.setValue(self.key+"_status",JSON.stringify(self.status));
+        await GM.setValue(self.key+"_status_time",""+(new Date()));
+        console.log(s_myname+": "+self.name+": Hosters ("+Object.keys(self.status).length+") updated");
       } else {
         alert(s_myname+"\n\nError: wrong update URL");
       }

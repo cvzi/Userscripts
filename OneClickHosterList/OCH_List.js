@@ -3,7 +3,7 @@
 // ==UserLibrary==
 // @name        OCH List
 // @description A list of One-Click-Hosters that are supported by nopremium.pl
-// @version     23
+// @version     24
 // @license     GPL-3.0-or-later; http://www.gnu.org/licenses/gpl-3.0.txt
 // ==/UserLibrary==
 // @namespace   cuzi
@@ -135,7 +135,7 @@ check: void check(link, cb, thisArg)
 
 '180upload' : {
   'pattern' : /^http:\/\/180upload\.com\/\w+$/m,
-  'multi' : ['nopremium.pl'],
+  'multi' : [],
   'title' : 'Offline: 180upload',
   'homepage' : 'http://180upload.com/',
   'check' : function(link,cb,thisArg) {
@@ -144,7 +144,7 @@ check: void check(link, cb, thisArg)
 },
 '1fichier' : {
   'pattern' : [/^https?:\/\/(www\.)?1fichier\.com\/.+$/m, /^https?:\/\/\w+\.1fichier\.com\/?.*$/m],
-  'multi' : ['nopremium.pl'],
+  'multi' : ['nopremium.pl', 'premiumize.me'],
   'title' : '1fichier',
   'homepage' : 'http://1fichier.com/',
   'check' : function(link,cb,thisArg) {
@@ -225,7 +225,7 @@ check: void check(link, cb, thisArg)
 },
 'bitshare' : {
   'pattern' : /^http:\/\/bitshare\.com\/files\/\w+\/.+\.html$/m,
-  'multi' : ['nopremium.pl'],
+  'multi' : [],
   'title' : 'BitShare.com',
   'homepage' : 'http://bitshare.com/',
   'check' : function(link,cb,thisArg) {
@@ -243,7 +243,7 @@ check: void check(link, cb, thisArg)
 },
 'clicknupload' : {
   'pattern' : /^https?:\/\/(www\.)?clicknupload\.(link|org)\/\w+\/?.*$/m,
-  'multi' : ['nopremium.pl'],
+  'multi' : ['nopremium.pl', 'premiumize.me'],
   'title' : 'ClicknUpload',
   'homepage' : 'https://clicknupload.org',
   'check' :function(link,cb,thisArg) {
@@ -288,11 +288,29 @@ check: void check(link, cb, thisArg)
 },
 'datafile' : {
   'pattern' : /^http:\/\/www\.datafile\.com\/d\/\w+.*$/m,
-  'multi' : ['nopremium.pl'],
+  'multi' : [],
   'title' : 'DataFile.com',
   'homepage' : 'http://www.datafile.com/',
   'check' :function(link,cb,thisArg) {
     OCH_ByFindingString(link,"ErrorCode", cb, thisArg);
+  },
+},
+'datei' : {
+  'pattern' : /^https?:\/\/(www\.)?datei\.to\/\?\w+$/m,
+  'multi' : ['premiumize.me'],
+  'title' : 'datei.to',
+  'homepage' : 'http://datei.to/',
+  'check' :function(link,cb,thisArg) {
+    OCH_ByFindingString(link,"icon_deleted.png", cb, thisArg);
+  },
+},
+'ddl' : {
+  'pattern' : /^https?:\/\/(www\.)?ddl\.to\/\w+$/m,
+  'multi' : ['premiumize.me'],
+  'title' : 'ddl.to',
+  'homepage' : 'https://ddl.to/',
+  'check' :function(link,cb,thisArg) {
+    OCH_ByFindingString(link,"File Not Found", cb, thisArg);
   },
 },
 'depositfiles' : {
@@ -340,9 +358,9 @@ check: void check(link, cb, thisArg)
     OCH_ByFindingString(link,'<b class="err">', cb, thisArg);
   },
 },
-'fileal' : {
+'file' : {
   'pattern' : /^https?:\/\/(www\.)?file\.al\/\w+\/?.*$/m,
-  'multi' : [],
+  'multi' : ['premiumize.me'],
   'title' : 'File.AL',
   'homepage' : 'https://file.al/',
   'check' : function(link,cb,thisArg) {
@@ -389,7 +407,7 @@ check: void check(link, cb, thisArg)
 },
 'filefactory' : {
   'pattern' : /^https?:\/\/(www\.)?filefactory\.com\/file\/.+$/m,
-  'multi' : ['nopremium.pl'],
+  'multi' : ['nopremium.pl', 'premiumize.me'],
   'title' : 'FileFactory',
   'homepage' : 'http://www.filefactory.com',
   'check' : function(link,cb,thisArg) {
@@ -442,6 +460,15 @@ check: void check(link, cb, thisArg)
     OCH_ByFindingString(link,"Not found", cb, thisArg);
   }
 },
+'filer' : {
+  'pattern' : /^https:\/\/filer\.net\/get\/\w+$/m,
+  'multi' : ['premiumize.me'],
+  'title' : 'filer.net',
+  'homepage' : 'https://filer.net/',
+  'check' : function(link,cb,thisArg) {
+    OCH_ByFindingString(link,["Datei nicht mehr vorhanden","Not available","Not found"], cb, thisArg);
+  }
+},
 'filescdn' : {
   'pattern' : /^https:\/\/filescdn\.com\/.+$/m,
   'multi' : [],
@@ -453,11 +480,20 @@ check: void check(link, cb, thisArg)
 },
 'filespace' : {
   'pattern' : /^https?:\/\/(www\.)?filespace\.com\/\w+\/?$/m,
-  'multi' : [],
+  'multi' : ['premiumize.me'],
   'title' : 'FileSpace',
   'homepage' : 'http://filespace.com/',
   'check' : function(link,cb,thisArg) {
     OCH_ByFindingString(link,"File not found", cb, thisArg);
+  }
+},
+'filestore' : {
+  'pattern' : /^https?:\/\/filestore\.to\/\?d=\w+$/m,
+  'multi' : ['premiumize.me'],
+  'title' : 'Filestore',
+  'homepage' : 'http://filestore.to/',
+  'check' : function(link,cb,thisArg) {
+    OCH_ByFindingString(link,["File not found", "Datei nicht gefunden"], cb, thisArg);
   }
 },
 'fileupload' : {
@@ -478,9 +514,18 @@ check: void check(link, cb, thisArg)
     OCH_permanentlyoffline(link, cb, thisArg);
   }
 },
+'fireget' : {
+  'pattern' : /^https?:\/\/fireget\.com\/\w+\/?.*$/m,
+  'multi' : ['premiumize.me'],
+  'title' : 'Fireget',
+  'homepage' : 'http://fireget.com/',
+  'check' : function(link,cb,thisArg) {
+    OCH_ByFindingString(link,"File Not Found", cb, thisArg);
+  }
+},
 'freakshare' : {
   'pattern' : /^http:\/\/freakshare\.com\/files\/\w+\/.+\.html$/m,
-  'multi' : ['nopremium.pl'],
+  'multi' : [],
   'title' : 'FreakShare',
   'homepage' : 'http://freakshare.com/',
   'check' : function(link,cb,thisArg) {
@@ -498,7 +543,7 @@ check: void check(link, cb, thisArg)
 },
 'gboxes' : {
   'pattern' : /^http:\/\/www\.gboxes\.com\/\w+.*$/m,
-  'multi' : ['nopremium.pl'],
+  'multi' : [],
   'title' : 'Offline: Green Boxes',
   'homepage' : 'http://www.gboxes.com/',
   'check' : function(link,cb,thisArg) {
@@ -506,8 +551,8 @@ check: void check(link, cb, thisArg)
   }
 },
 'hitfile' : {
-  'pattern' : /^https?\:\/\/(www\.)?hitfile\.net\/\w+.*$/m,
-  'multi' : ['nopremium.pl'],
+  'pattern' : [/^https?\:\/\/(www\.)?hitfile\.net\/\w+.*$/m, /^https?\:\/\/(www\.)?hil\.to\/\w+.*$/m],
+  'multi' : ['nopremium.pl', 'premiumize.me'],
   'title' : 'Hitfile.net',
   'homepage' : 'http://hitfile.net/',
   'check' : function(link,cb,thisArg) {
@@ -521,6 +566,15 @@ check: void check(link, cb, thisArg)
   'homepage' : 'http://hugefiles.net/',
   'check' : function(link,cb,thisArg) {
     OCH_permanentlyoffline(link, cb, thisArg);
+  }
+},
+'isra' : {
+  'pattern' : /^https:\/\/isra\.cloud\/\w+\/?.*$/m,
+  'multi' : ['nopremium.pl', 'premiumize.me'],
+  'title' : 'Isracloud',
+  'homepage' : 'https://isra.cloud/',
+  'check' : function(link,cb,thisArg) {
+    OCH_ByFindingString(link,"File Not Found", cb, thisArg);
   }
 },
 'katfile' : {
@@ -573,7 +627,7 @@ check: void check(link, cb, thisArg)
 },
 'kingfiles' : {
   'pattern' : /^https?:\/\/(www\.)?kingfiles\.net\/\w+.*$/m,
-  'multi' : ['nopremium.pl'],
+  'multi' : [],
   'title' : 'KingFiles.net',
   'homepage' : 'http://www.kingfiles.net/',
   'check' : function(link,cb,thisArg) {
@@ -600,7 +654,7 @@ check: void check(link, cb, thisArg)
 },
 'letitbit' : {
   'pattern' : /^https?:\/\/(\w+\.)?letitbit\.net\/download\/(\w|\.)+\/.*$/m,
-  'multi' : ['nopremium.pl'],
+  'multi' : [],
   'title' : 'Offline: Letitbit.net',
   'homepage' : 'http://letitbit.net/',
   'check' : function(link,cb,thisArg) {
@@ -618,7 +672,7 @@ check: void check(link, cb, thisArg)
 },
 'mediafire' : {
   'pattern' : [/^https?:\/\/www\.mediafire\.com\/?\?.+$/m,/^https?:\/\/www\.mediafire\.com\/download\/.+$/m],
-  'multi' : ['nopremium.pl'],
+  'multi' : ['nopremium.pl', 'premiumize.me'],
   'title' : 'MediaFire',
   'homepage' : 'https://www.mediafire.com/',
   'check' : function(link,cb,thisArg) {
@@ -627,7 +681,7 @@ check: void check(link, cb, thisArg)
 },
 'mega' : {
   'pattern' : [/^https?:\/\/mega\.co\.nz\/\#\!\w+!*(\w|-)*$/m, /^https?:\/\/mega\.nz\/\#\!\w+!*(\w|-)*$/m],
-  'multi' : ['nopremium.pl'],
+  'multi' : ['nopremium.pl', 'premiumize.me'],
   'title' : 'MEGA',
   'homepage' : 'https://mega.co.nz/',
   'check' : function(link,cb,thisArg) {
@@ -658,6 +712,15 @@ check: void check(link, cb, thisArg)
     OCH_ByFindingString(link,"File Not Found", cb, thisArg);
   },
 },
+'modsbase' : {
+  'pattern' : [/^https?:\/\/modsbase\.com\/\w+\/?.*$/m],
+  'multi' : ['premiumize.me'],
+  'title' : 'modsbase',
+  'homepage' : 'https://modsbase.com/',
+  'check' : function(link,cb,thisArg) {
+    OCH_ByFindingString(link,"File Not Found", cb, thisArg);
+  },
+},
 'nitroflare' : {
   'pattern' : [/^https?:\/\/nitroflare\.com\/view\/.+$/m],
   'multi' : [],
@@ -679,7 +742,7 @@ check: void check(link, cb, thisArg)
 
 'oboom' : {
   'pattern' : /^https?:\/\/www\.oboom\.com\/\w+.*$/m,
-  'multi' : ['nopremium.pl'],
+  'multi' : [],
   'title' : 'OBOOM.com',
   'homepage' : 'https://www.oboom.com/',
   'check' : function(link,cb,thisArg) {
@@ -706,7 +769,7 @@ check: void check(link, cb, thisArg)
 },
 'openload' : {
   'pattern' : [/^https?:\/\/openload\.co\/f\/.+$/m],
-  'multi' : ['nopremium.pl'],
+  'multi' : ['nopremium.pl', 'premiumize.me'],
   'title' : 'Openload',
   'homepage' : 'http://openload.co/',
   'check' : function(link,cb,thisArg) {
@@ -760,7 +823,7 @@ check: void check(link, cb, thisArg)
 },
 'rockfile' : {
   'pattern' : /^https?\:\/\/(www\.)?rockfile\.(eu|co)\/\w+.*$/m,
-  'multi' : [],
+  'multi' : ['nopremium.pl'],
   'title' : 'Rockfile.co',
   'homepage' : 'http://rockfile.co',
   'check' : function(link,cb,thisArg) {
@@ -810,7 +873,7 @@ check: void check(link, cb, thisArg)
 },
 'share-online' : {
   'pattern' : /^http:\/\/www\.share-online\.biz\/dl\/\w+$/m,
-  'multi' : ['nopremium.pl'],
+  'multi' : [],
   'title' : 'Share-Online',
   'homepage' : 'http://www.share-online.biz/',
   'check' : function(link,cb,thisArg) {
@@ -843,6 +906,15 @@ check: void check(link, cb, thisArg)
   'homepage' : 'http://storbit.net',
   'check' : function(link,cb,thisArg) {
     OCH_permanentlyoffline(link, cb, thisArg);
+  }
+},
+'spicyfile' : {
+  'pattern' : /^https?:\/\/(www\.)?spicyfile\.com\/\w+$/m,
+  'multi' : ['premiumize.me'],
+  'title' : 'spicyfile.com',
+  'homepage' : 'http://spicyfile.com',
+  'check' : function(link,cb,thisArg) {
+    OCH_ByFindingString(link,"File Not Found", cb, thisArg);
   }
 },
 'streamcloud' : {
@@ -883,7 +955,7 @@ check: void check(link, cb, thisArg)
 },
 'turbobit' : {
   'pattern' : /^https?:\/\/turbobit\.net\/\w+.*\.html$/m,
-  'multi' : ['nopremium.pl'],
+  'multi' : ['nopremium.pl', 'premiumize.me'],
   'title' : 'turbobit.net',
   'homepage' : 'http://turbobit.net/',
   'check' : function(link,cb,thisArg) {
@@ -897,6 +969,15 @@ check: void check(link, cb, thisArg)
   'homepage' : 'http://tusfiles.net/',
   'check' : function(link,cb,thisArg) {
     OCH_ByFindingString(link,"The file you are trying to download is no longer available", cb, thisArg);
+  },
+},
+'ubiqfile' : {
+  'pattern' : /^https?:\/\/ubiqfile\.com\/\w+$/m,
+  'multi' : ['premiumize.me'],
+  'title' : 'ubiqfile',
+  'homepage' : 'http://ubiqfile.com/',
+  'check' : function(link,cb,thisArg) {
+    OCH_ByFindingString(link,"File Not Found", cb, thisArg);
   },
 },
 'unlimitzone' : {
@@ -955,12 +1036,21 @@ check: void check(link, cb, thisArg)
 },
 'uploaded' : {
   'pattern' : [/^https?:\/\/uploaded\.(net|to)\/file\/.+$/m,/^http:\/\/ul\.to\/.+$/m],
-  'multi' : ['nopremium.pl'],
+  'multi' : ['nopremium.pl', 'premiumize.me'],
   'title' : 'uploaded.net',
   'homepage' : 'http://uploaded.net/',
   'check' : function(link,cb,thisArg) {
     //OCH_ByMatchingFinalUrl(link,[/uploaded\.net\/404/,/uploaded\.net\/410/], cb, thisArg);
     OCH_ByFindingString(link,"Error: ", cb, thisArg);
+  },
+},
+'uploadboy' : {
+  'pattern' : /^https?:\/\/uploadboy\.(me|com)\/\w+\/?.*$/m,
+  'multi' : ['premiumize.me'],
+  'title' : 'Uploadboy',
+  'homepage' : 'https://uploadboy.com/',
+  'check' : function(link,cb,thisArg) {
+    OCH_ByFindingString(link,["not be found", "File not found"], cb, thisArg);
   },
 },
 'uploadgig' : {
@@ -1037,7 +1127,7 @@ check: void check(link, cb, thisArg)
 },
 'userscloud' : {
   'pattern' : /^https?:\/\/userscloud\.com\/\w+.*$/m,
-  'multi' : [],
+  'multi' : ['premiumize.me'],
   'title' : 'Userscloud',
   'homepage' : 'https://userscloud.com/',
   'check' : function(link,cb,thisArg) {
@@ -1072,13 +1162,40 @@ check: void check(link, cb, thisArg)
     OCH_ByFindingString(link,"Page not found", cb, thisArg);
   },
 },
-'vipfile' : {  // TODO: nopremium.pl lists this hoster as "vip-file"
+'vipfile' : {
   'pattern' : /^http:\/\/\w+.vip-file.com\/downloadlib\/.*$/m,
-  'multi' : ['nopremium.pl'],
+  'multi' : [],
   'title' : 'VIP-file',
   'homepage' : 'http://vip-file.com/',
   'check' : function(link,cb,thisArg) {
     OCH_ByFindingString(link,"File not found", cb, thisArg, link.url+"?lang=en");
+  },
+},
+'wdupload' : {
+  'pattern' : /^https?:\/\/www\.wdupload\.com\/file\/\w+\/?.*$/m,
+  'multi' : ['premiumize.me'],
+  'title' : 'wdupload.com',
+  'homepage' : 'http://wdupload.com/',
+  'check' : function(link,cb,thisArg) {
+    OCH_ByFindingString(link,"file-error", cb, thisArg);
+  },
+},
+'worldbytez' : {
+  'pattern' : /^https?:\/\/worldbytez\.com\/\w+$/m,
+  'multi' : ['premiumize.me'],
+  'title' : 'worldbytez.com',
+  'homepage' : 'https://worldbytez.com/',
+  'check' : function(link,cb,thisArg) {
+    OCH_ByFindingString(link,"File Not Found", cb, thisArg);
+  },
+},
+'xubster' : {
+  'pattern' : /^https?:\/\/(www\.)?xubster\.com\/\w+\/?.*$/m,
+  'multi' : ['premiumize.me'],
+  'title' : 'xubster.com',
+  'homepage' : 'https://xubster.com/',
+  'check' : function(link,cb,thisArg) {
+    OCH_ByFindingString(link,"File Not Found", cb, thisArg);
   },
 },
 'youtube' : {
@@ -1092,7 +1209,7 @@ check: void check(link, cb, thisArg)
 },
 'zippyshare' : {
   'pattern' : /^http:\/\/www\d*\.zippyshare\.com\/v\/\w+\/file\.html$/m,
-  'multi' : ['nopremium.pl'],
+  'multi' : ['nopremium.pl', 'premiumize.me'],
   'title' : 'Zippyshare.com',
   'homepage' : 'http://www.zippyshare.com/',
   'check' : function(link,cb,thisArg) {
