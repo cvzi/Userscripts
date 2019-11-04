@@ -34,8 +34,6 @@
 // @include     /^https?:\/\/(www\.)?1fichier\.com\/.+$/
 // @include     /^https?:\/\/\w+\.1fichier\.com\/?.*$/
 // @include     /^http:\/\/www\.4shared\.com\/[a-z]+\/\w+\/?(.+\.html)?$/
-// @include     /^https?:\/\/(www\.)?alfafile\.net\/file\/.+$/
-// @include     /^https?:\/\/(www\.)?bayfiles\.(net|com)\/file\/\w+\/.+$/
 // @include     /^http:\/\/billionuploads\.com\/\w+$/
 // @include     /^https?:\/\/(www\.)?catshare\.net\/.+$/
 // @include     /^https?:\/\/(www\.)?clicknupload\.(link|org)\/\w+\/?.*$/

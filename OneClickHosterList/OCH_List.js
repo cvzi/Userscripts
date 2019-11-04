@@ -58,6 +58,9 @@ var OCH_ByFindingString = function(link,s,cb,thisArg,useURL) {
         }
       }
       cb.call(thisArg,link,1); // Online
+    },
+    onerror: function (response){
+      cb.call(thisArg,link,0); // Offline
     }
   });
 }
@@ -83,6 +86,9 @@ var OCH_ByNotFindingString = function(link,s,cb,thisArg,useURL) {
           return;
         }
       }
+      cb.call(thisArg,link,0); // Offline
+    },
+    onerror: function (response){
       cb.call(thisArg,link,0); // Offline
     }
   });
@@ -112,6 +118,9 @@ var OCH_ByMatchingFinalUrl = function(link,re,cb,thisArg,useURL) {
         }
       }
       cb.call(thisArg,link,1); // Online
+    },
+    onerror: function (response){
+      cb.call(thisArg,link,0); // Offline
     }
   });
 }
@@ -197,12 +206,28 @@ check: void check(link, cb, thisArg)
   },
 },
 'bayfiles' : {
-  'pattern' : /^https?:\/\/(www\.)?bayfiles\.(net|com)\/file\/\w+\/.+$/m,
-  'multi' : ['nopremium.pl'],
-  'title' : 'Offline: BayFiles',
-  'homepage' : 'http://bayfiles.net/',
+  'pattern' : /^https?:\/\/(www\.)?bayfiles\.(net|com)\/\w+\/?.*$/m,
+  'multi' : [],
+  'title' : 'BayFiles',
+  'homepage' : 'http://bayfiles.com/',
   'check' : function(link,cb,thisArg) {
-    OCH_permanentlyoffline(link, cb, thisArg);
+    rq.add({
+      method: "GET",
+      url: "https://api.bayfiles.com/v2/file/" + encodeURIComponent(link.url.match(/bayfiles\.(net|com)\/(\w+)/)[2]) + "/info",
+      onload: function (response){
+        var result = JSON.parse(response.responseText);
+        if(result && result.status) {
+          // Link is online
+          cb.call(thisArg,link,1);
+        } else {
+          // Link is offline
+          cb.call(thisArg,link,0);
+        }
+      },
+      onerror: function (response){
+        cb.call(thisArg,link,0); // Offline
+      }
+    });
   }
 },
 'bigfile' : {
@@ -410,6 +435,9 @@ check: void check(link, cb, thisArg)
         } else {
           cb.call(thisArg,link,-1,"Strange reply from filecloud API:\n"+response.responseText);
         }
+      },
+      onerror: function (response){
+        cb.call(thisArg,link,0); // Offline
       }
     });
   },
@@ -579,7 +607,7 @@ check: void check(link, cb, thisArg)
 },
 'hugefiles' : {
   'pattern' : /^http:\/\/hugefiles\.net\/\w+\/?.*$/m,
-  'multi' : ['nopremium.pl'],
+  'multi' : [],
   'title' : 'Offline: HugeFiles.net',
   'homepage' : 'http://hugefiles.net/',
   'check' : function(link,cb,thisArg) {
@@ -666,6 +694,9 @@ check: void check(link, cb, thisArg)
           }
           cb.call(thisArg,link,1); // Online
         }
+      },
+      onerror: function (response){
+        cb.call(thisArg,link,0); // Offline
       }
     });
   },
@@ -717,6 +748,9 @@ check: void check(link, cb, thisArg)
           // Link is online
           cb.call(thisArg,link,1);
         }
+      },
+      onerror: function (response){
+        cb.call(thisArg,link,0); // Offline
       }
     });
   },
@@ -790,6 +824,9 @@ check: void check(link, cb, thisArg)
         } else {
           cb.call(thisArg,link,-1,"Strange reply from oboom API:\n"+response.responseText)
         }
+      },
+      onerror: function (response){
+        cb.call(thisArg,link,0); // Offline
       }
     });
   },
@@ -875,6 +912,9 @@ check: void check(link, cb, thisArg)
           return;
         }
         cb.call(thisArg,link,1); // Online
+      },
+      onerror: function (response){
+        cb.call(thisArg,link,0); // Offline
       }
     });
 
@@ -1187,7 +1227,7 @@ check: void check(link, cb, thisArg)
   'homepage' : 'http://vidto.me/',
   'check' : function(link,cb,thisArg) {
     OCH_ByFindingString(link,"File Not Found", cb, thisArg);
-  },
+  }
 },
 'vimeo' : {
   'pattern' : /^https?:\/\/vimeo\.com\/(.+\/)?\d+\/?$/m,
@@ -1196,16 +1236,16 @@ check: void check(link, cb, thisArg)
   'homepage' : 'https://vimeo.com/',
   'check' : function(link,cb,thisArg) {
     OCH_ByFindingString(link,"Page not found", cb, thisArg);
-  },
+  }
 },
 'vipfile' : {
-  'pattern' : /^http:\/\/\w+.vip-file.com\/downloadlib\/.*$/m,
+  'pattern' : /^http:\/\/(\w+.)?vip-file.(com|net)\/downloadlib\/.*$/m,
   'multi' : [],
   'title' : 'VIP-file',
-  'homepage' : 'http://vip-file.com/',
+  'homepage' : 'http://vip-file.net/',
   'check' : function(link,cb,thisArg) {
     OCH_ByFindingString(link,"File not found", cb, thisArg, link.url+"?lang=en");
-  },
+  }
 },
 'wdupload' : {
   'pattern' : /^https?:\/\/www\.wdupload\.com\/file\/\w+\/?.*$/m,
@@ -1214,7 +1254,7 @@ check: void check(link, cb, thisArg)
   'homepage' : 'http://wdupload.com/',
   'check' : function(link,cb,thisArg) {
     OCH_ByFindingString(link,"file-error", cb, thisArg);
-  },
+  }
 },
 'worldbytez' : {
   'pattern' : /^https?:\/\/worldbytez\.com\/\w+$/m,
@@ -1223,7 +1263,7 @@ check: void check(link, cb, thisArg)
   'homepage' : 'https://worldbytez.com/',
   'check' : function(link,cb,thisArg) {
     OCH_ByFindingString(link,"File Not Found", cb, thisArg);
-  },
+  }
 },
 'xubster' : {
   'pattern' : /^https?:\/\/(www\.)?xubster\.com\/\w+\/?.*$/m,
