@@ -3,7 +3,7 @@
 // ==UserLibrary==
 // @name        OCH List
 // @description A list of One-Click-Hosters that are supported by nopremium.pl
-// @version     24
+// @version     25
 // @license     GPL-3.0-or-later; http://www.gnu.org/licenses/gpl-3.0.txt
 // ==/UserLibrary==
 // @namespace   cuzi
@@ -152,7 +152,7 @@ check: void check(link, cb, thisArg)
   }
 },
 '2shared' : {
-  'pattern' : /^http:\/\/www\.2shared\.com\/[a-z]+\/\w+\/?(.+\.html)?$/,
+  'pattern' : /^https?:\/\/www\.2shared\.com\/[a-z]+\/\w+\/?(.+\.html)?$/,
   'multi' : [],
   'title' : '2Shared',
   'homepage' : 'http://www.2shared.com/',
@@ -161,7 +161,7 @@ check: void check(link, cb, thisArg)
   }
 },
 '4shared' : {
-  'pattern' : /^http:\/\/www\.4shared\.com\/[a-z]+\/\w+\/?(.+\.html)?$/,
+  'pattern' : /^https?:\/\/www\.4shared\.com\/[a-z]+\/\w+\/?(.+\.html)?$/,
   'multi' : ['nopremium.pl'],
   'title' : '4shared.com',
   'homepage' : 'http://www.4shared.com/',
@@ -170,10 +170,10 @@ check: void check(link, cb, thisArg)
   }
 },
 '4downfiles' : {
-  'pattern' :/^http:\/\/4downfiles\.com\/\w+\.html$/m,
+  'pattern' :/^https?:\/\/4downfiles\.com?\/\w+\/?(.+\.html)?$/m,
   'multi' : [],
   'title' : '4 Down Files',
-  'homepage' : 'http://4downfiles.com/',
+  'homepage' : 'http://4downfiles.co/',
   'check' : function(link,cb,thisArg) {
     OCH_ByFindingString(link, "File Not Found", cb, thisArg);
   },
@@ -340,6 +340,15 @@ check: void check(link, cb, thisArg)
     OCH_ByFindingString(link,"File Not Found", cb, thisArg);
   },
 },
+'dropapk' : {
+  'pattern' : /^https?:\/\/(www\.)?dropapk\.to\/\w+.*$/m,
+  'multi' : [],
+  'title' : 'Dropapk',
+  'homepage' : 'https://dropapk.to/',
+  'check' : function(link,cb,thisArg) {
+    OCH_ByFindingString(link,"File Not Found", cb, thisArg);
+  },
+},
 'expressleech' : {
   'pattern' : /^https?:\/\/(www\.)?expressleech\.com\/\w+\.html$/m,
   'multi' : [],
@@ -494,6 +503,15 @@ check: void check(link, cb, thisArg)
   'homepage' : 'http://filestore.to/',
   'check' : function(link,cb,thisArg) {
     OCH_ByFindingString(link,["File not found", "Datei nicht gefunden"], cb, thisArg);
+  }
+},
+'fileup' : {
+  'pattern' : /^https?:\/\/(www\.)?file-up\.org\/\w+\/?$/m,
+  'multi' : [],
+  'title' : 'file-up.org',
+  'homepage' : 'https://file-up.org/',
+  'check' : function(link,cb,thisArg) {
+    OCH_ByFindingString(link,"File Not Found", cb, thisArg);
   }
 },
 'fileupload' : {
@@ -708,6 +726,15 @@ check: void check(link, cb, thisArg)
   'multi' : [],
   'title' : 'MexaShare',
   'homepage' : 'http://www.mexashare.com/',
+  'check' : function(link,cb,thisArg) {
+    OCH_ByFindingString(link,"File Not Found", cb, thisArg);
+  },
+},
+'mixloads' : {
+  'pattern' : /^https?:\/\/mixloads\.com\/\w+.*$/m,
+  'multi' : [],
+  'title' : 'MixLoads.Com',
+  'homepage' : 'https://mixloads.com/',
   'check' : function(link,cb,thisArg) {
     OCH_ByFindingString(link,"File Not Found", cb, thisArg);
   },
@@ -1132,6 +1159,15 @@ check: void check(link, cb, thisArg)
   'homepage' : 'https://userscloud.com/',
   'check' : function(link,cb,thisArg) {
     OCH_ByFindingString(link,"label-danger", cb, thisArg);
+  },
+},
+'usersdrive' : {
+  'pattern' : /^https?:\/\/usersdrive\.com\/\w+.*$/m,
+  'multi' : [],
+  'title' : 'Usersdrive',
+  'homepage' : 'https://usersdrive.com/',
+  'check' : function(link,cb,thisArg) {
+    OCH_ByFindingString(link,"File Not Found", cb, thisArg);
   },
 },
 'vevo' : {
