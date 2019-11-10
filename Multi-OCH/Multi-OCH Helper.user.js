@@ -6,7 +6,7 @@
 // @homepageURL https://openuserjs.org/scripts/cuzi/Multi-OCH_Helper
 // @updateURL   https://openuserjs.org/meta/cuzi/Multi-OCH_Helper.meta.js
 // @icon        https://greasyfork.org/system/screenshots/screenshots/000/003/479/original/icon.png
-// @version     16.1
+// @version     16.2
 
 // @include     /^https:\/\/cvzi\.github\.io\/Userscripts\/index\.html\?link=.+/
 
@@ -344,20 +344,52 @@ var multi = {
     };
 
     this.updateStatus = async function() { // Update list of online hosters
+      await self.loadSettings()
       if(document.location.href.match(self.updateStatusURL)) {
         // Read and save current status of all hosters
-        self.status = {};
-
-        $("table.table tr>td:first-child").each(function() {
-          var text = $(this).text();
-          if(text.match(/^\s*[0-9a-z-]+\.\w{0,6}\s*$/i)) {
-            var name = text.match(/^\s*([0-9a-z-]+)\.\w{0,6}\s*$/i)[1];
-            self.status[name.toLowerCase()] = true;
-          }
-        });
-        await GM.setValue(self.key+"_status",JSON.stringify(self.status));
-        await GM.setValue(self.key+"_status_time",""+(new Date()));
-        console.log(s_myname+": "+self.name+": Hosters ("+Object.keys(self.status).length+") updated");
+        if($("table.table tr>td:first-child").length) {
+          self.status = {};
+          await GM.setValue(self.key+"_status_time",""+(new Date()));
+          $("table.table tr>td:first-child").each(function() {
+            var text = $(this).text();
+            if(text.match(/^\s*[0-9a-z-]+\.\w{0,6}\s*$/i)) {
+              var name = text.match(/^\s*([0-9a-z-]+)\.\w{0,6}\s*$/i)[1];
+              self.status[name.toLowerCase()] = true;
+            }
+          });
+          await GM.setValue(self.key+"_status",JSON.stringify(self.status));
+          console.log(s_myname+": "+self.name+": Hosters ("+Object.keys(self.status).length+") updated");
+        } else if(self.settings.apikey) {
+          GM.xmlHttpRequest({
+            method: "GET",
+            url: self.homepage+"api/services/list?apikey="+encodeURIComponent(self.settings.apikey),
+            onerror: function(response) {
+              console.log(s_myname+": GM.xmlHttpRequest error: "+self.homepage+"api/services/list");
+              console.log(response);
+            },
+            onload: async function(response) {
+              var result = JSON.parse(response.responseText);
+              /*
+              { "cache": [ "uploaded.to", "filefactory.com", ... ], "directdl": [ "uploaded.to", "filefactory.com", ... ] }
+              */
+              if("cache" in result && "directdl" in result) {
+                self.status = {};
+                await GM.setValue(self.key+"_status_time",""+(new Date()));
+                result.cache.forEach(function(host) {
+                  var name = host.match(/^\s*([0-9a-z-]+)\.\w{0,6}\s*$/i)[1];
+                  self.status[name.toLowerCase()] = result.directdl.indexOf(host) !== -1;
+                })
+                await GM.setValue(self.key+"_status",JSON.stringify(self.status));
+                console.log(s_myname+": "+self.name+": Hosters ("+Object.keys(self.status).length+") updated");
+              } else {
+                console.log(s_myname+": GM.xmlHttpRequest error: "+self.homepage+"api/services/list");
+                console.log(response);
+              }
+            }
+          });
+        } else {
+          console.log(s_myname+": Cannot update hosters, no html and no api key found");
+        }
       } else {
         alert(s_myname+"\n\nError: wrong update URL");
       }
@@ -686,13 +718,13 @@ var multi = {
     this.updateStatus = async function() { // Update list of online hosters
       if(document.location.href.match(self.updateStatusURL)) {
         // Read and save current status of all hosters
+        await GM.setValue(self.key+"_status_time",""+(new Date()));
         self.status = {};
         $("#servers a[title]").each(function() {
           var name = mapHosterName(this.title);
           self.status[name] = true;
         });
         await GM.setValue(self.key+"_status",JSON.stringify(self.status));
-        await GM.setValue(self.key+"_status_time",""+(new Date()));
         console.log(s_myname+": "+self.name+": Hosters ("+Object.keys(self.status).length+") updated");
       } else {
         alert(s_myname+"\n\nError: wrong update URL");
@@ -2962,7 +2994,12 @@ function menu(links) {
   $c.html("");
 
   var $select = $("<select>");
-  var host = links[0].match(/https?:\/\/(.+?)\//)[1];
+  const m = links[0].match(/https?:\/\/(.+?)\//)
+  if (!m) {
+    console.log(s_myname+": Not a valid link: '"+links[0]+"'")
+    return
+  }
+  var host = m[1];
   var hoster = host.split(".");
   hoster.pop();
   hoster = hoster.pop().replace("-","");
@@ -3225,8 +3262,8 @@ function button(label) {
 const is_setup = await GM.getValue("setup",false)
 
 // Update hoster status
+var updatinghosters = false;
 if(is_setup) {
-  var updatinghosters = false;
   for(var key in multi) {
     if(multi[key].updateStatusURLpattern.test(document.location.href)) { //  usually in this is true in the iframe which is defined below
       multi[key].updateStatus();
@@ -3241,7 +3278,7 @@ if(!updatinghosters && is_setup) {
   var now = new Date();
   for(var key in multi) {
     if((now - multi[key].lastUpdate) > (settings.updateHosterStatusInterval*60*60*1000) ) {
-      var $iframe = $("<iframe>").appendTo(document.body);
+      var $iframe = $("<embed>").appendTo(document.body);
       $iframe.bind("load",function() {
         var frame = this;
         window.setTimeout(function() { $(frame).remove(); },3000);
@@ -3507,6 +3544,14 @@ window.addEventListener("message", function(e){
       if($("#multiochhelper ul li").length > 1) { // Menu already opened
         menu(show_oneclick_link);
       }
+      break;
+    case "requesthosterstatus":
+
+      const o = {}
+      for(var key in multi) {
+        o[key] = multi[key].status;
+      }
+      e.source.postMessage({ "iAm": "Unrestrict.li", "type": "hosterstatus", "str" : JSON.stringify(o)}, '*');
       break;
   }
 

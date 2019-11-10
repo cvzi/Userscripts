@@ -15,7 +15,7 @@
 // @exclude     *duckduckgo.com*
 // @exclude     *bandcamp.com*
 // @exclude     *.tumblr.com*
-// @version     10.4
+// @version     10.5
 // @grant       GM_setValue
 // @grant       GM_getValue
 // @grant       GM.setValue
@@ -28,9 +28,12 @@
 (async function() {
 "use strict";
 
+const MAXTEXTNODES = 10000;
 
-var s_myname = "Multi-OCH Helper Highlight links";
-var MAXTEXTNODES = 10000;
+const s_myname = "Multi-OCH Helper Highlight links";
+const s_topname = "Multi-OCH Helper";
+
+const chrome = ~navigator.userAgent.indexOf("Chrome")
 
 var $J = $.noConflict(true);
 
@@ -119,24 +122,8 @@ var multi = {
       self.status = JSON.parse(await GM.getValue(self.key+"_status","{}"));
     };
 
-    this.updateStatus = async function() { // Update list of online hosters
-      if(document.location.href.match(self.updateStatusURL)) {
-        // Read and save current status of all hosters
-        self.status = {};
+    this.updateStatus = function() { // This works only with api key, which only the main script has
 
-        $J("table.table tr>td:first-child").each(function() {
-          var text = $(this).text();
-          if(text.match(/^\s*[0-9a-z-]+\.\w{0,6}\s*$/i)) {
-            var name = text.match(/^\s*([0-9a-z-]+)\.\w{0,6}\s*$/i)[1];
-            self.status[name.toLowerCase()] = true;
-          }
-        });
-        await GM.setValue(self.key+"_status",JSON.stringify(self.status));
-        await GM.setValue(self.key+"_status_time",""+(new Date()));
-        console.log(s_myname+": "+self.name+": Hosters ("+Object.keys(self.status).length+") updated");
-      } else {
-        alert(s_myname+"\n\nError: wrong update URL");
-      }
     };
     this.isOnline = function(hostername) {
       return hostername in self.status && self.status[hostername];
@@ -481,19 +468,50 @@ for(let key in multi) {
 // Create iframes to update hoster status:
 let now = new Date();
 for(let key in multi) {
+
   if((now - multi[key].lastUpdate) > (7*24*60*60*1000) ) {
-    //var $iframe = $J("<iframe>").appendTo(document.body); // GREASEMONKEY4
-    let $iframe = $J("<embed>").appendTo(document.body);
-    $iframe.bind("load",function() {
-      let frame = this;
-      window.setTimeout(function() { $J(frame).remove(); }, 4000);
-    });
-    $iframe.attr("src",multi[key].updateStatusURL);
+    if(document.getElementById('multiochhelper')) {
+      // Button is visible on this page
+      window.setTimeout(function() {
+        window.postMessage({ "iAm": "Unrestrict.li", "type": "requesthosterstatus"}, '*');
+      }, 1000)
+    } else if (chrome) {
+      // Chrome: we can use iframe to load Multi-OCH_Helper script in the frame
+      let $iframe = $J("<iframe>").appendTo(document.body);
+      $iframe.bind("load",function() {
+        let frame = this;
+        window.setTimeout(function() { $J(frame).remove(); }, 4000);
+
+        if($iframe[0].contentWindow) {
+          $iframe[0].contentWindow.postMessage({ "iAm": "Unrestrict.li", "type": "requesthosterstatus"}, '*');
+        }
+
+      });
+      $iframe.attr("src","https://cvzi.github.io/Userscripts/index.html?link=1");
+    } else {
+      // Firefox: we need to open a new tab to communicate with the Multi-OCH_Helper script
+      if (document.location.href.startsWith("https://cvzi.github.io/")) {
+        window.setTimeout(function() {
+          window.postMessage({ "iAm": "Unrestrict.li", "type": "requesthosterstatus"}, '*');
+        }, 1000)
+      } else {
+        const w = window.open("https://cvzi.github.io/Userscripts/index.html?link=1")
+        window.setTimeout(function() {
+          if(w) {
+            w.postMessage({ "iAm": "Unrestrict.li", "type": "requesthosterstatus"}, '*');
+          }
+          window.setTimeout(function() {
+            if(w) w.close()
+          }, 3000)
+        }, 1000)
+      }
+    }
+    break
   }
 }
 
 // Handle messages from the button script
-window.addEventListener("message", function(e){
+window.addEventListener("message", async function(e){
   if(typeof e.data != "object" || ! ("iAm" in e.data) || e.data.iAm != "Unrestrict.li") {
     return;
   }
@@ -509,7 +527,21 @@ window.addEventListener("message", function(e){
       window.setTimeout(function() { numberFoundLinks = attachEvents(); }, 0);
       break;
 
-
+    case "hosterstatus": {
+      // Update hoster status, this script has no API access on premiumize, so it cannot update the hosters itself
+      const data = JSON.parse(e.data.str)
+      const result = {}
+      for(let key in multi) {
+        if(data && key in data) {
+          await GM.setValue(key+"_status",JSON.stringify(data[key]));
+          result[key] = Object.keys(data[key]).length
+          multi[key].status = data[key]
+        }
+        await GM.setValue(key+"_status_time",""+(new Date()));
+      }
+      console.log(s_myname+": Received hoster status from "+s_topname + ": "+JSON.stringify(result))
+      break
+    }
   }
 
 }, true);
