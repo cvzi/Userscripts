@@ -6,7 +6,7 @@
 // @homepageURL https://openuserjs.org/scripts/cuzi/Multi-OCH_Helper
 // @updateURL   https://openuserjs.org/meta/cuzi/Multi-OCH_Helper.meta.js
 // @icon        https://greasyfork.org/system/screenshots/screenshots/000/003/479/original/icon.png
-// @version     16.2
+// @version     16.3
 
 // @include     /^https:\/\/cvzi\.github\.io\/Userscripts\/index\.html\?link=.+/
 
@@ -68,7 +68,7 @@
 // @include     /^https?:\/\/(www\.)?storbit\.net\/file\/.+$/
 // @include     /^https?:\/\/(www\.)?spicyfile\.com\/\w+$/
 // @include     /^https?:\/\/streamin\.to\/.+$/
-// @include     /^https?:\/\/turbobit\.net\/\w+.*\.html$/
+// @include     /^https?:\/\/turbobit\.net\/\w+.*\.html.*$/
 // @include     /^https?:\/\/(www\.)?tusfiles\.net\/\w+$/
 // @include     /^https?:\/\/ubiqfile\.com\/\w+$/
 // @include     /^https?:\/\/uploadboy\.(me|com)\/\w+\/?.*$/
@@ -262,7 +262,7 @@ var multi = {
     this.key = 'premiumize.me';
     this.name = 'premiumize';
     this.homepage =  'https://www.premiumize.me/';
-    this.updateStatusURL = 'https://www.premiumize.me/hosters';
+    //this.updateStatusURL = 'https://www.premiumize.me/hosters';
     this.updateStatusURLpattern = /https:\/\/www\.premiumize\.me\/hosters\/?/;
     this.updateDownloadProgressInterval = 5000;
     this.updateDownloadProgressInterfaceInterval = 500;
@@ -3277,13 +3277,13 @@ if(is_setup) {
 if(!updatinghosters && is_setup) {
   var now = new Date();
   for(var key in multi) {
-    if((now - multi[key].lastUpdate) > (settings.updateHosterStatusInterval*60*60*1000) ) {
+    if('updateStatusURL' in multi[key] && (now - multi[key].lastUpdate) > (settings.updateHosterStatusInterval*60*60*1000) ) {
       var $iframe = $("<embed>").appendTo(document.body);
       $iframe.bind("load",function() {
         var frame = this;
         window.setTimeout(function() { $(frame).remove(); },3000);
       });
-      $iframe.attr("src",multi[key].updateStatusURL);
+      $iframe.attr("src", multi[key].updateStatusURL);
     }
   }
 }
