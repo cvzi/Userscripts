@@ -1693,6 +1693,39 @@ async function cacheLink(urls,datetime,downloadLinks,multihoster) {
   await GM.setValue("cachedDownloadLinks",JSON.stringify(cachedDownloadLinks));
 }
 
+function showExtractedLinks(links) {
+  if(document.querySelector('.alertlinkscont')) {
+    alert(links.join('\n'))
+    $('.alertlinkscont').remove()
+    return
+  }
+  $('<style type="text/css">.alertlinkscont{transition: left 500ms;}.alertlinkscont a{font-size:12px;user-select:all; font-family: monospace;} .alertlinkscont a:link,.alertlinkscont a:hover{color:black; text-decoration:none;}.alertlinkscont a:visited{color:rgb(70,0,120); text-decoration:none;}</style>').appendTo("head");
+  const $div = $('<div class="alertlinkscont"></div>');
+  $div.appendTo(document.body);
+  $div.css({zIndex:10000,
+            position:'fixed',
+            top:'20px',
+            left:'20px',
+            minWidth:'300px',
+            minHeight:'300px',
+            background:'white',
+            color:'black',
+            border:'2px solid black',
+            borderRadius:'5px',
+            padding:'20px 25px 10px',
+            fontFamily:'monospace',
+            fontSize: '12px',
+            overflow:'auto'})
+  for(let i = 0; i < links.length; i++) {
+    $div[0].innerHTML +=  '<a target="_blank" href="' + links[i] + '">'+links[i]+'</a><br>\n'
+  }
+  window.setTimeout(function moveMenuIntoView () {
+    $div.css('maxHeight', (document.documentElement.clientHeight - 40) + 'px')
+    $div.css('maxWidth', (document.documentElement.clientWidth - 40) + 'px')
+    $div.css('left', Math.max(20, 0.5 * (document.body.clientWidth - $div[0].clientWidth)) + 'px')
+  }, 0)
+}
+
 async function generateLinks(urls,cb) {
   // Check cache
   if(await useCache(urls,cb)) {
@@ -3079,9 +3112,11 @@ function menu(links) {
 
   $entry = menuentry("Show extracted links");
   $entry.click(function() {
-    alert(links.join("\n"));
     if(parent.parent != window) {
       parent.parent.postMessage({ "iAm": "Unrestrict.li", "type": "alert", "str" : links.join("\n")}, '*');
+      alert(links.join("\n"));
+    } else {
+      showExtractedLinks(links);
     }
   });
 
