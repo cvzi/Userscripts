@@ -6,7 +6,7 @@
 // @homepageURL https://openuserjs.org/scripts/cuzi/Multi-OCH_Helper
 // @updateURL   https://openuserjs.org/meta/cuzi/Multi-OCH_Helper.meta.js
 // @icon        https://greasyfork.org/system/screenshots/screenshots/000/003/479/original/icon.png
-// @version     16.3
+// @version     16.4
 
 // @include     /^https:\/\/cvzi\.github\.io\/Userscripts\/index\.html\?link=.+/
 
@@ -3454,6 +3454,17 @@ if(document.location.href.indexOf("nopremium.pl") != -1) {
   $("#grid tbody a").each(function() {
     show_oneclick_link += decodeURIComponent(this.href)+"\n";
   });
+} else if(document.location.href.substring(0,55) == "https://cvzi.github.io/Userscripts/index.html?link=sync") {
+   // Window opened from Helper script to sync hoster status (see postMessage events below)
+  show_oneclick_button = false;
+  const message = 'Updating hoster status...'
+  const h1 = document.body.appendChild(document.createElement('h1'))
+  h1.appendChild(document.createTextNode(h_myname+': ' + message))
+  document.title = message
+  window.setTimeout(function() {
+    const h2 = document.body.appendChild(document.createElement('h2'))
+    h2.appendChild(document.createTextNode('You may close this tab now'))
+  }, 4000)
 } else if(document.location.href.substring(0,51) == "https://cvzi.github.io/Userscripts/index.html?link=") {
    // Iframe for a X-Frame-Options website
   show_oneclick_button = true;
@@ -3546,7 +3557,10 @@ window.addEventListener("message", function(e){
       }
       break;
     case "requesthosterstatus":
-
+      window.setTimeout(function() {
+        const h3 = document.body.appendChild(document.createElement('h3'))
+        h3.appendChild(document.createTextNode('This will only take a few seconds'))
+      }, 0)
       const o = {}
       for(var key in multi) {
         o[key] = multi[key].status;

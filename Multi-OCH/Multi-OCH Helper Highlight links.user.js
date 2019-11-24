@@ -15,7 +15,7 @@
 // @exclude     *duckduckgo.com*
 // @exclude     *bandcamp.com*
 // @exclude     *.tumblr.com*
-// @version     10.5
+// @version     10.6
 // @grant       GM_setValue
 // @grant       GM_getValue
 // @grant       GM.setValue
@@ -32,6 +32,8 @@ const MAXTEXTNODES = 10000;
 
 const s_myname = "Multi-OCH Helper Highlight links";
 const s_topname = "Multi-OCH Helper";
+const syncHostersHost = "https://cvzi.github.io/"
+const syncHostersUrl = syncHostersHost + "Userscripts/index.html?link=sync"
 
 const chrome = ~navigator.userAgent.indexOf("Chrome")
 
@@ -487,15 +489,15 @@ for(let key in multi) {
         }
 
       });
-      $iframe.attr("src","https://cvzi.github.io/Userscripts/index.html?link=1");
+      $iframe.attr("src", syncHostersUrl);
     } else {
       // Firefox: we need to open a new tab to communicate with the Multi-OCH_Helper script
-      if (document.location.href.startsWith("https://cvzi.github.io/")) {
+      if (document.location.href.startsWith(syncHostersHost)) {
         window.setTimeout(function() {
           window.postMessage({ "iAm": "Unrestrict.li", "type": "requesthosterstatus"}, '*');
         }, 1000)
       } else {
-        const w = window.open("https://cvzi.github.io/Userscripts/index.html?link=1")
+        const w = window.open(syncHostersUrl)
         window.setTimeout(function() {
           if(w) {
             w.postMessage({ "iAm": "Unrestrict.li", "type": "requesthosterstatus"}, '*');
