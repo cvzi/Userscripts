@@ -3,7 +3,7 @@
 // ==UserLibrary==
 // @name        OCH List
 // @description A list of One-Click-Hosters that are supported by nopremium.pl
-// @version     25
+// @version     26
 // @license     GPL-3.0-or-later; http://www.gnu.org/licenses/gpl-3.0.txt
 // ==/UserLibrary==
 // @namespace   cuzi
@@ -179,7 +179,7 @@ check: void check(link, cb, thisArg)
   }
 },
 '4downfiles' : {
-  'pattern' :/^https?:\/\/4downfiles\.com?\/\w+\/?(.+\.html)?$/m,
+  'pattern' :/^https?:\/\/4downfiles?\.com?\/\w+\/?(.+\.html)?$/m,
   'multi' : [],
   'title' : '4 Down Files',
   'homepage' : 'http://4downfiles.co/',
@@ -267,10 +267,10 @@ check: void check(link, cb, thisArg)
   },
 },
 'clicknupload' : {
-  'pattern' : /^https?:\/\/(www\.)?clicknupload\.(link|org)\/\w+\/?.*$/m,
+  'pattern' : /^https?:\/\/(www\.)?clicknupload\.(link|org|co)\/\w+\/?.*$/m,
   'multi' : ['nopremium.pl', 'premiumize.me'],
   'title' : 'ClicknUpload',
-  'homepage' : 'https://clicknupload.org',
+  'homepage' : 'https://clicknupload.co',
   'check' :function(link,cb,thisArg) {
     OCH_ByFindingString(link,"File Not Found", cb, thisArg);
   },
@@ -278,10 +278,10 @@ check: void check(link, cb, thisArg)
 'cloudyfiles' : {
   'pattern' : [/^https?:\/\/cloudyfiles\.(me|com|org)\/\w+.*$/m, /^https?:\/\/businessnewsstories\.online\/\w+.*$/m],
   'multi' : [],
-  'title' : 'Cloudyfiles.org',
+  'title' : 'Offline: Cloudyfiles.org',
   'homepage' : 'http://cloudyfiles.org/',
   'check' :function(link,cb,thisArg) {
-    OCH_ByFindingString(link,"File Not Found", cb, thisArg);
+    OCH_permanentlyoffline(link, cb, thisArg);
   },
 },
 'cwtv' : {
@@ -330,7 +330,7 @@ check: void check(link, cb, thisArg)
   },
 },
 'ddl' : {
-  'pattern' : /^https?:\/\/(www\.)?ddl\.to\/\w+$/m,
+  'pattern' : /^https?:\/\/(www\.)?ddl\.to\/\w+.*$/m,
   'multi' : ['premiumize.me'],
   'title' : 'ddl.to',
   'homepage' : 'https://ddl.to/',
@@ -370,6 +370,15 @@ check: void check(link, cb, thisArg)
   'multi' : [],
   'title' : 'Dropapk',
   'homepage' : 'https://dropapk.to/',
+  'check' : function(link,cb,thisArg) {
+    OCH_ByFindingString(link,"File Not Found", cb, thisArg);
+  },
+},
+'earn4files' : {
+  'pattern' : /^https?:\/\/(www\.)?earn4files\.com\/\w+.*$/m,
+  'multi' : [],
+  'title' : 'Earn4Files',
+  'homepage' : 'https://earn4files.com/',
   'check' : function(link,cb,thisArg) {
     OCH_ByFindingString(link,"File Not Found", cb, thisArg);
   },
@@ -629,7 +638,7 @@ check: void check(link, cb, thisArg)
   'title' : 'Katfile.com',
   'homepage' : 'http://katfile.com/',
   'check' : function(link,cb,thisArg) {
-    OCH_ByFindingString(link,"file not found", cb, thisArg);
+    OCH_ByFindingString(link,["file not found", "File has been removed", "File Not Found", "The file expired"], cb, thisArg);
   },
 },
 'keep2share' : {
@@ -834,10 +843,10 @@ check: void check(link, cb, thisArg)
 'openload' : {
   'pattern' : [/^https?:\/\/openload\.co\/f\/.+$/m],
   'multi' : ['nopremium.pl', 'premiumize.me'],
-  'title' : 'Openload',
+  'title' : 'Offline: Openload',
   'homepage' : 'http://openload.co/',
   'check' : function(link,cb,thisArg) {
-    OCH_ByFindingString(link,"File not found", cb, thisArg);
+    OCH_permanentlyoffline(link, cb, thisArg);
   },
 },
 'potload' : {
@@ -1014,10 +1023,10 @@ check: void check(link, cb, thisArg)
 'suprafiles' : {
   'pattern' : [/^https?:\/\/suprafiles\.(me|net|org)\/\w+\/?.*$/m, /^https?:\/\/srfiles\.com\/\w+\/?.*$/m],
   'multi' : [],
-  'title' : 'Suprafiles',
+  'title' : 'Offline: Suprafiles',
   'homepage' : 'http://suprafiles.org/',
   'check' : function(link,cb,thisArg) {
-    OCH_ByFindingString(link,"File Not Found", cb, thisArg);
+    OCH_permanentlyoffline(link, cb, thisArg);
   },
 },
 'turbobit' : {
@@ -1198,7 +1207,7 @@ check: void check(link, cb, thisArg)
   'title' : 'Userscloud',
   'homepage' : 'https://userscloud.com/',
   'check' : function(link,cb,thisArg) {
-    OCH_ByFindingString(link,"label-danger", cb, thisArg);
+    OCH_ByFindingString(link,["label-danger", "The file is no longer available"], cb, thisArg);
   },
 },
 'usersdrive' : {
