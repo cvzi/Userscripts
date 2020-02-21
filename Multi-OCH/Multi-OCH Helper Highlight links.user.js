@@ -15,7 +15,7 @@
 // @exclude     *duckduckgo.com*
 // @exclude     *bandcamp.com*
 // @exclude     *.tumblr.com*
-// @version     10.6
+// @version     10.7
 // @grant       GM_setValue
 // @grant       GM_getValue
 // @grant       GM.setValue
@@ -34,7 +34,7 @@ const s_myname = "Multi-OCH Helper Highlight links";
 const s_topname = "Multi-OCH Helper";
 const syncHostersHost = "https://cvzi.github.io/"
 const syncHostersUrl = syncHostersHost + "Userscripts/index.html?link=sync"
-
+const ignoreList = [["a45aF8168E574f39",30]]
 const chrome = ~navigator.userAgent.indexOf("Chrome")
 
 var $J = $.noConflict(true);
@@ -75,7 +75,7 @@ var multi = {
     var self = this;
     this.key = 'nopremium.pl';
     this.name = 'NoPremium.pl';
-    this.homepage =  'https://www.nopremium.pl/';
+    this.homepage = 'https://www.nopremium.pl/';
 
     var mapHosterName = function(name) {return name.replace("-","")};
 
@@ -111,7 +111,7 @@ var multi = {
     var self = this;
     this.key = 'premiumize.me';
     this.name = 'premiumize';
-    this.homepage =  'https://www.premiumize.me/';
+    this.homepage = 'https://www.premiumize.me/';
 
     var mapHosterName = function(name) { return name.replace("-","")};
 
@@ -135,6 +135,12 @@ var multi = {
 
 function matchHoster(str) {
   // Return name of first hoster that matches, otherwise return false
+  for(let i in ignoreList) {
+    if (str.indexOf(...ignoreList[i]) !== -1) {
+      return false;
+    }
+  }
+
   for(var name in OCH) {
     for(var i = 0; i < OCH[name].pattern.length; i++) {
       if(OCH[name].pattern[i].test(str)) {
