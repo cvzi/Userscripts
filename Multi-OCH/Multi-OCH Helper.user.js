@@ -6,7 +6,7 @@
 // @homepageURL https://openuserjs.org/scripts/cuzi/Multi-OCH_Helper
 // @updateURL   https://openuserjs.org/meta/cuzi/Multi-OCH_Helper.meta.js
 // @icon        https://greasyfork.org/system/screenshots/screenshots/000/003/479/original/icon.png
-// @version     16.4
+// @version     16.5
 
 // @include     /^https:\/\/cvzi\.github\.io\/Userscripts\/index\.html\?link=.+/
 
@@ -255,6 +255,7 @@ var multi = {
     var self = this;
     this.config = {
       'apikey' : 'string',
+      'apikey_hidden' : true,
       'apikey_quest' : 'Enter your premiumize.me API key',
       'apikey_prefix' :  'API key: ',
       'apikey_suffix' :  ' find it under <a target="_blank" href="https://www.premiumize.me/account">https://www.premiumize.me/account</a>'
@@ -1133,7 +1134,7 @@ function popUp(id,cb_close,thisArg,doNotCloseOnOutsideClick) {
 function configForm($form,c,s,formid) {
   for(var key in c) {
 
-    if(key.endsWith("desc") || key.endsWith("range") || key.endsWith("quest") || key.endsWith("prefix") || key.endsWith("suffix")) {
+    if(key.endsWith("desc") || key.endsWith("range") || key.endsWith("quest") || key.endsWith("prefix") || key.endsWith("suffix") || key.endsWith("hidden")) {
       continue;
     }
 
@@ -1150,6 +1151,8 @@ function configForm($form,c,s,formid) {
     if(c[key+"_prefix"]) {
       $p.append(c[key+"_prefix"]+" ");
     }
+
+    const hidden = (key+"_hidden") in c && c[key+"_hidden"]
     if(c[key] == 'int') { // Int
       var $input = $('<input type="number">').addClass("form_"+formid).data("key",key).data("parse","int").val(s[key]).appendTo($p);
       if(c[key+"_range"]) {
@@ -1158,7 +1161,13 @@ function configForm($form,c,s,formid) {
         $input.prop("title",c[key+"_range"][0]+" - "+c[key+"_range"][2]);
       }
     } else if(c[key] == 'string') { // String
-      $('<input type="text">').addClass("form_"+formid).data("key",key).data("parse","string").val(s[key]).appendTo($p);
+      const $inputText = $('<input type="text">').addClass("form_"+formid).data("key",key).data("parse","string").appendTo($p);
+      if(hidden && s[key]) {
+        $inputText.val("## HIDDEN ##")
+        $inputText.data("hidden", "1")
+      } else {
+        $inputText.val(s[key])
+      }
     } else if(c[key] == 'bool') { // Bool
 
       var $select = $('<select></select>').addClass("form_"+formid).data("key",key).data("parse","bool").appendTo($p);
@@ -1247,13 +1256,16 @@ async function saveSettings(ev) {
     var index = $this.data("index");
     var value = $this.val();
     var parse = $this.data("parse");
+    var hiddenAndUnchanged = $this.data("hidden") && value === "## HIDDEN ##";
     if(typeof index != 'undefined') { // Nested Array
       if(!(key in newsettings[namespace]) || !Array.isArray(newsettings[namespace][key])) {
         newsettings[namespace][key] = [];
       }
       newsettings[namespace][key][index] = value;
     } else { // Normal
-      if(parse == 'int') {
+      if(hiddenAndUnchanged) {
+        value = multi[namespace].settings[key]
+      } else if(parse == 'int') {
         value = parseInt(value,10);
       } else if(parse == 'bool') {
         value = (value == "true");
