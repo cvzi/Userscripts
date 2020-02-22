@@ -34,7 +34,7 @@ const s_myname = "Multi-OCH Helper Highlight links";
 const s_topname = "Multi-OCH Helper";
 const syncHostersHost = "https://cvzi.github.io/"
 const syncHostersUrl = syncHostersHost + "Userscripts/index.html?link=sync"
-const ignoreList = [["a45aF8168E574f39",30]]
+const ignoreList = [["some.love.txt",30]]
 const chrome = ~navigator.userAgent.indexOf("Chrome")
 
 var $J = $.noConflict(true);
