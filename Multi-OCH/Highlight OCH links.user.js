@@ -8,11 +8,11 @@
 // @compatible  chrome Tampermonkey. Allow all domains on first run.
 // @homepageURL https://openuserjs.org/scripts/cuzi/Highlight_OCH_links
 // @require     https://openuserjs.org/src/libs/cuzi/RequestQueue.js
-// @require     https://openuserjs.org/src/libs/cuzi/OCH_List.min.js
+// @require     https://openuserjs.org/src/libs/cuzi/OCH_List.js
 // @grant       GM_xmlhttpRequest
 // @grant       GM.xmlHttpRequest
 // @connect     *
-// @version     20
+// @version     19
 // @include     *
 // @exclude     *.yahoo.*
 // @exclude     *.google.*
