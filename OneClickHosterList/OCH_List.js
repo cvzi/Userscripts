@@ -3,7 +3,7 @@
 // ==UserLibrary==
 // @name        OCH List
 // @description A list of One-Click-Hosters that are supported by nopremium.pl
-// @version     26
+// @version     27
 // @license     GPL-3.0-or-later; http://www.gnu.org/licenses/gpl-3.0.txt
 // ==/UserLibrary==
 // @namespace   cuzi
@@ -272,7 +272,7 @@ check: void check(link, cb, thisArg)
   'title' : 'ClicknUpload',
   'homepage' : 'https://clicknupload.co',
   'check' :function(link,cb,thisArg) {
-    OCH_ByFindingString(link,"File Not Found", cb, thisArg);
+    OCH_ByFindingString(link,["File Not Found", "Error</td>"], cb, thisArg);
   },
 },
 'cloudyfiles' : {
@@ -638,7 +638,7 @@ check: void check(link, cb, thisArg)
   'title' : 'Katfile.com',
   'homepage' : 'http://katfile.com/',
   'check' : function(link,cb,thisArg) {
-    OCH_ByFindingString(link,["file not found", "File has been removed", "File Not Found", "The file expired"], cb, thisArg);
+    OCH_ByFindingString(link,["file not found", "File has been removed", "File Not Found", "The file expired", "Error</h3>"], cb, thisArg);
   },
 },
 'keep2share' : {
