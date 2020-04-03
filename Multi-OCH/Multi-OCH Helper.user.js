@@ -1579,8 +1579,8 @@ GM.registerMenuCommand(scriptName+" - Restore dialogs and warnings", async funct
     const $statustext = $('#multiochhelper_status_text')
     if (clear) {
       $statustext.empty()
-    } else if (!$.trim($statustext.html())) {
-      $statustext.append('<br>')
+    } else if ($statustext.html().trim() != '') {
+      $statustext.append(document.createElement('br'))
     }
     $status.show()
 
