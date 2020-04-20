@@ -15,7 +15,7 @@
 // @exclude     *duckduckgo.com*
 // @exclude     *bandcamp.com*
 // @exclude     *.tumblr.com*
-// @version     10.8
+// @version     10.9
 // @grant       GM_setValue
 // @grant       GM_getValue
 // @grant       GM.setValue
@@ -116,8 +116,8 @@
   }
 
   function matchHoster (str) {
-  // Return name of first hoster that matches, otherwise return false
-    for (const i in ignoreList) {
+    // Return name of first hoster that matches, otherwise return false
+    for (let i = 0; i < ignoreList.length; i++) {
       if (str.indexOf(...ignoreList[i]) !== -1) {
         return false
       }
