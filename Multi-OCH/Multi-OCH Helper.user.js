@@ -1,111 +1,113 @@
 // ==UserScript==
-// @name        Multi-OCH Helper
-// @namespace   cuzi
-// @license     MIT
-// @description nopremium.pl and premiumize.me. Inserts a direct download link on several one-click-hosters and some container/folder providers.
-// @homepageURL https://openuserjs.org/scripts/cuzi/Multi-OCH_Helper
-// @updateURL   https://openuserjs.org/meta/cuzi/Multi-OCH_Helper.meta.js
-// @icon        https://greasyfork.org/system/screenshots/screenshots/000/003/479/original/icon.png
-// @version     16.6
-
-// @include     /^https:\/\/cvzi\.github\.io\/Userscripts\/index\.html\?link=.+/
-
-// @include     /^https:\/\/www\.nopremium\.pl\/files.*$/
-// @include     /^https:\/\/www\.premiumize\.me\/hosters\/?$/
-// @include     /^https:\/\/www\.premiumize\.me\/downloader.*$/
-
-// @include     http://download.serienjunkies.org/*
-// @include     /^https?:\/\/(www\.)?filecrypt.cc\/Container\/\w+\.html.*$/
-// @include     http*filecrypt.cc/helper.html*
-// @include     /^http:\/\/www\.firedrive\.com\/share\/(\w|-)+$/
-// @include     http://linkcrypt.ws/dir/*
-// @include     http://linksave.in/*
-// @include     /^http:\/\/ncrypt\.in\/folder\-\w+$/
-// @include     http*://*uploaded.net/folder/*
-// @include     http*://*uploaded.net/f/*
-// @include     http*://rapidgator.net/folder/*
-// @include     http://www.relink.us/view.php?id=*
-// @include     https://safelinking.net/p/*
-// @include     http://linkshield.org/p/*
-// @include     http://share-links.biz/*
-// @include     http*://relink.to/view.php?id=*
-// @include     http://extreme-protect.net/*
-
-// @include     /^https?:\/\/(www\.)?1fichier\.com\/.+$/
-// @include     /^https?:\/\/\w+\.1fichier\.com\/?.*$/
-// @include     /^http:\/\/www\.4shared\.com\/[a-z]+\/\w+\/?(.+\.html)?$/
-// @include     /^http:\/\/billionuploads\.com\/\w+$/
-// @include     /^https?:\/\/(www\.)?catshare\.net\/.+$/
-// @include     /^https?:\/\/(www\.)?clicknupload\.(link|org|co)\/\w+\/?.*$/
-// @include     /^https?:\/\/(www\.)?datei\.to\/\?\w+$/
-// @include     /^https?:\/\/(www\.)?ddl\.to\/\w+$/
-// @include     /^https?:\/\/(www\.)?devilshare\.net\/view.+$/
-// @include     /^https?:\/\/(www\.)?file\.al\/\w+\/?.*$/
-// @include     /^https?:\/\/(www\.)?filefactory\.com\/file\/.+$/
-// @include     /^https?:\/\/www.filemonkey.in\/file\/.+$/
-// @include     /^https:\/\/filer\.net\/get\/\w+$/
-// @include     /^https?:\/\/(www\.)?filespace\.com\/\w+\/?$/
-// @include     /^https?:\/\/filestore\.to\/\?d=\w+$/
-// @include     /^http:\/\/www\.firedrive\.com\/file\/\w+$/
-// @include     /^https?:\/\/fireget\.com\/\w+\/?.*$/
-// @include     /^https?\:\/\/(www\.)?hitfile\.net\/\w+.*$/
-// @include     /^https?\:\/\/(www\.)?hil\.to\/\w+.*$/
-// @include     /^http:\/\/hugefiles\.net\/\w+\/?.*$/
-// @include     /^https:\/\/isra\.cloud\/\w+\/?.*$/
-// @include     /^https?:\/\/katfile\.com\/\w+\/?.*$/
-// @include     /^https?:\/\/lunaticfiles\.com\/\w+\/?.*$/
-// @include     /^https?:\/\/www\.mediafire\.com\/?\?.+$/
-// @include     /^https?:\/\/www\.mediafire\.com\/download\/.+$/
-// @include     /^https?:\/\/mega\.co\.nz\/\#\!\w+!*(\w|-)*$/
-// @include     /^https?:\/\/mega\.nz\/\#\!\w+!*(\w|-)*$/
-// @include     /^https?:\/\/modsbase\.com\/\w+\/?.*$/
-// @include     /^https?:\/\/openload\.co\/f\/.+$/
-// @include     /^https?:\/\/rapidgator\.net\/file\/[^#]+$/
-// @include     /^https?:\/\/rg\.to\/file\/[^#]+$/
-// @include     /^https?:\/\/(\w+\.)?rapidu\.net\/\w+.*$/
-// @include     /^https?\:\/\/(www\.)?rockfile\.(eu|co)\/\w+.*$/
-// @include     /^http:\/\/www\.sockshare\.com\/file\/\w+$/
-// @include     /^https?:\/\/(www\.)?storbit\.net\/file\/.+$/
-// @include     /^https?:\/\/(www\.)?spicyfile\.com\/\w+$/
-// @include     /^https?:\/\/streamin\.to\/.+$/
-// @include     /^https?:\/\/turbobit\.net\/\w+.*\.html.*$/
-// @include     /^https?:\/\/(www\.)?tusfiles\.net\/\w+$/
-// @include     /^https?:\/\/ubiqfile\.com\/\w+$/
-// @include     /^https?:\/\/uploadboy\.(me|com)\/\w+\/?.*$/
-// @include     /^https?:\/\/uploaded\.(net|to)\/file\/.+$/
-// @include     /^http:\/\/ul\.to\/.+$/
-// @include     /^https?:\/\/uploadgig\.com\/file\/download\/\w+\/?.*$/
-// @include     /^http:\/\/uploading\.com\/\w+\/?.*$/
-// @include     /^http:\/\/(www\.)?uploading\.site\/\w+.*$/
-// @include     /^http:\/\/uploadrocket\.net\/\w+(\/|\w|-|\.)+(\.html)?$/
-// @include     /^http:\/\/uptobox.com\/\w+(\/.*)?$/
-// @include     /^https?:\/\/userscloud\.com\/\w+.*$/
-// @include     /^https?:\/\/vidto\.me\/\w+\.?\w*$/
-// @include     /^https?:\/\/www\.wdupload\.com\/file\/\w+\/?.*$/
-// @include     /^https?:\/\/worldbytez\.com\/\w+$/
-// @include     /^https?:\/\/(www\.)?xubster\.com\/\w+\/?.*$/
-// @include     /^https?:\/\/www\.youtube\.com\/watch(\?v=|\/).+$/
-// @include     /^http:\/\/www\d*\.zippyshare\.com\/v\/\w+\/file\.html$/
-
-// @require     https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js
-// @require     https://greasyfork.org/scripts/13883-aes-js/code/aesjs.js
-// @require     https://greasemonkey.github.io/gm4-polyfill/gm4-polyfill.js
-// @grant       GM_registerMenuCommand
-// @grant       unsafeWindow
-// @grant       GM_xmlhttpRequest
-// @grant       GM_openInTab
-// @grant       GM_setClipboard
-// @grant       GM_setValue
-// @grant       GM_getValue
-// @grant       GM_deleteValue
-// @grant       GM_listValues
-// @grant       GM.xmlHttpRequest
-// @grant       GM.openInTab
-// @grant       GM.setClipboard
-// @grant       GM.setValue
-// @grant       GM.getValue
-// @grant       GM.deleteValue
-// @grant       GM.listValues
+// @name             Multi-OCH Helper
+// @namespace        cuzi
+// @license          MIT
+// @description      nopremium.pl and premiumize.me. Inserts a direct download link on several one-click-hosters and some container/folder providers.
+// @homepageURL      https://openuserjs.org/scripts/cuzi/Multi-OCH_Helper
+// @updateURL        https://openuserjs.org/meta/cuzi/Multi-OCH_Helper.meta.js
+// @contributionURL  https://buymeacoff.ee/cuzi
+// @contributionURL  https://ko-fi.com/cuzicvzi
+// @icon             https://greasyfork.org/system/screenshots/screenshots/000/003/479/original/icon.png
+// @version          16.6
+                     
+// @include          /^https:\/\/cvzi\.github\.io\/Userscripts\/index\.html\?link=.+/
+                     
+// @include          /^https:\/\/www\.nopremium\.pl\/files.*$/
+// @include          /^https:\/\/www\.premiumize\.me\/hosters\/?$/
+// @include          /^https:\/\/www\.premiumize\.me\/downloader.*$/
+                     
+// @include          http://download.serienjunkies.org/*
+// @include          /^https?:\/\/(www\.)?filecrypt.cc\/Container\/\w+\.html.*$/
+// @include          http*filecrypt.cc/helper.html*
+// @include          /^http:\/\/www\.firedrive\.com\/share\/(\w|-)+$/
+// @include          http://linkcrypt.ws/dir/*
+// @include          http://linksave.in/*
+// @include          /^http:\/\/ncrypt\.in\/folder\-\w+$/
+// @include          http*://*uploaded.net/folder/*
+// @include          http*://*uploaded.net/f/*
+// @include          http*://rapidgator.net/folder/*
+// @include          http://www.relink.us/view.php?id=*
+// @include          https://safelinking.net/p/*
+// @include          http://linkshield.org/p/*
+// @include          http://share-links.biz/*
+// @include          http*://relink.to/view.php?id=*
+// @include          http://extreme-protect.net/*
+                     
+// @include          /^https?:\/\/(www\.)?1fichier\.com\/.+$/
+// @include          /^https?:\/\/\w+\.1fichier\.com\/?.*$/
+// @include          /^http:\/\/www\.4shared\.com\/[a-z]+\/\w+\/?(.+\.html)?$/
+// @include          /^http:\/\/billionuploads\.com\/\w+$/
+// @include          /^https?:\/\/(www\.)?catshare\.net\/.+$/
+// @include          /^https?:\/\/(www\.)?clicknupload\.(link|org|co)\/\w+\/?.*$/
+// @include          /^https?:\/\/(www\.)?datei\.to\/\?\w+$/
+// @include          /^https?:\/\/(www\.)?ddl\.to\/\w+$/
+// @include          /^https?:\/\/(www\.)?devilshare\.net\/view.+$/
+// @include          /^https?:\/\/(www\.)?file\.al\/\w+\/?.*$/
+// @include          /^https?:\/\/(www\.)?filefactory\.com\/file\/.+$/
+// @include          /^https?:\/\/www.filemonkey.in\/file\/.+$/
+// @include          /^https:\/\/filer\.net\/get\/\w+$/
+// @include          /^https?:\/\/(www\.)?filespace\.com\/\w+\/?$/
+// @include          /^https?:\/\/filestore\.to\/\?d=\w+$/
+// @include          /^http:\/\/www\.firedrive\.com\/file\/\w+$/
+// @include          /^https?:\/\/fireget\.com\/\w+\/?.*$/
+// @include          /^https?\:\/\/(www\.)?hitfile\.net\/\w+.*$/
+// @include          /^https?\:\/\/(www\.)?hil\.to\/\w+.*$/
+// @include          /^http:\/\/hugefiles\.net\/\w+\/?.*$/
+// @include          /^https:\/\/isra\.cloud\/\w+\/?.*$/
+// @include          /^https?:\/\/katfile\.com\/\w+\/?.*$/
+// @include          /^https?:\/\/lunaticfiles\.com\/\w+\/?.*$/
+// @include          /^https?:\/\/www\.mediafire\.com\/?\?.+$/
+// @include          /^https?:\/\/www\.mediafire\.com\/download\/.+$/
+// @include          /^https?:\/\/mega\.co\.nz\/\#\!\w+!*(\w|-)*$/
+// @include          /^https?:\/\/mega\.nz\/\#\!\w+!*(\w|-)*$/
+// @include          /^https?:\/\/modsbase\.com\/\w+\/?.*$/
+// @include          /^https?:\/\/openload\.co\/f\/.+$/
+// @include          /^https?:\/\/rapidgator\.net\/file\/[^#]+$/
+// @include          /^https?:\/\/rg\.to\/file\/[^#]+$/
+// @include          /^https?:\/\/(\w+\.)?rapidu\.net\/\w+.*$/
+// @include          /^https?\:\/\/(www\.)?rockfile\.(eu|co)\/\w+.*$/
+// @include          /^http:\/\/www\.sockshare\.com\/file\/\w+$/
+// @include          /^https?:\/\/(www\.)?storbit\.net\/file\/.+$/
+// @include          /^https?:\/\/(www\.)?spicyfile\.com\/\w+$/
+// @include          /^https?:\/\/streamin\.to\/.+$/
+// @include          /^https?:\/\/turbobit\.net\/\w+.*\.html.*$/
+// @include          /^https?:\/\/(www\.)?tusfiles\.net\/\w+$/
+// @include          /^https?:\/\/ubiqfile\.com\/\w+$/
+// @include          /^https?:\/\/uploadboy\.(me|com)\/\w+\/?.*$/
+// @include          /^https?:\/\/uploaded\.(net|to)\/file\/.+$/
+// @include          /^http:\/\/ul\.to\/.+$/
+// @include          /^https?:\/\/uploadgig\.com\/file\/download\/\w+\/?.*$/
+// @include          /^http:\/\/uploading\.com\/\w+\/?.*$/
+// @include          /^http:\/\/(www\.)?uploading\.site\/\w+.*$/
+// @include          /^http:\/\/uploadrocket\.net\/\w+(\/|\w|-|\.)+(\.html)?$/
+// @include          /^http:\/\/uptobox.com\/\w+(\/.*)?$/
+// @include          /^https?:\/\/userscloud\.com\/\w+.*$/
+// @include          /^https?:\/\/vidto\.me\/\w+\.?\w*$/
+// @include          /^https?:\/\/www\.wdupload\.com\/file\/\w+\/?.*$/
+// @include          /^https?:\/\/worldbytez\.com\/\w+$/
+// @include          /^https?:\/\/(www\.)?xubster\.com\/\w+\/?.*$/
+// @include          /^https?:\/\/www\.youtube\.com\/watch(\?v=|\/).+$/
+// @include          /^http:\/\/www\d*\.zippyshare\.com\/v\/\w+\/file\.html$/
+                     
+// @require          https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js
+// @require          https://greasyfork.org/scripts/13883-aes-js/code/aesjs.js
+// @require          https://greasemonkey.github.io/gm4-polyfill/gm4-polyfill.js
+// @grant            GM_registerMenuCommand
+// @grant            unsafeWindow
+// @grant            GM_xmlhttpRequest
+// @grant            GM_openInTab
+// @grant            GM_setClipboard
+// @grant            GM_setValue
+// @grant            GM_getValue
+// @grant            GM_deleteValue
+// @grant            GM_listValues
+// @grant            GM.xmlHttpRequest
+// @grant            GM.openInTab
+// @grant            GM.setClipboard
+// @grant            GM.setValue
+// @grant            GM.getValue
+// @grant            GM.deleteValue
+// @grant            GM.listValues
 
 // ==/UserScript==
 
@@ -1685,8 +1687,9 @@ GM.registerMenuCommand(scriptName+" - Restore dialogs and warnings", async funct
     for (let i = 0; i < links.length; i++) {
       $div[0].innerHTML += '<a target="_blank" href="' + links[i] + '">' + links[i] + '</a><br>\n'
     }
+    $div[0].innerHTML += '<br><br>\n'
     window.setTimeout(function moveMenuIntoView () {
-      $div.css('maxHeight', (document.documentElement.clientHeight - 40) + 'px')
+      $div.css('maxHeight', (document.documentElement.clientHeight - 100) + 'px')
       $div.css('maxWidth', (document.documentElement.clientWidth - 40) + 'px')
       $div.css('left', Math.max(20, 0.5 * (document.body.clientWidth - $div[0].clientWidth)) + 'px')
     }, 0)

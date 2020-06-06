@@ -22,7 +22,6 @@
 // @grant       GM.getValue
 // @require     https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js
 // @require     https://openuserjs.org/src/libs/cuzi/OCH_List.js
-// @require     https://greasemonkey.github.io/gm4-polyfill/gm4-polyfill.js
 // ==/UserScript==
 
 /* globals getOCH, GM, $, alert, NodeFilter */

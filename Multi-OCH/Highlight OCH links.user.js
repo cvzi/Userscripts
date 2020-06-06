@@ -1,24 +1,27 @@
 // ==UserScript==
-// @name        Highlight OCH links
-// @namespace   cuzi
-// @license     MIT
-// @description Link Checker. Hit escape to check whether one-click hoster links are online or offline.
-// @icon        https://greasyfork.org/system/screenshots/screenshots/000/003/868/original/och.png
-// @compatible  firefox Greasemonkey
-// @compatible  chrome Tampermonkey. Allow all domains on first run.
-// @homepageURL https://openuserjs.org/scripts/cuzi/Highlight_OCH_links
-// @require     https://openuserjs.org/src/libs/cuzi/RequestQueue.js
-// @require     https://openuserjs.org/src/libs/cuzi/OCH_List.js
-// @grant       GM_xmlhttpRequest
-// @grant       GM.xmlHttpRequest
-// @connect     *
-// @version     19
-// @include     *
-// @exclude     *.yahoo.*
-// @exclude     *.google.*
-// @exclude     *.youtube.*
-// @exclude     *.bing.com*
-// @exclude     *duckduckgo.com*
+// @name             Highlight OCH links
+// @namespace        cuzi
+// @license          MIT
+// @description      Link Checker. Hit escape to check whether one-click hoster links are online or offline.
+// @icon             https://greasyfork.org/system/screenshots/screenshots/000/003/868/original/och.png
+// @contributionURL  https://buymeacoff.ee/cuzi
+// @contributionURL  https://ko-fi.com/cuzicvzi
+// @compatible       firefox Greasemonkey
+// @compatible       chrome Tampermonkey. Allow all domains on first run.
+// @homepageURL      https://openuserjs.org/scripts/cuzi/Highlight_OCH_links
+// @require          https://openuserjs.org/src/libs/cuzi/RequestQueue.js
+// @require          https://openuserjs.org/src/libs/cuzi/OCH_List.js
+// @grant            GM_xmlhttpRequest
+// @grant            GM.xmlHttpRequest
+// @connect          *
+// @version          19
+// @include          *
+// @exclude          *.yahoo.*
+// @exclude          *.google.*
+// @exclude          *.youtube.*
+// @exclude          *.bing.com*
+// @exclude          *yandex.com*
+// @exclude          *duckduckgo.com*
 // ==/UserScript==
 
 (function() {
@@ -61,14 +64,6 @@ alert(myurls.join("\n"));
 
 var links = []; // [  { hoster: "", url: "", element: DOMNode} , ...   ]
 var rq = new RequestQueue(MAXPARALLELCONNECTIONS, MAXREQUESTS);
-
-
-if(typeof GM == "undefined") {
-  var GM = {};
-}
-if(! "xmlHttpRequest" in GM) {
-  GM.xmlHttpRequest = GM_xmlhttpRequest;
-}
 
 
 // Get OCH list

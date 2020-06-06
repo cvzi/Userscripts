@@ -308,7 +308,7 @@ check: void check(link, cb, thisArg)
   'title' : 'Daily Uploads',
   'homepage' : 'http://dailyuploads.net/',
   'check' :function(link,cb,thisArg) {
-    OCH_ByFindingString(link,"File Not Found", cb, thisArg);
+    OCH_ByFindingString(link,["File Not Found", "file was removed"], cb, thisArg);
   },
 },
 'datafile' : {
@@ -362,7 +362,7 @@ check: void check(link, cb, thisArg)
   'title' : 'DoUploads',
   'homepage' : 'https://douploads.com/',
   'check' : function(link,cb,thisArg) {
-    OCH_ByFindingString(link,"File Not Found", cb, thisArg);
+    OCH_ByFindingString(link,["File Not Found", "file was removed"], cb, thisArg);
   },
 },
 'dropapk' : {
@@ -883,6 +883,15 @@ check: void check(link, cb, thisArg)
   'homepage' : 'https://rapidu.net/',
   'check' : function(link,cb,thisArg) {
     OCH_ByFindingString(link,"File not found", cb, thisArg);
+  },
+},
+'rapidrar' : {
+  'pattern' :/^https?:\/\/(\w+\.)?rapidrar\.com\/\w+.*$/m,
+  'multi' : ['nopremium.pl'],
+  'title' : 'RapidRAR',
+  'homepage' : 'https://rapidrar.com/',
+  'check' : function(link,cb,thisArg) {
+    OCH_ByFindingString(link,"File Not Found", cb, thisArg);
   },
 },
 'rioupload' : {
