@@ -1732,9 +1732,29 @@ GM.registerMenuCommand(scriptName+" - Restore dialogs and warnings", async funct
   // Get download links and copy them into clipboard
     generateLinks(urls, function (result) {
       if (result) {
+        let succeeded = false
+        setStatus('Trying to set clipboard', -1)
+        window.setTimeout(function() {
+           if (succeeded) {
+             return
+           }
+           setStatus('Trying GM_setClipboard()', -1)
+           try {
+             GM_setClipboard(result.join('\r\n'))
+             setStatus('Copied to clipboard', 1)
+           } catch (e) {
+             setStatus('Failed to access clipboard 02', 0)
+             alert('Failed to access clipboard.\n\nLinks will appear in next dialog window')
+             alert(result.join('\r\n'))
+           }
+        }, 3000)
         try {
-          GM.setClipboard(result.join('\r\n'))
-          setStatus('Copied to clipboard', 1)
+          GM.setClipboard(result.join('\r\n')).then(function() {
+            setStatus('Copied to clipboard', 1)
+            succeeded = true
+          }, function() {
+            setStatus('Failed to access clipboard 01', 0)
+          })
         } catch (e) {
           setStatus('Clipboard not supported by this browser', 0)
           alert(result.join('\n'))
