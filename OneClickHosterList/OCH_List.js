@@ -3,7 +3,7 @@
 // ==UserLibrary==
 // @name        OCH List
 // @description A list of One-Click-Hosters that are supported by nopremium.pl
-// @version     27
+// @version     28
 // @license     GPL-3.0-or-later; http://www.gnu.org/licenses/gpl-3.0.txt
 // ==/UserLibrary==
 // @namespace   cuzi
@@ -463,10 +463,10 @@ check: void check(link, cb, thisArg)
 'fileflares' : {
   'pattern' : /^https?:\/\/fileflares.com\/\w+\/?.*$/m,
   'multi' : [],
-  'title' : 'FileFlares.com',
+  'title' : 'Offline: FileFlares.com',
   'homepage' : 'http://fileflares.com/',
   'check' : function(link,cb,thisArg) {
-    OCH_ByFindingString(link,['File Not Found', 'The file was deleted'], cb, thisArg);
+    OCH_permanentlyoffline(link, cb, thisArg);
   }
 },
 'filefox' : {
@@ -1039,7 +1039,7 @@ check: void check(link, cb, thisArg)
   },
 },
 'turbobit' : {
-  'pattern' : /^https?:\/\/turbobit\.net\/\w+.*\.html$/m,
+  'pattern' : [/^https?:\/\/turbobit\.net\/\w+.*\.html$/m, /^https?:\/\/turb\.to\/\w+.*\.html$/m],
   'multi' : ['nopremium.pl', 'premiumize.me'],
   'title' : 'turbobit.net',
   'homepage' : 'http://turbobit.net/',
@@ -1302,7 +1302,7 @@ check: void check(link, cb, thisArg)
   },
 },
 'zippyshare' : {
-  'pattern' : /^http:\/\/www\d*\.zippyshare\.com\/v\/\w+\/file\.html$/m,
+  'pattern' : /^https?:\/\/www\d*\.zippyshare\.com\/v\/\w+\/file\.html$/m,
   'multi' : ['nopremium.pl', 'premiumize.me'],
   'title' : 'Zippyshare.com',
   'homepage' : 'http://www.zippyshare.com/',
