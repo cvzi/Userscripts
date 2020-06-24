@@ -8,14 +8,14 @@
 // @contributionURL  https://buymeacoff.ee/cuzi
 // @contributionURL  https://ko-fi.com/cuzicvzi
 // @icon             https://greasyfork.org/system/screenshots/screenshots/000/003/479/original/icon.png
-// @version          16.7
-                     
+// @version          16.8
+
 // @include          /^https:\/\/cvzi\.github\.io\/Userscripts\/index\.html\?link=.+/
-                     
+
 // @include          /^https:\/\/www\.nopremium\.pl\/files.*$/
 // @include          /^https:\/\/www\.premiumize\.me\/hosters\/?$/
 // @include          /^https:\/\/www\.premiumize\.me\/downloader.*$/
-                     
+
 // @include          http://download.serienjunkies.org/*
 // @include          /^https?:\/\/(www\.)?filecrypt.cc\/Container\/\w+\.html.*$/
 // @include          http*filecrypt.cc/helper.html*
@@ -32,7 +32,7 @@
 // @include          http://share-links.biz/*
 // @include          http*://relink.to/view.php?id=*
 // @include          http://extreme-protect.net/*
-                     
+
 // @include          /^https?:\/\/(www\.)?1fichier\.com\/.+$/
 // @include          /^https?:\/\/\w+\.1fichier\.com\/?.*$/
 // @include          /^http:\/\/www\.4shared\.com\/[a-z]+\/\w+\/?(.+\.html)?$/
@@ -71,6 +71,7 @@
 // @include          /^https?:\/\/(www\.)?spicyfile\.com\/\w+$/
 // @include          /^https?:\/\/streamin\.to\/.+$/
 // @include          /^https?:\/\/turbobit\.net\/\w+.*\.html.*$/
+// @include          /^https?:\/\/turb\.to\/\w+.*\.html$/
 // @include          /^https?:\/\/(www\.)?tusfiles\.net\/\w+$/
 // @include          /^https?:\/\/ubiqfile\.com\/\w+$/
 // @include          /^https?:\/\/uploadboy\.(me|com)\/\w+\/?.*$/
@@ -87,20 +88,13 @@
 // @include          /^https?:\/\/worldbytez\.com\/\w+$/
 // @include          /^https?:\/\/(www\.)?xubster\.com\/\w+\/?.*$/
 // @include          /^https?:\/\/www\.youtube\.com\/watch(\?v=|\/).+$/
-// @include          /^http:\/\/www\d*\.zippyshare\.com\/v\/\w+\/file\.html$/
-                     
+// @include          /^https?:\/\/www\d*\.zippyshare\.com\/v\/\w+\/file\.html$/
+
 // @require          https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js
 // @require          https://greasyfork.org/scripts/13883-aes-js/code/aesjs.js
-// @require          https://greasemonkey.github.io/gm4-polyfill/gm4-polyfill.js
-// @grant            GM_registerMenuCommand
+// @grant            GM.registerMenuCommand
 // @grant            unsafeWindow
-// @grant            GM_xmlhttpRequest
-// @grant            GM_openInTab
 // @grant            GM_setClipboard
-// @grant            GM_setValue
-// @grant            GM_getValue
-// @grant            GM_deleteValue
-// @grant            GM_listValues
 // @grant            GM.xmlHttpRequest
 // @grant            GM.openInTab
 // @grant            GM.setClipboard
@@ -134,6 +128,7 @@
   const scriptHightligherName = 'Multi-OCH Helper Highlight links'
 
   const chrome = ~navigator.userAgent.indexOf('Chrome')
+  const greasemonkey = 'info' in GM && 'scriptHandler' in GM.info && GM.info.scriptHandler === 'Greasemonkey'
 
   const config = {
     position: [['bottom', 'top'], ['left', 'right']],
@@ -440,10 +435,10 @@
 
         const checkprogress = function () {
           if (self._notLoggedIn) {
-          // Stop checking and open premiumize homepage
+            // Stop checking and open premiumize homepage
             setStatus(self.name + ' error: Not logged in!', 0)
             GM.openInTab(self.homepage)
-            cb([], -1)
+            cb([], -2)
             return
           }
 
@@ -789,7 +784,8 @@
             } else if (hashes.length > 0) {
               self.getResults(urls, cb, hashes)
             } else if (size === -1) { // Error was already handled (probably not logged in)
-              cb(false, 0)
+              console.log('getHashs->cb: Error was already handled (probably not logged in)')
+              cb(false, -2)
             } else { // No files found
               setStatus('No online/available files', 0)
               cb(false, 0)
@@ -932,9 +928,16 @@
             } catch (e) {
               console.log(scriptName + ': ' + e)
               console.log(response.responseText)
-              window.setTimeout(function () {
-                self._getProgress(cb, $node, N, ids)
-              }, self.updateDownloadProgressInterval)
+
+              if (response.responseText.indexOf('<input type="text" name="login" placeholder="Login"/>') !== -1) {
+                setStatus(self.name + ' error: Not logged in!', 0)
+                GM.openInTab(self.homepage)
+                cb(false, -2)
+              } else {
+                window.setTimeout(function () {
+                  self._getProgress(cb, $node, N, ids)
+                }, self.updateDownloadProgressInterval)
+              }
               return
             }
 
@@ -1028,34 +1031,35 @@
       await multi[key].loadSettings()
       continue
     }
-  /*
-  GM.registerMenuCommand(scriptName+" - Switch to "+multi[key].name, (function(key) { return async function() {
-    if(!confirm(scriptName+"\n\nSet multi-download provider:\n"+multi[key].name)) return;
+    if(!greasemonkey) {
+      GM.registerMenuCommand(scriptName+" - Switch to "+multi[key].name, (function(key) { return async function() {
+        if(!confirm(scriptName+"\n\nSet multi-download provider:\n"+multi[key].name)) return;
 
-    await GM.setValue("currentdebrid",key);
-    currentdebrid = key;
-    document.location.reload();
-  }})(key)
-  );
-  */
+        await GM.setValue("currentdebrid",key);
+        currentdebrid = key;
+        document.location.reload();
+      }})(key)
+      )
+    }
   }
-  /*
-  // todo tampermoneky?
-GM.registerMenuCommand(scriptName+" - Delete cached links", async function() {
-  if(!confirm(scriptName+"\n\nReally delete cached links?")) return;
 
-  await GM.setValue("cachedDownloadLinks","{}")
+if(!greasemonkey) {
+  GM.registerMenuCommand(scriptName+" - Delete cached links", async function() {
+    if(!confirm(scriptName+"\n\nReally delete cached links?")) return;
 
-  alert(scriptName+"\n\nCache is empty!");
-});
-GM.registerMenuCommand(scriptName+" - Restore dialogs and warnings", async function() {
-  if(!confirm(scriptName+"\n\nReally restore all dialogs and warnings?")) return;
+    await GM.setValue("cachedDownloadLinks","{}")
 
-  await GM.setValue("dialogs","[]");
+    alert(scriptName+"\n\nCache is empty!");
+  })
+  GM.registerMenuCommand(scriptName+" - Restore dialogs and warnings", async function() {
+    if(!confirm(scriptName+"\n\nReally restore all dialogs and warnings?")) return;
 
-  alert(scriptName+"\n\nDialogs and warnings restored");
-});
-*/
+    await GM.setValue("dialogs","[]");
+
+    alert(scriptName+"\n\nDialogs and warnings restored");
+  })
+}
+
   /*
   function round (f, p) {
   // Round f to p places after the comma
@@ -1311,6 +1315,13 @@ GM.registerMenuCommand(scriptName+" - Restore dialogs and warnings", async funct
         alert(scriptName + '\n\nDialogs and warnings restored')
       })
 
+      let greasemonkeyIssue = ''
+      if (greasemonkey) {
+        greasemonkeyIssue = `<li>In Greasymonkey it is not possible to select multiple links with the mouse and send them at once.<br>
+      The reason is this bug: <a href="https://github.com/greasemonkey/greasemonkey/issues/2574">https://github.com/greasemonkey/greasemonkey/issues/2574</a><br>
+      If you need this functionality, you can use Tampermonkey instead of Greasemonkey</li>`
+      }
+
       $(`<div>
       <br>
       <br>
@@ -1320,9 +1331,7 @@ GM.registerMenuCommand(scriptName+" - Restore dialogs and warnings", async funct
       <li>In Firefox the script sometimes does not work if the "Accept thid-parts cookies" policy is set to "Never".<br>
       To resolve this problem open the Firefox options and go to the tab "Privacy". Set the "Accept thid-parts cookies" to "From visited" or "Always"<br>
       Close and re-open Firefox. Log out and then log in your nopremium.pl account. Everything should work fine now.</li>
-      <li>In Greasymonkey it is not possible to select multiple links with the mouse and send them at once.<br>
-      The reason is this bug: <a href="https://github.com/greasemonkey/greasemonkey/issues/2574">https://github.com/greasemonkey/greasemonkey/issues/2574</a><br>
-      If you need this functionality, you can use Tampermonkey instead of Greasemonkey</li>
+      ${greasemonkeyIssue}
       </ul>
       <br>\
       <h3>dcrypt.it</h3>
@@ -1719,9 +1728,12 @@ GM.registerMenuCommand(scriptName+" - Restore dialogs and warnings", async funct
         const oldlocation = document.location.href
         document.location.href = result[0]
         if (oldlocation === document.location.href) { // Changing location was blocked by sandboxed iframe
-        // GM_openInTab(result);
+        // GM.openInTab(result);
           window.top.location.href = result[0]
         }
+      } else if (code === -2) {
+        // Error was already handled
+        console.log('download() in generateLinks(): error already handled')
       } else if (!code) {
         addStatus('An error occured: No downloadlink to open', 0)
       }
@@ -1730,7 +1742,7 @@ GM.registerMenuCommand(scriptName+" - Restore dialogs and warnings", async funct
 
   async function clipboard (urls, cb) {
   // Get download links and copy them into clipboard
-    generateLinks(urls, function (result) {
+    generateLinks(urls, function (result, code) {
       if (result) {
         let succeeded = false
         setStatus('Trying to set clipboard', -1)
@@ -1759,6 +1771,9 @@ GM.registerMenuCommand(scriptName+" - Restore dialogs and warnings", async funct
           setStatus('Clipboard not supported by this browser', 0)
           alert(result.join('\n'))
         };
+      } else if (code === -2) {
+        // Error was already handled
+        console.log('clipboard() in generateLinks(): error already handled')
       } else {
         setStatus('An error occured: No downloadlinks found', 0)
       }
@@ -1770,7 +1785,7 @@ GM.registerMenuCommand(scriptName+" - Restore dialogs and warnings", async funct
 
   async function sendToJD (urls, cb) {
   // Get download links and send them to JDownloader
-    generateLinks(urls, function (result) {
+    generateLinks(urls, function (result, code) {
       if (result) {
         setStatus('Waiting for JDownloader', -1)
 
@@ -1815,6 +1830,12 @@ GM.registerMenuCommand(scriptName+" - Restore dialogs and warnings", async funct
           }
 
         })
+      } else if (code === -2) {
+        // Error was already handled
+        console.log('sendToJD() in generateLinks(): error already handled')
+        if (cb) {
+          cb()
+        }
       } else {
         if (cb) {
           cb()
