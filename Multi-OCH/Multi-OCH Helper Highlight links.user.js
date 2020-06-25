@@ -15,7 +15,7 @@
 // @exclude     *duckduckgo.com*
 // @exclude     *bandcamp.com*
 // @exclude     *.tumblr.com*
-// @version     10.10
+// @version     10.11
 // @grant       GM.setValue
 // @grant       GM.getValue
 // @require     https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js

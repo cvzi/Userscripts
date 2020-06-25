@@ -3,7 +3,7 @@
 // ==UserLibrary==
 // @name        OCH List
 // @description A list of One-Click-Hosters that are supported by nopremium.pl
-// @version     28
+// @version     29
 // @license     GPL-3.0-or-later; http://www.gnu.org/licenses/gpl-3.0.txt
 // ==/UserLibrary==
 // @namespace   cuzi
@@ -33,6 +33,10 @@ if(!MAXDOWNLOADSIZE) {
 
 var OCH_permanentlyoffline = function(link,cb,thisArg) {
   cb.call(thisArg,link,0); // Offline
+}
+
+var OCH_unkown = function(link,cb,thisArg) {
+  cb.call(thisArg,link,-1,"This hoster cannot be checked");
 }
 
 var OCH_ByFindingString = function(link,s,cb,thisArg,useURL) {
@@ -392,6 +396,15 @@ check: void check(link, cb, thisArg)
     OCH_ByFindingString(link,"File Not Found", cb, thisArg);
   },
 },
+'fastshare' : {
+  'pattern' : /^https?:\/\/fastshare\.cz\/\d+\/.+$/m,
+  'multi' : ['nopremium.pl'],
+  'title' : 'FastShare.cz',
+  'homepage' : 'https://fastshare.cz/',
+  'check' : function(link,cb,thisArg) {
+    OCH_ByFindingString(link,'This file is no longer available', cb, thisArg);
+  },
+},
 'faststore' : {
   'pattern' : /^https?:\/\/(www\.)?faststore\.org\/.+$/m,
   'multi' : [],
@@ -497,6 +510,15 @@ check: void check(link, cb, thisArg)
    OCH_permanentlyoffline(link, cb, thisArg);
   }
 },
+'filenext' : {
+  'pattern' : /^https?:\/\/www.filenext.com\/\w+\/.*$/m,
+  'multi' : ['nopremium.pl'],
+  'title' : 'Filenext',
+  'homepage' : 'https://www.filenext.com/',
+  'check' : function(link,cb,thisArg) {
+    OCH_ByFindingString(link,"File Not Found", cb, thisArg);
+  }
+},
 'fileload' : {
   'pattern' : /^https:\/\/fileload\.io\/.+$/m,
   'multi' : [],
@@ -522,6 +544,15 @@ check: void check(link, cb, thisArg)
   'homepage' : 'https://filescdn.com/',
   'check' : function(link,cb,thisArg) {
     OCH_ByFindingString(link,"icon-warning text-danger", cb, thisArg);
+  }
+},
+'fileshark' : {
+  'pattern' : /^https?:\/\/(www\.)?fileshark\.pl\/pobierz\/\d+\/\w+\/.*$/m,
+  'multi' : ['nopremium.pl'],
+  'title' : 'fileshark.pl',
+  'homepage' : 'https://fileshark.pl/',
+  'check' : function(link,cb,thisArg) {
+    OCH_ByFindingString(link,"Nie znaleziono pliku w serwisie", cb, thisArg);
   }
 },
 'filespace' : {
@@ -679,6 +710,15 @@ check: void check(link, cb, thisArg)
       }
     });
   },
+},
+'kingfile' : {
+  'pattern' : /^https?:\/\/(\w+\.)?kingfile\.pl\/download\/.+$/m,
+  'multi' : ['nopremium.pl'],
+  'title' : 'kingfile.pl',
+  'homepage' : 'http://kingfile.pl/',
+  'check' : function(link,cb,thisArg) {
+    OCH_unkown(link, cb, thisArg);
+  }
 },
 'kingfiles' : {
   'pattern' : /^https?:\/\/(www\.)?kingfiles\.net\/\w+.*$/m,
@@ -849,6 +889,15 @@ check: void check(link, cb, thisArg)
     OCH_permanentlyoffline(link, cb, thisArg);
   },
 },
+'ozofiles' : {
+  'pattern' : [/^https?:\/\/ozofiles\.com\/\w+\/.*$/m],
+  'multi' : ['nopremium.pl'],
+  'title' : 'Ozofiles.com',
+  'homepage' : 'http://ozofiles.com/',
+  'check' : function(link,cb,thisArg) {
+    OCH_ByFindingString(link,"File Not Found", cb, thisArg);
+  },
+},
 'potload' : {
   'pattern' :/^http:\/\/potload\.com\/\w+$/m,
   'multi' : [],
@@ -877,7 +926,7 @@ check: void check(link, cb, thisArg)
   }
 },
 'rapidu' : {
-  'pattern' :/^https?:\/\/(\w+\.)?rapidu\.net\/\w+.*$/m,
+  'pattern' :/^https?:\/\/(\w+\.)?rapidu\.net\/\d+\/.*$/m,
   'multi' : ['nopremium.pl'],
   'title' : 'Rapidu.net',
   'homepage' : 'https://rapidu.net/',
@@ -1063,6 +1112,15 @@ check: void check(link, cb, thisArg)
   'homepage' : 'http://ubiqfile.com/',
   'check' : function(link,cb,thisArg) {
     OCH_ByFindingString(link,"File Not Found", cb, thisArg);
+  },
+},
+'unibytes' : {
+  'pattern' : /^http:\/\/www\.unibytes\.com\/\w+-\w+$/m,
+  'multi' : ['nopremium.pl'],
+  'title' : 'Unibytes.com',
+  'homepage' : 'http://www.unibytes.com/',
+  'check' : function(link,cb,thisArg) {
+    OCH_ByFindingString(link,"File not found", cb, thisArg);
   },
 },
 'unlimitzone' : {

@@ -8,7 +8,7 @@
 // @contributionURL  https://buymeacoff.ee/cuzi
 // @contributionURL  https://ko-fi.com/cuzicvzi
 // @icon             https://greasyfork.org/system/screenshots/screenshots/000/003/479/original/icon.png
-// @version          16.8
+// @version          16.9
 
 // @include          /^https:\/\/cvzi\.github\.io\/Userscripts\/index\.html\?link=.+/
 
@@ -25,6 +25,7 @@
 // @include          /^http:\/\/ncrypt\.in\/folder\-\w+$/
 // @include          http*://*uploaded.net/folder/*
 // @include          http*://*uploaded.net/f/*
+// @include          http://protected.to/f-*
 // @include          http*://rapidgator.net/folder/*
 // @include          http://www.relink.us/view.php?id=*
 // @include          https://safelinking.net/p/*
@@ -36,16 +37,20 @@
 // @include          /^https?:\/\/(www\.)?1fichier\.com\/.+$/
 // @include          /^https?:\/\/\w+\.1fichier\.com\/?.*$/
 // @include          /^http:\/\/www\.4shared\.com\/[a-z]+\/\w+\/?(.+\.html)?$/
+// @include          /^https?:\/\/(www\.)?alfafile\.net\/file\/.+$/
 // @include          /^http:\/\/billionuploads\.com\/\w+$/
 // @include          /^https?:\/\/(www\.)?catshare\.net\/.+$/
 // @include          /^https?:\/\/(www\.)?clicknupload\.(link|org|co)\/\w+\/?.*$/
 // @include          /^https?:\/\/(www\.)?datei\.to\/\?\w+$/
 // @include          /^https?:\/\/(www\.)?ddl\.to\/\w+$/
 // @include          /^https?:\/\/(www\.)?devilshare\.net\/view.+$/
+// @include          /^https?:\/\/fastshare\.cz\/\d+\/.+$/
 // @include          /^https?:\/\/(www\.)?file\.al\/\w+\/?.*$/
 // @include          /^https?:\/\/(www\.)?filefactory\.com\/file\/.+$/
 // @include          /^https?:\/\/www.filemonkey.in\/file\/.+$/
+// @include          /^https?:\/\/www.filenext.com\/\w+\/.*$/
 // @include          /^https:\/\/filer\.net\/get\/\w+$/
+// @include          /^https?:\/\/(www\.)?fileshark\.pl\/pobierz\/\d+\/\w+\/.*$/
 // @include          /^https?:\/\/(www\.)?filespace\.com\/\w+\/?$/
 // @include          /^https?:\/\/filestore\.to\/\?d=\w+$/
 // @include          /^http:\/\/www\.firedrive\.com\/file\/\w+$/
@@ -55,16 +60,17 @@
 // @include          /^http:\/\/hugefiles\.net\/\w+\/?.*$/
 // @include          /^https:\/\/isra\.cloud\/\w+\/?.*$/
 // @include          /^https?:\/\/katfile\.com\/\w+\/?.*$/
+// @include          /^https?:\/\/kingfile\.pl\/download\/.+$/
 // @include          /^https?:\/\/lunaticfiles\.com\/\w+\/?.*$/
 // @include          /^https?:\/\/www\.mediafire\.com\/?\?.+$/
 // @include          /^https?:\/\/www\.mediafire\.com\/download\/.+$/
 // @include          /^https?:\/\/mega\.co\.nz\/\#\!\w+!*(\w|-)*$/
 // @include          /^https?:\/\/mega\.nz\/\#\!\w+!*(\w|-)*$/
 // @include          /^https?:\/\/modsbase\.com\/\w+\/?.*$/
-// @include          /^https?:\/\/openload\.co\/f\/.+$/
+// @include          /^https?:\/\/ozofiles\.com\/\w+\/.*$/
 // @include          /^https?:\/\/rapidgator\.net\/file\/[^#]+$/
 // @include          /^https?:\/\/rg\.to\/file\/[^#]+$/
-// @include          /^https?:\/\/(\w+\.)?rapidu\.net\/\w+.*$/
+// @include          /^https?:\/\/(\w+\.)?rapidu\.net\/\d+\/.*$/
 // @include          /^https?\:\/\/(www\.)?rockfile\.(eu|co)\/\w+.*$/
 // @include          /^http:\/\/www\.sockshare\.com\/file\/\w+$/
 // @include          /^https?:\/\/(www\.)?storbit\.net\/file\/.+$/
@@ -74,9 +80,10 @@
 // @include          /^https?:\/\/turb\.to\/\w+.*\.html$/
 // @include          /^https?:\/\/(www\.)?tusfiles\.net\/\w+$/
 // @include          /^https?:\/\/ubiqfile\.com\/\w+$/
+// @include          /^http:\/\/www\.unibytes\.com\/\w+-\w+$/
 // @include          /^https?:\/\/uploadboy\.(me|com)\/\w+\/?.*$/
 // @include          /^https?:\/\/uploaded\.(net|to)\/file\/.+$/
-// @include          /^http:\/\/ul\.to\/.+$/
+// @include          /^https?:\/\/ul\.to\/.+$/
 // @include          /^https?:\/\/uploadgig\.com\/file\/download\/\w+\/?.*$/
 // @include          /^http:\/\/uploading\.com\/\w+\/?.*$/
 // @include          /^http:\/\/(www\.)?uploading\.site\/\w+.*$/
@@ -3375,6 +3382,15 @@ if(!greasemonkey) {
       $b.click(function (ev) {
         const removeImg = loader()
         getNCryptLinks(removeImg)
+      })
+    }
+  } else if (document.location.href.substring(7, 19) === 'protected.to') {
+  // http://protected.to folder
+    if (document.querySelectorAll('.links a').length > 0) { // If not on captcha page
+      showOneclickButton = true
+      showOneclickLink = ''
+      $('.links a').each(function () {
+        showOneclickLink += decodeURIComponent(this.href) + '\n'
       })
     }
   } else if (document.location.href.substring(7, 16) === 'relink.to') {
