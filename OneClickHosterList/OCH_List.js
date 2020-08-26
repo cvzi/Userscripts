@@ -765,7 +765,7 @@ check: void check(link, cb, thisArg)
   'title' : 'lunaticfiles.com',
   'homepage' : 'http://lunaticfiles.com/',
   'check' : function(link,cb,thisArg) {
-    OCH_ByFindingString(link,"File Not Found", cb, thisArg);
+    OCH_ByFindingString(link,["File Not Found","Nie znaleziono pliku"], cb, thisArg);
   }
 },
 'mediafire' : {
@@ -1088,7 +1088,7 @@ check: void check(link, cb, thisArg)
   },
 },
 'turbobit' : {
-  'pattern' : [/^https?:\/\/turbobit\.net\/\w+.*\.html$/m, /^https?:\/\/turb\.to\/\w+.*\.html$/m],
+  'pattern' : [/^https?:\/\/turbobit\.net\/\w+.*\.html$/m, /^https?:\/\/turb\.(to|cc)\/\w+.*\.html$/m],
   'multi' : ['nopremium.pl', 'premiumize.me'],
   'title' : 'turbobit.net',
   'homepage' : 'http://turbobit.net/',
@@ -1260,7 +1260,7 @@ check: void check(link, cb, thisArg)
   },
 },
 'uptobox' : {
-  'pattern' : /^http:\/\/uptobox.com\/\w+(\/.*)?$/m,
+  'pattern' : /^https?:\/\/uptobox.com\/\w+(\/.*)?$/m,
   'multi' : ['nopremium.pl'],
   'title' : 'Uptobox',
   'homepage' : 'http://uptobox.com/',
