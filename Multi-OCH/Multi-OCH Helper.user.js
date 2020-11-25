@@ -8,12 +8,12 @@
 // @contributionURL  https://buymeacoff.ee/cuzi
 // @contributionURL  https://ko-fi.com/cuzicvzi
 // @icon             https://greasyfork.org/system/screenshots/screenshots/000/003/479/original/icon.png
-// @version          16.9
+// @version          16.10
 
 // @include          /^https:\/\/cvzi\.github\.io\/Userscripts\/index\.html\?link=.+/
-
 // @include          /^https:\/\/www\.nopremium\.pl\/files.*$/
 // @include          /^https:\/\/www\.premiumize\.me\/hosters\/?$/
+// @include          /^https:\/\/www\.premiumize\.me\/services\/?$/
 // @include          /^https:\/\/www\.premiumize\.me\/downloader.*$/
 
 // @include          http://download.serienjunkies.org/*
@@ -88,7 +88,7 @@
 // @include          /^http:\/\/uploading\.com\/\w+\/?.*$/
 // @include          /^http:\/\/(www\.)?uploading\.site\/\w+.*$/
 // @include          /^http:\/\/uploadrocket\.net\/\w+(\/|\w|-|\.)+(\.html)?$/
-// @include          /^http:\/\/uptobox.com\/\w+(\/.*)?$/
+// @include          /^https?:\/\/uptobox.com\/\w+(\/.*)?$/
 // @include          /^https?:\/\/userscloud\.com\/\w+.*$/
 // @include          /^https?:\/\/vidto\.me\/\w+\.?\w*$/
 // @include          /^https?:\/\/www\.wdupload\.com\/file\/\w+\/?.*$/
@@ -267,8 +267,8 @@
       this.key = 'premiumize.me'
       this.name = 'premiumize'
       this.homepage = 'https://www.premiumize.me/'
-      // this.updateStatusURL = 'https://www.premiumize.me/hosters';
-      this.updateStatusURLpattern = /https:\/\/www\.premiumize\.me\/hosters\/?/
+      // this.updateStatusURL = 'https://www.premiumize.me/services';
+      this.updateStatusURLpattern = /https:\/\/www\.premiumize\.me\/services\/?/
       this.updateDownloadProgressInterval = 5000
       this.updateDownloadProgressInterfaceInterval = 500
 
@@ -384,6 +384,7 @@
                     const name = host.match(/^\s*([0-9a-z-]+)\.\w{0,6}\s*$/i)[1]
                     self.status[name.toLowerCase()] = result.directdl.indexOf(host) !== -1
                   })
+
                   await GM.setValue(self.key + '_status', JSON.stringify(self.status))
                   console.log(scriptName + ': ' + self.name + ': Hosters (' + Object.keys(self.status).length + ') updated')
                 } else {
@@ -443,7 +444,7 @@
         const checkprogress = function () {
           if (self._notLoggedIn) {
             // Stop checking and open premiumize homepage
-            setStatus(self.name + ' error: Not logged in!', 0)
+            setStatus(self.name + ' error: Not logged in!\nMaybe update your API key?', 0)
             GM.openInTab(self.homepage)
             cb([], -2)
             return
