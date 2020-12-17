@@ -8,7 +8,7 @@
 // @contributionURL  https://buymeacoff.ee/cuzi
 // @contributionURL  https://ko-fi.com/cuzicvzi
 // @icon             https://greasyfork.org/system/screenshots/screenshots/000/003/479/original/icon.png
-// @version          16.10
+// @version          16.11
 
 // @include          /^https:\/\/cvzi\.github\.io\/Userscripts\/index\.html\?link=.+/
 // @include          /^https:\/\/www\.nopremium\.pl\/files.*$/
@@ -38,12 +38,17 @@
 // @include          /^https?:\/\/\w+\.1fichier\.com\/?.*$/
 // @include          /^http:\/\/www\.4shared\.com\/[a-z]+\/\w+\/?(.+\.html)?$/
 // @include          /^https?:\/\/(www\.)?alfafile\.net\/file\/.+$/
+// @include          /^https?:\/\/anonfiles\.com\/\w+\/?.*$/
+// @include          /^https?:\/\/(www\.)?bayfiles\.(net|com)\/\w+\/?.*$/
 // @include          /^http:\/\/billionuploads\.com\/\w+$/
 // @include          /^https?:\/\/(www\.)?catshare\.net\/.+$/
 // @include          /^https?:\/\/(www\.)?clicknupload\.(link|org|co)\/\w+\/?.*$/
 // @include          /^https?:\/\/(www\.)?datei\.to\/\?\w+$/
+// @include          /^https?:\/\/dailyuploads\.net\/\w+\/?.*$/
 // @include          /^https?:\/\/(www\.)?ddl\.to\/\w+$/
+// @include          /^https?:\/\/ddownload\.com\/\w+.*$/
 // @include          /^https?:\/\/(www\.)?devilshare\.net\/view.+$/
+// @include          /^https?:\/\/(www\.)?dropapk\.to\/\w+.*$/
 // @include          /^https?:\/\/fastshare\.cz\/\d+\/.+$/
 // @include          /^https?:\/\/(www\.)?file\.al\/\w+\/?.*$/
 // @include          /^https?:\/\/(www\.)?filefactory\.com\/file\/.+$/
@@ -58,6 +63,7 @@
 // @include          /^https?\:\/\/(www\.)?hitfile\.net\/\w+.*$/
 // @include          /^https?\:\/\/(www\.)?hil\.to\/\w+.*$/
 // @include          /^http:\/\/hugefiles\.net\/\w+\/?.*$/
+// @include          /^https:\/\/www\.inclouddrive\.com\/file\/\w+\/?.*$/
 // @include          /^https:\/\/isra\.cloud\/\w+\/?.*$/
 // @include          /^https?:\/\/katfile\.com\/\w+\/?.*$/
 // @include          /^https?:\/\/kingfile\.pl\/download\/.+$/
@@ -66,6 +72,7 @@
 // @include          /^https?:\/\/www\.mediafire\.com\/download\/.+$/
 // @include          /^https?:\/\/mega\.co\.nz\/\#\!\w+!*(\w|-)*$/
 // @include          /^https?:\/\/mega\.nz\/\#\!\w+!*(\w|-)*$/
+// @include          /^https?:\/\/megaup\.net\/\w+\/?.*$/
 // @include          /^https?:\/\/modsbase\.com\/\w+\/?.*$/
 // @include          /^https?:\/\/ozofiles\.com\/\w+\/.*$/
 // @include          /^https?:\/\/rapidgator\.net\/file\/[^#]+$/
@@ -91,8 +98,11 @@
 // @include          /^https?:\/\/uptobox.com\/\w+(\/.*)?$/
 // @include          /^https?:\/\/userscloud\.com\/\w+.*$/
 // @include          /^https?:\/\/vidto\.me\/\w+\.?\w*$/
+// @include          /^https?:\/\/vidlox\.me\/\w+.*$/
+// @include          /^https?:\/\/vidoza\.org\/\w+.*$/
 // @include          /^https?:\/\/www\.wdupload\.com\/file\/\w+\/?.*$/
 // @include          /^https?:\/\/worldbytez\.com\/\w+$/
+// @include          /^https?:\/\/wrzucajpliki\.pl\/\w{0,6}.*$/
 // @include          /^https?:\/\/(www\.)?xubster\.com\/\w+\/?.*$/
 // @include          /^https?:\/\/www\.youtube\.com\/watch(\?v=|\/).+$/
 // @include          /^https?:\/\/www\d*\.zippyshare\.com\/v\/\w+\/file\.html$/

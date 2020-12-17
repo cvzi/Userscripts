@@ -3,7 +3,7 @@
 // ==UserLibrary==
 // @name        OCH List
 // @description A list of One-Click-Hosters that are supported by nopremium.pl
-// @version     29
+// @version     30
 // @license     GPL-3.0-or-later; http://www.gnu.org/licenses/gpl-3.0.txt
 // ==/UserLibrary==
 // @namespace   cuzi
@@ -200,6 +200,31 @@ check: void check(link, cb, thisArg)
     OCH_ByFindingString(link, "error-box", cb, thisArg);
   },
 },
+'anonfiles' : {
+  'pattern' : /^https?:\/\/anonfiles\.com\/\w+\/?.*$/m,
+  'multi' : ['nopremium.pl'],
+  'title' : 'anonfiles',
+  'homepage' : 'https://anonfiles.com',
+  'check' : function(link,cb,thisArg) {
+    rq.add({
+      method: "GET",
+      url: "https://api.anonfiles.com/v2/file/" + encodeURIComponent(link.url.match(/\/\/anonfiles\.com\/(\w+)/)[1]) + "/info",
+      onload: function (response){
+        var result = JSON.parse(response.responseText);
+        if(result && result.status) {
+          // Link is online
+          cb.call(thisArg,link,1);
+        } else {
+          // Link is offline
+          cb.call(thisArg,link,0);
+        }
+      },
+      onerror: function (response){
+        cb.call(thisArg,link,0); // Offline
+      }
+    });
+  }
+},
 'ayefiles' : {
   'pattern' : /^https?:\/\/ayefiles\.com\/\w+\/?.*$/m,
   'multi' : [],
@@ -211,7 +236,7 @@ check: void check(link, cb, thisArg)
 },
 'bayfiles' : {
   'pattern' : /^https?:\/\/(www\.)?bayfiles\.(net|com)\/\w+\/?.*$/m,
-  'multi' : [],
+  'multi' : ['nopremium.pl'],
   'title' : 'BayFiles',
   'homepage' : 'http://bayfiles.com/',
   'check' : function(link,cb,thisArg) {
@@ -308,7 +333,7 @@ check: void check(link, cb, thisArg)
 },
 'dailyuploads' : {
   'pattern' : /^https?:\/\/dailyuploads\.net\/\w+\/?.*$/m,
-  'multi' : [],
+  'multi' : ['nopremium.pl'],
   'title' : 'Daily Uploads',
   'homepage' : 'http://dailyuploads.net/',
   'check' :function(link,cb,thisArg) {
@@ -333,15 +358,16 @@ check: void check(link, cb, thisArg)
     OCH_ByFindingString(link,"icon_deleted.png", cb, thisArg);
   },
 },
-'ddl' : {
-  'pattern' : /^https?:\/\/(www\.)?ddl\.to\/\w+.*$/m,
+'ddownload' : {
+  'pattern' : [/^https?:\/\/(www\.)?ddl\.to\/\w+.*$/m, /^https?:\/\/ddownload\.com\/\w+.*$/m],
   'multi' : ['premiumize.me'],
-  'title' : 'ddl.to',
+  'title' : 'ddownload.com',
   'homepage' : 'https://ddl.to/',
   'check' :function(link,cb,thisArg) {
     OCH_ByFindingString(link,"File Not Found", cb, thisArg);
   },
 },
+
 'depositfiles' : {
   'pattern' : [/^http:\/\/dfiles\.eu\/files\/\w+\/?$/m,/^http:\/\/depositfiles\.com\/files\/\w+\/?$/m],
   'multi' : [],
@@ -371,7 +397,7 @@ check: void check(link, cb, thisArg)
 },
 'dropapk' : {
   'pattern' : /^https?:\/\/(www\.)?dropapk\.to\/\w+.*$/m,
-  'multi' : [],
+  'multi' : ['nopremium.pl'],
   'title' : 'Dropapk',
   'homepage' : 'https://dropapk.to/',
   'check' : function(link,cb,thisArg) {
@@ -654,6 +680,15 @@ check: void check(link, cb, thisArg)
     OCH_permanentlyoffline(link, cb, thisArg);
   }
 },
+'inclouddrive' : {
+  'pattern' : /^https:\/\/www\.inclouddrive\.com\/file\/\w+\/?.*$/m,
+  'multi' : ['nopremium.pl'],
+  'title' : 'inCLOUDdrive',
+  'homepage' : 'https://www.inclouddrive.com/',
+  'check' : function(link,cb,thisArg) {
+    OCH_ByFindingString(link,["no longer available", "has been removed", "has been deleted"], cb, thisArg);
+  }
+},
 'isra' : {
   'pattern' : /^https:\/\/isra\.cloud\/\w+\/?.*$/m,
   'multi' : ['nopremium.pl', 'premiumize.me'],
@@ -802,6 +837,15 @@ check: void check(link, cb, thisArg)
         cb.call(thisArg,link,0); // Offline
       }
     });
+  },
+},
+'megaup' : {
+  'pattern' : [/^https?:\/\/megaup\.net\/\w+\/?.*$/m],
+  'multi' : ['nopremium.pl'],
+  'title' : 'megaup.net',
+  'homepage' : 'https://megaup.net/',
+  'check' : function(link,cb,thisArg) {
+    OCH_ByFindingString(link,">File not found<", cb, thisArg);
   },
 },
 'mexashare' : {
@@ -1296,6 +1340,24 @@ check: void check(link, cb, thisArg)
     cb.call(thisArg,link,1); // Online
   }
 },
+'vidlox' : {
+  'pattern' : /^https?:\/\/vidlox\.me\/\w+.*$/m,
+  'multi' : ['nopremium.pl'],
+  'title' : 'vidlox.me',
+  'homepage' : 'https://vidlox.me/',
+  'check' : function(link,cb,thisArg) {
+    OCH_ByFindingString(link,"File Not Found", cb, thisArg);
+  }
+},
+'vidoza' : {
+  'pattern' : /^https?:\/\/vidoza\.org\/\w+.*$/m,
+  'multi' : ['nopremium.pl'],
+  'title' : 'vidoza.org',
+  'homepage' : 'https://vidoza.org/',
+  'check' : function(link,cb,thisArg) {
+    OCH_ByFindingString(link,["File Not Found", "file was deleted", "File was deleted", "Video is processing now"], cb, thisArg);
+  }
+},
 'vidto' : {
   'pattern' : /^https?:\/\/vidto\.me\/\w+\.?\w*$/m,
   'multi' : ['nopremium.pl'],
@@ -1337,6 +1399,15 @@ check: void check(link, cb, thisArg)
   'multi' : ['premiumize.me'],
   'title' : 'worldbytez.com',
   'homepage' : 'https://worldbytez.com/',
+  'check' : function(link,cb,thisArg) {
+    OCH_ByFindingString(link,"File Not Found", cb, thisArg);
+  }
+},
+'wrzucajpliki' : {
+  'pattern' : /^https?:\/\/wrzucajpliki\.pl\/\w{0,6}.*$/m,
+  'multi' : ['premiumize.me'],
+  'title' : 'wrzucajpliki.pl',
+  'homepage' : 'http://wrzucajpliki.pl/',
   'check' : function(link,cb,thisArg) {
     OCH_ByFindingString(link,"File Not Found", cb, thisArg);
   }
