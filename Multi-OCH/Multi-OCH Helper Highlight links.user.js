@@ -15,7 +15,7 @@
 // @exclude     *duckduckgo.com*
 // @exclude     *bandcamp.com*
 // @exclude     *.tumblr.com*
-// @version     10.11
+// @version     10.12
 // @grant       GM.setValue
 // @grant       GM.getValue
 // @require     https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js
@@ -471,7 +471,7 @@
         })
         $iframe.attr('src', syncHostersUrl)
       } else {
-      // Firefox: we need to open a new tab to communicate with the Multi-OCH_Helper script
+      // Greasemonkey: we need to open a new tab to communicate with the Multi-OCH_Helper script
         if (document.location.href.startsWith(syncHostersHost)) {
           window.setTimeout(() => window.postMessage({ iAm: 'Unrestrict.li', type: 'requesthosterstatus' }, '*'), 1000)
         } else {
