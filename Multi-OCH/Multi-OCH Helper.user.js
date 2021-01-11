@@ -8,7 +8,7 @@
 // @contributionURL  https://buymeacoff.ee/cuzi
 // @contributionURL  https://ko-fi.com/cuzicvzi
 // @icon             https://greasyfork.org/system/screenshots/screenshots/000/003/479/original/icon.png
-// @version          16.12
+// @version          16.13
 
 // @include          /^https:\/\/cvzi\.github\.io\/Userscripts\/index\.html\?link=.+/
 // @include          /^https:\/\/www\.nopremium\.pl\/files.*$/
@@ -284,8 +284,6 @@
 
       this.status = {}
 
-      const orgDocumentTitle = document.title
-
       this.init = async function () {
         self.status = JSON.parse(await GM.getValue(self.key + '_status', '{}'))
         self.lastUpdate = new Date(await GM.getValue(self.key + '_status_time', 0))
@@ -441,7 +439,7 @@
       }
 
       this._getLinks = function (urls, cb) {
-        document.title = '✈️' + urls.length + '🔗 ' + orgDocumentTitle
+        setTitle('✈️' + urls.length + '🔗 ')
         const N = urls.length
         const downloadLinks = []
         const errors = []
@@ -458,7 +456,7 @@
         const checkprogress = function () {
           if (self._notLoggedIn) {
             // Stop checking and open premiumize homepage
-            document.title = '🔑 ' + orgDocumentTitle
+            setTitle('🔑 ')
             setStatus(self.name + ' error: Not logged in!\nMaybe update your API key?', 0)
             GM.openInTab(self.homepage)
             cb([], -2)
@@ -466,7 +464,7 @@
           }
 
           if (N === errors.length) { // All errors
-            document.title = '❌ ' + orgDocumentTitle
+            setTitle('❌ ')
             cb(false, -1)
             if (errors.length === 1 && errors[0][1]) {
               setStatus(errors[0][1], 0)
@@ -474,13 +472,13 @@
               alert('Errors occured\n' + errors.length + ' links failed:\n\n' + errors.join('\n'))
             }
           } else if (N === downloadLinks.length + errors.length) { // All finished
-            document.title = downloadLinks.length + '/' + errors.length + '✅ ' + orgDocumentTitle
+            setTitle(downloadLinks.length + '/' + errors.length + '✅ ')
             cb(downloadLinks)
             if (errors.length > 0) { // Errors occured
               alert('Errors occured\n' + errors.length + ' links failed:\n\n' + errors.join('\n'))
             }
           } else { // not finished yet
-            document.title = downloadLinks.length + '/' + N + '⏳ ' + orgDocumentTitle
+            setTitle(downloadLinks.length + '/' + N + '⏳ ')
             window.setTimeout(checkprogress, self.updateDownloadProgressInterfaceInterval)
           }
         }
@@ -672,8 +670,6 @@
       const mapHosterName = name => name.replace('-', '')
       this.status = {}
 
-      const orgDocumentTitle = document.title
-
       this.init = async function () {
         self.status = JSON.parse(await GM.getValue(self.key + '_status', '{}'))
 
@@ -748,7 +744,7 @@
 
       const getHashs = function (urls, cb, silent) {
       // cb(hashes,sizestring)
-        document.title = '✈️' + orgDocumentTitle
+        setTitle('✈️ ')
         setStatus('Sending ' + (urls.length === 1 ? 'one link' : (urls.length + ' links')), -1)
         GM.xmlHttpRequest({
           method: 'POST',
@@ -761,7 +757,7 @@
           },
           onload: function (response) {
             if (response.responseText.indexOf('<input type="text" name="login" placeholder="Login"/>') !== -1) {
-              document.title = '🔑 ' + orgDocumentTitle
+              setTitle('🔑 ')
               setStatus(self.name + ' error: Not logged in!', 0)
               GM.openInTab(self.homepage)
               return cb([], -1)
@@ -789,7 +785,7 @@
             }
 
             setStatus(self.name + ' identified ' + (hashes.length === 1 ? 'one online file' : (hashes.length + ' online files')), -1)
-            document.title = hashes.length + '🔗 ' + orgDocumentTitle
+            setTitle(hashes.length + '🔗 ')
             cb(hashes, size)
           }
         })
@@ -959,7 +955,7 @@
               console.log(response.responseText)
 
               if (response.responseText.indexOf('<input type="text" name="login" placeholder="Login"/>') !== -1) {
-                document.title = '🔑 ' + orgDocumentTitle
+                setTitle('🔑 ')
                 setStatus(self.name + ' error: Not logged in!', 0)
                 GM.openInTab(self.homepage)
                 cb(false, -2)
@@ -1022,7 +1018,7 @@
 
             if (result.length === N) {
               setStatus((result.length === 1 ? 'One file' : (result.length + ' files')) + ' downloaded to server', 1)
-              document.title = result.length + '✅ ' + orgDocumentTitle
+              setTitle(result.length + '✅ ')
               cb(result)
             } else {
             // Waiting
@@ -1039,7 +1035,7 @@
               }
               h += '</div>'
 
-              document.title = Math.floor(percent) + '%⏳' + orgDocumentTitle
+              setTitle(Math.floor(percent) + '%⏳ ')
 
               setStatus(h)
               showOnlyStatus()
@@ -1099,6 +1095,18 @@ if(!greasemonkey) {
     return parseFloat(parseFloat(f).toFixed(p))
   }
   */
+  
+  const orgDocumentTitle = document.title
+  function setTitle(message) {
+    if (window.parent.parent !== window) {
+      window.parent.parent.postMessage({ iAm: 'Unrestrict.li', type: 'title', str: message }, '*')
+    }
+    if (message) {
+      document.title = message + orgDocumentTitle
+    } else {
+      document.title = orgDocumentTitle
+    }
+  }
 
   function popUp (id, onClose, thisArg, doNotCloseOnOutsideClick) {
   // Remove window scrolling
@@ -3482,7 +3490,7 @@ if(!greasemonkey) {
     const message = 'Updating hoster status...'
     const h1 = document.body.appendChild(document.createElement('h1'))
     h1.appendChild(document.createTextNode(scriptHightligherName + ': ' + message))
-    document.title = message
+    setTitle("")
     window.setTimeout(function () {
       const h2 = document.body.appendChild(document.createElement('h2'))
       h2.appendChild(document.createTextNode('You may close this tab now'))

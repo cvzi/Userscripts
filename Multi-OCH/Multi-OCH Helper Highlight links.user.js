@@ -15,7 +15,7 @@
 // @exclude     *duckduckgo.com*
 // @exclude     *bandcamp.com*
 // @exclude     *.tumblr.com*
-// @version     10.12
+// @version     10.13
 // @grant       GM.setValue
 // @grant       GM.getValue
 // @require     https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js
@@ -162,6 +162,15 @@
     </body>
   </html>`)
     return framesrc
+  }
+
+  const orgDocumentTitle = document.title
+  function setTitle(message) {
+    if (message) {
+      document.title = message + orgDocumentTitle
+    } else {
+      document.title = orgDocumentTitle
+    }
   }
 
   function showMenu (jlink, textContent) {
@@ -502,6 +511,11 @@
       case 'alert':
         // Alert on page, not in frame
         alert(e.data.str)
+        break
+
+      case 'title':
+        // Alert on page, not in frame
+        setTitle(e.data.str)
         break
 
       case 'findLinks':
