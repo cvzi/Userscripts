@@ -362,7 +362,7 @@ check: void check(link, cb, thisArg)
     },
     ddownload: {
       pattern: [/^https?:\/\/(www\.)?ddl\.to\/\w+.*$/m, /^https?:\/\/ddownload\.com\/\w+.*$/m],
-      multi: ['premiumize.me'],
+      multi: ['premiumize.me', 'nopremium.pl'],
       title: 'ddownload.com',
       homepage: 'https://ddl.to/',
       check: function (link, cb, thisArg) {
