@@ -7,7 +7,7 @@
 // @updateURL        https://openuserjs.org/meta/cuzi/Multi-OCH_Helper.meta.js
 // @contributionURL  https://buymeacoff.ee/cuzi
 // @contributionURL  https://ko-fi.com/cuzicvzi
-// @icon             https://greasyfork.org/system/screenshots/screenshots/000/003/479/original/icon.png
+// @icon             https://raw.githubusercontent.com/cvzi/Userscripts/master/Multi-OCH/icons/helper.png
 // @version          16.14
 
 // @include          /^https:\/\/cvzi\.github\.io\/Userscripts\/index\.html\?link=.+/

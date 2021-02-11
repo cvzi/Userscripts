@@ -6,7 +6,7 @@
 // @description nopremium.pl and premiumize.me. Highlight one-click-hoster links and include Multi-OCH Helper button
 // @homepageURL https://openuserjs.org/scripts/cuzi/Multi-OCH_Helper_Highlight_links
 // @updateURL   https://openuserjs.org/meta/cuzi/Multi-OCH_Helper_Highlight_links.meta.js
-// @icon        https://greasyfork.org/system/screenshots/screenshots/000/003/478/original/icon_ampel.png
+// @icon        https://raw.githubusercontent.com/cvzi/Userscripts/master/Multi-OCH/icons/helper_highlight.png
 // @include     *
 // @exclude     *.yahoo.*
 // @exclude     *.google.*

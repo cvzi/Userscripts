@@ -3,7 +3,7 @@
 // @namespace        cuzi
 // @license          MIT
 // @description      Link Checker. Hit escape to check whether one-click hoster links are online or offline.
-// @icon             https://greasyfork.org/system/screenshots/screenshots/000/003/868/original/och.png
+// @icon             https://raw.githubusercontent.com/cvzi/Userscripts/master/Multi-OCH/icons/och.png
 // @contributionURL  https://buymeacoff.ee/cuzi
 // @contributionURL  https://ko-fi.com/cuzicvzi
 // @compatible       firefox Greasemonkey
