@@ -3,7 +3,7 @@
 // ==UserLibrary==
 // @name        OCH List
 // @description A list of One-Click-Hosters that are supported by nopremium.pl
-// @version     30
+// @version     31
 // @license     GPL-3.0-or-later; http://www.gnu.org/licenses/gpl-3.0.txt
 // ==/UserLibrary==
 // @namespace   cuzi
@@ -877,7 +877,7 @@ check: void check(link, cb, thisArg)
     },
     nitroflare: {
       pattern: [/^https?:\/\/nitroflare\.com\/view\/.+$/m],
-      multi: [],
+      multi: ['nopremium.pl'],
       title: 'NitroFlare',
       homepage: 'http://nitroflare.com/',
       check: function (link, cb, thisArg) {
