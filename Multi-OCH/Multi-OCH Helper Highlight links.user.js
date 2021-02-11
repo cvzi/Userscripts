@@ -15,7 +15,7 @@
 // @exclude     *duckduckgo.com*
 // @exclude     *bandcamp.com*
 // @exclude     *.tumblr.com*
-// @version     10.13
+// @version     10.14
 // @grant       GM.setValue
 // @grant       GM.getValue
 // @require     https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js
@@ -260,6 +260,8 @@
 
       // Close frame
       frame.remove()
+      // Restore window title
+      setTitle()
       // Restore onclick event
       this.onclick = jthis.data('onclick')
       // Restore mouseover event
