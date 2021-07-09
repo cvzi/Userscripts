@@ -3,7 +3,7 @@
 // ==UserLibrary==
 // @name        OCH List
 // @description A list of One-Click-Hosters that are supported by nopremium.pl
-// @version     31
+// @version     32
 // @license     GPL-3.0-or-later; http://www.gnu.org/licenses/gpl-3.0.txt
 // ==/UserLibrary==
 // @namespace   cuzi
@@ -63,7 +63,13 @@ function getOCH (rq, MAXDOWNLOADSIZE) {
             return
           }
         }
-        cb.call(thisArg, link, 1) // Online
+        if (response.status < 400) { // Online 2xx
+          cb.call(thisArg, link, 1)
+        } else if (response.status > 499) { // Server error 5xx (server error)
+          cb.call(thisArg, link, -1, 'Server error: ' + response.status + ' ' + response.statusText)
+        } else {
+          cb.call(thisArg, link, 0) // Offline 4xx (client error)
+        }
       },
       onerror: function (response) {
         cb.call(thisArg, link, 0) // Offline
@@ -163,7 +169,7 @@ check: void check(link, cb, thisArg)
       title: '1fichier',
       homepage: 'http://1fichier.com/',
       check: function (link, cb, thisArg) {
-        offlineByFindingString(link, ['The requested file could not be found', 'The requested file has been deleted'], cb, thisArg)
+        offlineByFindingString(link, ['The requested file could not be found', 'The requested file has been deleted', 'The requested file does not exist'], cb, thisArg)
       }
     },
     '2shared': {
@@ -398,7 +404,7 @@ check: void check(link, cb, thisArg)
       }
     },
     dropapk: {
-      pattern: /^https?:\/\/(www\.)?dropapk\.to\/\w+.*$/m,
+      pattern: [/^https?:\/\/(www\.)?dropapk\.to\/\w+.*$/m, /^https?:\/\/(www\.)?drop.download\/\w+.*$/m],
       multi: ['nopremium.pl'],
       title: 'Dropapk',
       homepage: 'https://dropapk.to/',
@@ -422,6 +428,24 @@ check: void check(link, cb, thisArg)
       homepage: 'http://expressleech.com/',
       check: function (link, cb, thisArg) {
         offlineByFindingString(link, 'File Not Found', cb, thisArg)
+      }
+    },
+    fastdown: {
+      pattern: [/^https?:\/\/down\.fast-down\.com\/\w+\/?.*$/m, /^https?:\/\/down\.fast-down\.com\/download\d+/m],
+      multi: [],
+      title: 'Fast-Down',
+      homepage: 'https://down.fast-down.com/',
+      check: function (link, cb, thisArg) {
+        offlineByFindingString(link, 'File Not Found', cb, thisArg)
+      }
+    },
+    fastdrive: {
+      pattern: [/^https?:\/\/fastdrive\.io\/\w+\/?.*$/m],
+      multi: [],
+      title: 'FastDrive',
+      homepage: 'https://fastdrive.io/',
+      check: function (link, cb, thisArg) {
+        offlineByFindingString(link, ['Page Not Found', '>404<', 'File Not Found'], cb, thisArg)
       }
     },
     fastshare: {
@@ -664,6 +688,15 @@ check: void check(link, cb, thisArg)
         permanentlyoffline(link, cb, thisArg)
       }
     },
+    hexupload: {
+      pattern: [/^https?:\/\/(www\.)?hexupload\.net\/\w+.*$/m],
+      multi: [],
+      title: 'HexUpload',
+      homepage: 'https://hexupload.net/',
+      check: function (link, cb, thisArg) {
+        offlineByFindingString(link, 'File Not Found', cb, thisArg)
+      }
+    },
     hitfile: {
       pattern: [/^https?:\/\/(www\.)?hitfile\.net\/\w+.*$/m, /^https?:\/\/(www\.)?hil\.to\/\w+.*$/m],
       multi: ['nopremium.pl', 'premiumize.me'],
@@ -857,6 +890,15 @@ check: void check(link, cb, thisArg)
         offlineByFindingString(link, 'File Not Found', cb, thisArg)
       }
     },
+    mdiaload: {
+      pattern: [/^https?:\/\/down\.mdiaload\.com\/\w+\/?.*$/m, /^https?:\/\/down\.mdiaload\.com\/download\d+/m],
+      multi: [],
+      title: 'MdiaLoad',
+      homepage: 'https://down.mdiaload.com/',
+      check: function (link, cb, thisArg) {
+        offlineByFindingString(link, 'File Not Found', cb, thisArg)
+      }
+    },
     mixloads: {
       pattern: /^https?:\/\/mixloads\.com\/\w+.*$/m,
       multi: [],
@@ -876,7 +918,7 @@ check: void check(link, cb, thisArg)
       }
     },
     nitroflare: {
-      pattern: [/^https?:\/\/nitroflare\.com\/view\/.+$/m],
+      pattern: [/^https?:\/\/nitroflare\.com\/view\/.+$/m, /^https?:\/\/nitro\.download\/view\/.+$/m],
       multi: ['nopremium.pl'],
       title: 'NitroFlare',
       homepage: 'http://nitroflare.com/',
@@ -1276,11 +1318,11 @@ check: void check(link, cb, thisArg)
     },
     uploadrocket: {
       pattern: /^http:\/\/uploadrocket\.net\/\w+(\/|\w|-|\.)+(\.html)?$/m,
-      multi: ['nopremium.pl'],
+      multi: [],
       title: 'UploadRocket.net',
       homepage: 'http://uploadrocket.net/',
       check: function (link, cb, thisArg) {
-        offlineByFindingString(link, 'The file was removed by administrator', cb, thisArg)
+        permanentlyoffline(link, cb, thisArg)
       }
     },
     uppit: {
