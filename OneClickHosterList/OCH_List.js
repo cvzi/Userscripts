@@ -3,7 +3,7 @@
 // ==UserLibrary==
 // @name        OCH List
 // @description A list of One-Click-Hosters that are supported by nopremium.pl
-// @version     32
+// @version     33
 // @license     GPL-3.0-or-later; http://www.gnu.org/licenses/gpl-3.0.txt
 // ==/UserLibrary==
 // @namespace   cuzi
@@ -155,7 +155,7 @@ check: void check(link, cb, thisArg)
 */
 
     '180upload': {
-      pattern: /^http:\/\/180upload\.com\/\w+$/m,
+      pattern: /^https?:\/\/180upload\.com\/\w+$/m,
       multi: [],
       title: 'Offline: 180upload',
       homepage: 'http://180upload.com/',
@@ -286,12 +286,12 @@ check: void check(link, cb, thisArg)
       }
     },
     bitshare: {
-      pattern: /^http:\/\/bitshare\.com\/files\/\w+\/.+\.html$/m,
+      pattern: /^https?:\/\/bitshare\.com\/files\/\w+\/.+\.html$/m,
       multi: [],
       title: 'BitShare.com',
       homepage: 'http://bitshare.com/',
       check: function (link, cb, thisArg) {
-        offlineByFindingString(link, ['Error - File not available', 'Fehler - Datei nicht verfügbar'], cb, thisArg)
+        permanentlyoffline(link, cb, thisArg)
       }
     },
     catshare: {
@@ -304,7 +304,7 @@ check: void check(link, cb, thisArg)
       }
     },
     clicknupload: {
-      pattern: /^https?:\/\/(www\.)?clicknupload\.(link|org|co)\/\w+\/?.*$/m,
+      pattern: /^https?:\/\/(www\.)?clicknupload\.(link|org|co|cc)\/\w+\/?.*$/m,
       multi: ['nopremium.pl', 'premiumize.me'],
       title: 'ClicknUpload',
       homepage: 'https://clicknupload.co',
@@ -349,12 +349,12 @@ check: void check(link, cb, thisArg)
       }
     },
     datafile: {
-      pattern: /^http:\/\/www\.datafile\.com\/d\/\w+.*$/m,
+      pattern: /^https?:\/\/www\.datafile\.com\/d\/\w+.*$/m,
       multi: [],
       title: 'DataFile.com',
       homepage: 'http://www.datafile.com/',
       check: function (link, cb, thisArg) {
-        offlineByFindingString(link, 'ErrorCode', cb, thisArg)
+        permanentlyoffline(link, cb, thisArg)
       }
     },
     datei: {
@@ -377,7 +377,7 @@ check: void check(link, cb, thisArg)
     },
 
     depositfiles: {
-      pattern: [/^http:\/\/dfiles\.eu\/files\/\w+\/?$/m, /^http:\/\/depositfiles\.com\/files\/\w+\/?$/m],
+      pattern: [/^https?:\/\/dfiles\.eu\/files\/\w+\/?$/m, /^https?:\/\/depositfiles\.com\/files\/\w+\/?$/m],
       multi: [],
       title: 'DepositFiles',
       homepage: 'http://dfiles.eu',
@@ -485,7 +485,7 @@ check: void check(link, cb, thisArg)
       }
     },
     filecloud: {
-      pattern: /^http:\/\/filecloud\.io\/\w+(\/.*)?$/m,
+      pattern: /^https?:\/\/filecloud\.io\/\w+(\/.*)?$/m,
       multi: [],
       title: 'filecloud.io',
       homepage: 'http://filecloud.io/',
@@ -662,7 +662,7 @@ check: void check(link, cb, thisArg)
       }
     },
     freakshare: {
-      pattern: /^http:\/\/freakshare\.com\/files\/\w+\/.+\.html$/m,
+      pattern: /^https?:\/\/freakshare\.com\/files\/\w+\/.+\.html$/m,
       multi: [],
       title: 'FreakShare',
       homepage: 'http://freakshare.com/',
@@ -671,7 +671,7 @@ check: void check(link, cb, thisArg)
       }
     },
     free: {
-      pattern: /^http:\/\/dl\.free\.fr\/\w+$/m,
+      pattern: /^https?:\/\/dl\.free\.fr\/\w+$/m,
       multi: [],
       title: 'Free',
       homepage: 'http://dl.free.fr/',
@@ -707,7 +707,7 @@ check: void check(link, cb, thisArg)
       }
     },
     hugefiles: {
-      pattern: /^http:\/\/hugefiles\.net\/\w+\/?.*$/m,
+      pattern: /^https?:\/\/hugefiles\.net\/\w+\/?.*$/m,
       multi: [],
       title: 'Offline: HugeFiles.net',
       homepage: 'http://hugefiles.net/',
@@ -985,7 +985,7 @@ check: void check(link, cb, thisArg)
       }
     },
     potload: {
-      pattern: /^http:\/\/potload\.com\/\w+$/m,
+      pattern: /^https?:\/\/potload\.com\/\w+$/m,
       multi: [],
       title: 'Offline: Potload',
       homepage: 'http://potload.com/',
@@ -1030,7 +1030,7 @@ check: void check(link, cb, thisArg)
       }
     },
     rioupload: {
-      pattern: /^http:\/\/(www\.)?rioupload\.com\/\w+$/m,
+      pattern: /^https?:\/\/(www\.)?rioupload\.com\/\w+$/m,
       multi: [],
       title: 'RioUpload',
       homepage: 'http://rioupload.com/',
@@ -1072,7 +1072,7 @@ check: void check(link, cb, thisArg)
       }
     },
     rusfolder: {
-      pattern: /^http:\/\/rusfolder\.com\/\d+$/m,
+      pattern: /^https?:\/\/rusfolder\.com\/\d+$/m,
       multi: [],
       title: 'Rusfolder.com',
       homepage: 'http://rusfolder.com/',
@@ -1081,7 +1081,7 @@ check: void check(link, cb, thisArg)
       }
     },
     salefiles: {
-      pattern: /^http:\/\/salefiles\.com\/\w+\/?.*$/m,
+      pattern: /^https?:\/\/salefiles\.com\/\w+\/?.*$/m,
       multi: [],
       title: 'Salefiles',
       homepage: 'http://salefiles.com',
@@ -1090,7 +1090,7 @@ check: void check(link, cb, thisArg)
       }
     },
     'share-online': {
-      pattern: /^http:\/\/www\.share-online\.biz\/dl\/\w+$/m,
+      pattern: /^https?:\/\/www\.share-online\.biz\/dl\/\w+$/m,
       multi: [],
       title: 'Share-Online',
       homepage: 'http://www.share-online.biz/',
@@ -1136,7 +1136,7 @@ check: void check(link, cb, thisArg)
       }
     },
     streamcloud: {
-      pattern: /^http:\/\/streamcloud\.eu\/\w+$/m,
+      pattern: /^https?:\/\/streamcloud\.eu\/\w+$/m,
       multi: [],
       title: 'Offline: Streamcloud',
       homepage: 'http://streamcloud.org/',
@@ -1199,7 +1199,7 @@ check: void check(link, cb, thisArg)
       }
     },
     unibytes: {
-      pattern: /^http:\/\/www\.unibytes\.com\/\w+-\w+$/m,
+      pattern: /^https?:\/\/www\.unibytes\.com\/\w+-\w+$/m,
       multi: ['nopremium.pl'],
       title: 'Unibytes.com',
       homepage: 'http://www.unibytes.com/',
@@ -1208,7 +1208,7 @@ check: void check(link, cb, thisArg)
       }
     },
     unlimitzone: {
-      pattern: /^http:\/\/unlimitzone\.com\/\w+.*$/m,
+      pattern: /^https?:\/\/unlimitzone\.com\/\w+.*$/m,
       multi: [],
       title: 'Unlimit Zone',
       homepage: 'http://unlimitzone.com/',
@@ -1226,7 +1226,7 @@ check: void check(link, cb, thisArg)
       }
     },
     upera: {
-      pattern: /^http:\/\/public\.upera\.co\/\w+$/m,
+      pattern: /^https?:\/\/public\.upera\.co\/\w+$/m,
       multi: [],
       title: 'Upera',
       homepage: 'http://public.upera.co/',
@@ -1235,7 +1235,7 @@ check: void check(link, cb, thisArg)
       }
     },
     uploadable: {
-      pattern: /^http:\/\/www\.uploadable\.ch\/file\/\w+\/(\w|-|\.)+$/m,
+      pattern: /^https?:\/\/www\.uploadable\.ch\/file\/\w+\/(\w|-|\.)+$/m,
       multi: [],
       title: 'Offline: Uploadable.ch',
       homepage: 'http://www.uploadable.ch/',
@@ -1253,7 +1253,7 @@ check: void check(link, cb, thisArg)
       }
     },
     uploadboy: {
-      pattern: [/^http:\/\/(www\.)?uploadboy\.com\/\w+\.html$/m, /^https?:\/\/uploadboy\.(me|com)\/\w+\/?.*$/m],
+      pattern: [/^https?:\/\/(www\.)?uploadboy\.com\/\w+\.html$/m, /^https?:\/\/uploadboy\.(me|com)\/\w+\/?.*$/m],
       multi: ['nopremium.pl', 'premiumize.me'],
       title: 'Uploadboy.com',
       homepage: 'http://uploadboy.com/',
@@ -1262,7 +1262,7 @@ check: void check(link, cb, thisArg)
       }
     },
     uploaded: {
-      pattern: [/^https?:\/\/uploaded\.(net|to)\/file\/.+$/m, /^http:\/\/ul\.to\/.+$/m],
+      pattern: [/^https?:\/\/uploaded\.(net|to)\/file\/.+$/m, /^https?:\/\/ul\.to\/.+$/m],
       multi: ['nopremium.pl', 'premiumize.me'],
       title: 'uploaded.net',
       homepage: 'http://uploaded.net/',
@@ -1281,7 +1281,7 @@ check: void check(link, cb, thisArg)
       }
     },
     uploadingcom: {
-      pattern: /^http:\/\/uploading\.com\/\w+\/?.*$/m,
+      pattern: /^https?:\/\/uploading\.com\/\w+\/?.*$/m,
       multi: ['nopremium.pl'],
       title: 'Uploading.com',
       homepage: 'http://uploading.com/',
@@ -1290,7 +1290,7 @@ check: void check(link, cb, thisArg)
       }
     },
     uploading: {
-      pattern: /^http:\/\/(www\.)?uploading\.site\/\w+.*$/m,
+      pattern: /^https?:\/\/(www\.)?uploading\.site\/\w+.*$/m,
       multi: ['nopremium.pl'],
       title: 'Uploading.site',
       homepage: 'http://uploading.site/',
@@ -1308,7 +1308,7 @@ check: void check(link, cb, thisArg)
       }
     },
     uploadon: {
-      pattern: /^http:\/\/uploadon\.me\/\w+\.html$/m,
+      pattern: /^https?:\/\/uploadon\.me\/\w+\.html$/m,
       multi: [],
       title: 'Uploadon.me',
       homepage: 'http://uploadon.me/',
@@ -1317,7 +1317,7 @@ check: void check(link, cb, thisArg)
       }
     },
     uploadrocket: {
-      pattern: /^http:\/\/uploadrocket\.net\/\w+(\/|\w|-|\.)+(\.html)?$/m,
+      pattern: /^https?:\/\/uploadrocket\.net\/\w+(\/|\w|-|\.)+(\.html)?$/m,
       multi: [],
       title: 'UploadRocket.net',
       homepage: 'http://uploadrocket.net/',
@@ -1326,7 +1326,7 @@ check: void check(link, cb, thisArg)
       }
     },
     uppit: {
-      pattern: /^http:\/\/uppit\.com\/\w+(\/.*)?$/m,
+      pattern: /^https?:\/\/uppit\.com\/\w+(\/.*)?$/m,
       multi: [],
       title: 'UppIT',
       homepage: 'http://uppit.com/',
@@ -1408,12 +1408,21 @@ check: void check(link, cb, thisArg)
       }
     },
     vipfile: {
-      pattern: /^http:\/\/(\w+.)?vip-file.(com|net)\/downloadlib\/.*$/m,
+      pattern: /^https?:\/\/(\w+.)?vip-file.(com|net)\/downloadlib\/.*$/m,
       multi: [],
       title: 'VIP-file',
       homepage: 'http://vip-file.net/',
       check: function (link, cb, thisArg) {
         offlineByFindingString(link, 'File not found', cb, thisArg, link.url + '?lang=en')
+      }
+    },
+    vishare: {
+      pattern: /^https:\/\/(\w+.)?vishare.pl\/\w{10,}\/.*$/m,
+      multi: ['nopremium.pl'],
+      title: 'Vishare',
+      homepage: 'https://vishare.pl/',
+      check: function (link, cb, thisArg) {
+        offlineByFindingString(link, '>404<', cb, thisArg)
       }
     },
     wdupload: {
