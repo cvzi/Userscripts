@@ -340,7 +340,7 @@ check: void check(link, cb, thisArg)
       }
     },
     dailyuploads: {
-      pattern: /^https?:\/\/dailyuploads\.net\/\w+\/?.*$/m,
+      pattern: /^https?:\/\/dailyuploads\.net\/\w{8,}\/?.*$/m,
       multi: ['nopremium.pl'],
       title: 'Daily Uploads',
       homepage: 'http://dailyuploads.net/',
@@ -454,7 +454,7 @@ check: void check(link, cb, thisArg)
       title: 'FastShare.cz',
       homepage: 'https://fastshare.cz/',
       check: function (link, cb, thisArg) {
-        offlineByFindingString(link, 'This file is no longer available', cb, thisArg)
+        offlineByFindingString(link, ['This file is no longer available', 'není dostupný', 'nie je dostupný', 'został usunięty'], cb, thisArg)
       }
     },
     faststore: {
