@@ -3,7 +3,7 @@
 // @description  Minimizes pushs and commits from github actions and bots from github.com dashboard
 // @namespace    cuzi
 // @author       cuzi
-// @version      1.1
+// @version      1.2
 // @description  Hide bot's and github-actions' push from dashboard news
 // @copyright    2020, cuzi (https://openuserjs.org/users/cuzi)
 // @license      GPL-3.0-or-later; http://www.gnu.org/licenses/gpl-3.0.txt
@@ -33,8 +33,8 @@
   function hideBots () {
     document.querySelectorAll('#dashboard div.push:not(.shotBot)').forEach(function (div) {
       const label = div.querySelector('.body .d-flex .d-flex .Label')
-      const a = div.querySelector('.body .d-flex .d-flex a')
-      if ((label && label.textContent === 'bot') || (a && a.textContent === 'github-actions')) {
+      const isAppUrl = div.querySelector('.body .d-flex .d-flex a.Link--primary[href^="/apps/"]')
+      if (isAppUrl || (label && label.textContent === 'bot')) {
         div.style.fontSize = '10px'
         if (div.querySelector('.border-bottom')) {
           div.querySelector('.border-bottom').classList.replace('border-bottom', 'no-border-bottom')
