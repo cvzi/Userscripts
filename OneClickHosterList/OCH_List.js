@@ -12,7 +12,7 @@
 
 /*
   This library requires another library:
-  @require http://openuserjs.org/src/libs/cuzi/RequestQueue.js
+  (at)require http://openuserjs.org/src/libs/cuzi/RequestQueue.js
 */
 
 'use strict'
