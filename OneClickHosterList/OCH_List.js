@@ -8,8 +8,6 @@
 // ==/UserLibrary==
 // @namespace   cuzi
 // @homepageURL https://github.com/cvzi/Userscripts
-// @grant       GM_xmlhttpRequest
-// @grant       GM.xmlhttpRequest
 // @require     http://openuserjs.org/src/libs/cuzi/RequestQueue.js
 // ==/UserScript==
 
@@ -1479,6 +1477,5 @@ check: void check(link, cb, thisArg)
         offlineByFindingString(link, 'does not exist', cb, thisArg)
       }
     }
-
   }
 }
