@@ -8,8 +8,12 @@
 // ==/UserLibrary==
 // @namespace   cuzi
 // @homepageURL https://github.com/cvzi/Userscripts
-// @require     http://openuserjs.org/src/libs/cuzi/RequestQueue.js
 // ==/UserScript==
+
+/*
+  This library requires another library:
+  @require http://openuserjs.org/src/libs/cuzi/RequestQueue.js
+*/
 
 'use strict'
 
