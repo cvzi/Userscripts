@@ -3,7 +3,7 @@
 // ==UserLibrary==
 // @name        OCH List
 // @description A list of One-Click-Hosters that are supported by nopremium.pl
-// @version     33
+// @version     34
 // @license     GPL-3.0-or-later; http://www.gnu.org/licenses/gpl-3.0.txt
 // ==/UserLibrary==
 // @namespace   cuzi
@@ -899,6 +899,15 @@ check: void check(link, cb, thisArg)
       homepage: 'https://down.mdiaload.com/',
       check: function (link, cb, thisArg) {
         offlineByFindingString(link, 'File Not Found', cb, thisArg)
+      }
+    },
+    mixdrop: {
+      pattern: /^https?:\/\/mixdrop\.co\/f\/\w+.*$/m,
+      multi: ['nopremium.pl'],
+      title: 'MixDrop.co',
+      homepage: 'https://mixdrop.co/',
+      check: function (link, cb, thisArg) {
+        offlineByFindingString(link, ['WE ARE SORRY', 'notfound', 'download error'], cb, thisArg)
       }
     },
     mixloads: {
