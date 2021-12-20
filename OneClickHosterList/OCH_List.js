@@ -441,6 +441,15 @@ check: void check(link, cb, thisArg)
         offlineByFindingString(link, 'File Not Found', cb, thisArg)
       }
     },
+    fastclick: {
+      pattern: /^https?:\/\/fastclick\.to\/\w+\/?.*$/m,
+      multi: [],
+      title: 'FastClick.to',
+      homepage: 'https://fastclick.to/',
+      check: function (link, cb, thisArg) {
+        offlineByFindingString(link, 'File Not Found', cb, thisArg)
+      }
+    },
     fastdrive: {
       pattern: [/^https?:\/\/fastdrive\.io\/\w+\/?.*$/m],
       multi: [],

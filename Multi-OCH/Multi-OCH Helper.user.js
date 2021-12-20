@@ -8,7 +8,7 @@
 // @contributionURL  https://buymeacoff.ee/cuzi
 // @contributionURL  https://ko-fi.com/cuzicvzi
 // @icon             https://raw.githubusercontent.com/cvzi/Userscripts/master/Multi-OCH/icons/helper.png
-// @version          16.16
+// @version          16.17
 
 // @include          /^https:\/\/cvzi\.github\.io\/Userscripts\/index\.html\?link=.+/
 // @include          /^https:\/\/www\.nopremium\.pl\/files.*$/
@@ -110,7 +110,7 @@
 // @include          /^https?:\/\/www\.youtube\.com\/watch(\?v=|\/).+$/
 // @include          /^https?:\/\/www\d*\.zippyshare\.com\/v\/\w+\/file\.html$/
 
-// @require          https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js
+// @require          https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js
 // @require          https://greasyfork.org/scripts/13883-aes-js/code/aesjs.js
 // @grant            GM.registerMenuCommand
 // @grant            unsafeWindow

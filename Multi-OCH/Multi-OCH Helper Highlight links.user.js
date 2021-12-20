@@ -12,14 +12,19 @@
 // @exclude     *.google.*
 // @exclude     *.youtube.*
 // @exclude     *.bing.com*
+// @exclude     *.yandex.ru*
 // @exclude     *duckduckgo.com*
 // @exclude     *bandcamp.com*
 // @exclude     *.tumblr.com*
-// @version     10.15
+// @exclude     *.wikipedia.org
+// @exclude     *.amazon.*
+// @exclude     *.ebay.*
+// @exclude     *.netflix.com*
+// @version     10.16
 // @grant       GM.setValue
 // @grant       GM.getValue
 // @require     https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js
-// @require     https://openuserjs.org/src/libs/cuzi/OCH_List.js
+// @require     https://greasyfork.org/scripts/25445-och-list/code/OCH%20List.js
 // ==/UserScript==
 
 /* globals getOCH, GM, $, alert, NodeFilter */
@@ -212,7 +217,8 @@
       padding: '1px',
       boxShadow: '3px 3px 5px #444',
       border: '4px solid #9055c5',
-      borderRadius: '0 5px 5px 5px'
+      borderRadius: '0 5px 5px 5px',
+      zIndex: 1001
     })
     frame.appendTo(document.body)
 
