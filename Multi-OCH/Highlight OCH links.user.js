@@ -9,6 +9,7 @@
 // @compatible       firefox Greasemonkey
 // @compatible       chrome Tampermonkey. Allow all domains on first run.
 // @homepageURL      https://openuserjs.org/scripts/cuzi/Highlight_OCH_links
+// @updateURL        https://openuserjs.org/meta/cuzi/Highlight_OCH_links.meta.js
 // @require          https://greasyfork.org/scripts/370011-requestqueue/code/RequestQueue.js
 // @require          https://greasyfork.org/scripts/25445-och-list/code/OCH%20List.js
 // @grant            GM_xmlhttpRequest
