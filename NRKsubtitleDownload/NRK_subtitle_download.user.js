@@ -2,10 +2,14 @@
 // @name         NRK subtitle download
 // @namespace    http://tampermonkey.net/
 // @version      0.1
-// @description  Download subtitles from nrk.no
+// @description  Download subtitles from tv.nrk.no
 // @author       cvzi
+// @copyright    2021, cuzi (https://openuserjs.org/users/cuzi)
+// @license      MIT
 // @match        https://tv.nrk.no/*
-// @icon         https://www.google.com/s2/favicons?domain=nrk.no
+// @icon         https://tv.nrk.no/apple-touch-icon.png
+// @updateURL    https://openuserjs.org/meta/cuzi/NRK_subtitle_download.meta.js
+// @downloadURL  https://openuserjs.org/install/cuzi/NRK_subtitle_download.user.js
 // @grant        GM.xmlHttpRequest
 // @grant        GM.registerMenuCommand
 // ==/UserScript==
