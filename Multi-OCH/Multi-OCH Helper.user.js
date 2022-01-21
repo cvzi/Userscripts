@@ -8,7 +8,7 @@
 // @contributionURL  https://buymeacoff.ee/cuzi
 // @contributionURL  https://ko-fi.com/cuzicvzi
 // @icon             https://raw.githubusercontent.com/cvzi/Userscripts/master/Multi-OCH/icons/helper.png
-// @version          16.17
+// @version          16.18
 
 // @include          /^https:\/\/cvzi\.github\.io\/Userscripts\/index\.html\?link=.+/
 // @include          /^https:\/\/www\.nopremium\.pl\/files.*$/
@@ -49,6 +49,7 @@
 // @include          /^https?:\/\/ddownload\.com\/\w+.*$/
 // @include          /^https?:\/\/(www\.)?devilshare\.net\/view.+$/
 // @include          /^https?:\/\/(www\.)?dropapk\.to\/\w+.*$/
+// @include          /^https?:\/\/(www\.)?drop.download\/\w+.*$/
 // @include          /^https?:\/\/fastshare\.cz\/\d+\/.+$/
 // @include          /^https?:\/\/(www\.)?file\.al\/\w+\/?.*$/
 // @include          /^https?:\/\/(www\.)?filefactory\.com\/file\/.+$/
@@ -122,7 +123,6 @@
 // @grant            GM.getValue
 // @grant            GM.deleteValue
 // @grant            GM.listValues
-
 // ==/UserScript==
 
 /* globals confirm, alert, GM, unsafeWindow, $, atob, slowAES, cloneInto */
@@ -1769,10 +1769,10 @@ if(!greasemonkey) {
       }
       if (result && result[0]) {
         addStatus('Opening download...', -1)
-        const oldlocation = document.location.href
-        document.location.href = result[0]
-        if (oldlocation === document.location.href) { // Changing location was blocked by sandboxed iframe
-        // GM.openInTab(result);
+        if (window.top == window) {
+          document.location.href = result[0]
+        } else {
+          // Changing location may be blocked by sandboxed iframe
           window.top.location.href = result[0]
         }
       } else if (code === -2) {
