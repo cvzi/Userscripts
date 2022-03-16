@@ -8,7 +8,7 @@
 // @contributionURL  https://buymeacoff.ee/cuzi
 // @contributionURL  https://ko-fi.com/cuzicvzi
 // @icon             https://raw.githubusercontent.com/cvzi/Userscripts/master/Multi-OCH/icons/helper.png
-// @version          16.18
+// @version          16.19
 
 // @include          /^https:\/\/cvzi\.github\.io\/Userscripts\/index\.html\?link=.+/
 // @include          /^https:\/\/www\.nopremium\.pl\/files.*$/
@@ -42,7 +42,7 @@
 // @include          /^https?:\/\/(www\.)?bayfiles\.(net|com)\/\w+\/?.*$/
 // @include          /^http:\/\/billionuploads\.com\/\w+$/
 // @include          /^https?:\/\/(www\.)?catshare\.net\/.+$/
-// @include          /^https?:\/\/(www\.)?clicknupload\.(link|org|co|cc)\/\w+\/?.*$/
+// @include          /^https?:\/\/(www\.)?clicknupload\.(link|org|co|cc|to)\/\w+\/?.*$/
 // @include          /^https?:\/\/(www\.)?datei\.to\/\?\w+$/
 // @include          /^https?:\/\/dailyuploads\.net\/\w+\/?.*$/
 // @include          /^https?:\/\/(www\.)?ddl\.to\/\w+$/
