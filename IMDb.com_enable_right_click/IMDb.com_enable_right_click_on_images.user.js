@@ -3,20 +3,48 @@
 // @namespace    https://openuserjs.org/users/cuzi
 // @license      GPL-3.0-or-later
 // @copyright    2020, cuzi (https://openuserjs.org/users/cuzi)
-// @version      1.0
+// @version      1.1.0
 // @description  Enable right click on images in the IMDb.com media viewer
 // @author       cuzi
 // @include      https://www.imdb.com/*
-// @grant        none
+// @grant        GM.openInTab
 // ==/UserScript==
 
 (function() {
     'use strict'
 
+    function highestQuality (ev) {
+      if (!ev || ev.button !== 1) {
+        return
+      }
+      const src = this.currentSrc.replace(/\.[^/.]*_[^/.]*\.+([^./]*)$/, ".$1")
+      GM.openInTab(src)
+    }
+
     window.setInterval(function() {
+      /* old before 2022-03-16 */
       document.querySelectorAll('div[class*="PortraitContainer"],div[class*="LandscapeContainer"]').forEach(function (div){
         div.style.zIndex = 2
       })
-    }, 1000)
+
+      /* new 2022-03-16 */
+      document.querySelectorAll('.media-viewer div>img[srcset][data-image-id]').forEach(function (img){
+        img.removeEventListener('mouseup', highestQuality)
+        if (img.clientWidth) {
+          // Downsize the image container so it won't overlap the arrows for navigation
+          img.parentNode.style.width = img.clientWidth + 'px'
+          // Bring image container to the front
+          img.parentNode.style.zIndex = 2
+          // Try to load highest quality src on wheel click
+          img.addEventListener('mouseup', highestQuality)
+          img.title = 'Mouse wheel click to open highest quality\nRight click to open context menu'
+        } else {
+          // Reset if image size is not loaded yet
+          img.parentNode.style.width = ''
+          img.parentNode.style.zIndex = ''
+        }
+      })
+
+    }, 700)
 
 })();
