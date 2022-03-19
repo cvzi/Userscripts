@@ -8,7 +8,7 @@
 // @contributionURL  https://buymeacoff.ee/cuzi
 // @contributionURL  https://ko-fi.com/cuzicvzi
 // @icon             https://raw.githubusercontent.com/cvzi/Userscripts/master/Multi-OCH/icons/helper.png
-// @version          16.20
+// @version          16.21
 
 // @include          /^https:\/\/cvzi\.github\.io\/Userscripts\/index\.html\?link=.+/
 // @include          /^https:\/\/www\.nopremium\.pl\/files.*$/
@@ -33,6 +33,7 @@
 // @include          http://share-links.biz/*
 // @include          http*://relink.to/view.php?id=*
 // @include          http://extreme-protect.net/*
+// @include          https://multiup.org/*
 
 // @include          /^https?:\/\/(www\.)?1fichier\.com\/.+$/
 // @include          /^https?:\/\/\w+\.1fichier\.com\/?.*$/
@@ -3488,6 +3489,10 @@ if(!greasemonkey) {
     $('#grid tbody a').each(function () {
       showOneclickLink += decodeURIComponent(this.href) + '\n'
     })
+  }  else if (document.location.hostname === "multiup.org" && document.querySelectorAll('button[link]').length > 0) {
+  // Multiup.org mirrors
+    showOneclickButton = true
+    showOneclickLink = Array.from(document.querySelectorAll('button[link]')).map(b => b.getAttribute("link")).join("\n")
   } else if (document.location.href.substring(0, 55) === 'https://cvzi.github.io/Userscripts/index.html?link=sync') {
     // Window opened from Helper script to sync hoster status (see postMessage events below)
     showOneclickButton = false
