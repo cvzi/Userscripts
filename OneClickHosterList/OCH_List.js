@@ -3,7 +3,7 @@
 // ==UserLibrary==
 // @name        OCH List
 // @description A list of One-Click-Hosters that are supported by nopremium.pl
-// @version     35
+// @version     36
 // @license     GPL-3.0-or-later; http://www.gnu.org/licenses/gpl-3.0.txt
 // ==/UserLibrary==
 // @namespace   cuzi
@@ -443,7 +443,7 @@ check: void check(link, cb, thisArg)
     },
     fastclick: {
       pattern: /^https?:\/\/fastclick\.to\/\w+\/?.*$/m,
-      multi: [],
+      multi: ['nopremium.pl'],
       title: 'FastClick.to',
       homepage: 'https://fastclick.to/',
       check: function (link, cb, thisArg) {
