@@ -8,7 +8,7 @@
 // @contributionURL  https://buymeacoff.ee/cuzi
 // @contributionURL  https://ko-fi.com/cuzicvzi
 // @icon             https://raw.githubusercontent.com/cvzi/Userscripts/master/Multi-OCH/icons/helper.png
-// @version          16.21
+// @version          16.22
 
 // @include          /^https:\/\/cvzi\.github\.io\/Userscripts\/index\.html\?link=.+/
 // @include          /^https:\/\/www\.nopremium\.pl\/files.*$/
@@ -1100,7 +1100,7 @@ if(!greasemonkey) {
     return parseFloat(parseFloat(f).toFixed(p))
   }
   */
-  
+
   const orgDocumentTitle = document.title
   function setTitle(message) {
     if (window.parent.parent !== window) {
@@ -3489,9 +3489,9 @@ if(!greasemonkey) {
     $('#grid tbody a').each(function () {
       showOneclickLink += decodeURIComponent(this.href) + '\n'
     })
-  }  else if (document.location.hostname === "multiup.org" && document.querySelectorAll('button[link]').length > 0) {
+  } else if (document.location.hostname === "multiup.org") {
   // Multiup.org mirrors
-    showOneclickButton = true
+    showOneclickButton = document.querySelectorAll('button[link]').length > 0
     showOneclickLink = Array.from(document.querySelectorAll('button[link]')).map(b => b.getAttribute("link")).join("\n")
   } else if (document.location.href.substring(0, 55) === 'https://cvzi.github.io/Userscripts/index.html?link=sync') {
     // Window opened from Helper script to sync hoster status (see postMessage events below)
