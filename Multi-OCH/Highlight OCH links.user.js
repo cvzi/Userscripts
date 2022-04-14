@@ -2,7 +2,7 @@
 // @name             Highlight OCH links
 // @namespace        cuzi
 // @license          MIT
-// @description      Link Checker. Hit escape to check whether one-click hoster links are online or offline.
+// @description      Link Checker. Hit escape to check whether one-click hoster links are online or offline. Press Esc + Shift to remove offline links
 // @icon             https://raw.githubusercontent.com/cvzi/Userscripts/master/Multi-OCH/icons/och.png
 // @contributionURL  https://buymeacoff.ee/cuzi
 // @contributionURL  https://ko-fi.com/cuzicvzi
@@ -15,7 +15,7 @@
 // @grant            GM_xmlhttpRequest
 // @grant            GM.xmlHttpRequest
 // @connect          *
-// @version          23.2
+// @version          23.3
 // @include          *
 // @exclude          *.yahoo.*
 // @exclude          *.google.*
@@ -62,6 +62,7 @@ alert(myurls.join("\n"));
 */
 
   let links = [] // [  { hoster: "", url: "", element: DOMNode} , ...   ]
+  let deleteOfflineLinks = false
   const rq = new RequestQueue(MAXPARALLELCONNECTIONS, MAXREQUESTS)
 
   // Get OCH list
@@ -70,6 +71,9 @@ alert(myurls.join("\n"));
   function linkOffline (link) {
     link.element.style.backgroundColor = 'rgba(255, 0, 20, 0.5)'
     link.element.dataset.linkValidatedAs = 'offline'
+    if (deleteOfflineLinks) {
+      link.element.remove()
+    }
   }
   function linkOnline (link) {
     link.element.style.backgroundColor = 'rgba(70, 255 ,0, 0.5)'
@@ -186,9 +190,13 @@ alert(myurls.join("\n"));
     }
 
     // Find actual <a> links
+    const deleteNodes = []
     const al = document.getElementsByTagName('a')
     for (let i = 0; i < al.length; i++) {
       if (al[i].dataset.linkValidatedAs) {
+        if (deleteOfflineLinks && al[i].dataset.linkValidatedAs === 'offline') {
+          deleteNodes.push(al[i])
+        }
         continue // Link was already checked
       }
       const mH = matchHoster(al[i].href)
@@ -200,6 +208,8 @@ alert(myurls.join("\n"));
         })
       }
     }
+
+    deleteNodes.forEach(e => e.remove())
 
     return links.length
   }
@@ -216,6 +226,7 @@ alert(myurls.join("\n"));
 
   document.addEventListener('keydown', function (ev) {
     if (ev.keyCode === 27) {
+      deleteOfflineLinks = ev.shiftKey
       if (!rq.hasRunning()) {
       // Highlight links and check them
         rq.resetTotal()
