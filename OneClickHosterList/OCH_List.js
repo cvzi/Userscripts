@@ -3,7 +3,7 @@
 // ==UserLibrary==
 // @name        OCH List
 // @description A list of One-Click-Hosters that are supported by nopremium.pl
-// @version     36
+// @version     37
 // @license     GPL-3.0-or-later; http://www.gnu.org/licenses/gpl-3.0.txt
 // ==/UserLibrary==
 // @namespace   cuzi
@@ -456,7 +456,7 @@ check: void check(link, cb, thisArg)
       title: 'FastDrive',
       homepage: 'https://fastdrive.io/',
       check: function (link, cb, thisArg) {
-        offlineByFindingString(link, ['Page Not Found', '>404<', 'File Not Found'], cb, thisArg)
+        offlineByFindingString(link, ['Page Not Found', '>404<', 'File Not Found', '>Error<'], cb, thisArg)
       }
     },
     fastshare: {
@@ -1171,6 +1171,15 @@ check: void check(link, cb, thisArg)
       homepage: 'http://streamin.to/',
       check: function (link, cb, thisArg) {
         offlineByFindingString(link, 'File Deleted', cb, thisArg)
+      }
+    },
+    streamtape: {
+      pattern: /^https?:\/\/streamtape\.com\/\w\/\w{5,}.+$/m, // https://streamtape.com/v/AJW7RqA2mlFXlLp/How.to.Sell.Drugs.Online.Fast.S03E01.DUBBED.WEBRip.x264-ION10.mp4
+      multi: [],
+      title: 'streamtape.com',
+      homepage: 'https://streamtape.com/',
+      check: function (link, cb, thisArg) {
+        offlineByFindingString(link, ['not found!', 'not found '], cb, thisArg)
       }
     },
     subyshare: {
