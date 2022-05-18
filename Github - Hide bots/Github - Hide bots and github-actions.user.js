@@ -3,7 +3,7 @@
 // @description  Minimizes pushs and commits from github actions and bots from github.com dashboard
 // @namespace    cuzi
 // @author       cuzi
-// @version      1.2
+// @version      1.3
 // @description  Hide bot's and github-actions' push from dashboard news
 // @copyright    2020, cuzi (https://openuserjs.org/users/cuzi)
 // @license      GPL-3.0-or-later; http://www.gnu.org/licenses/gpl-3.0.txt
@@ -14,6 +14,12 @@
 
 (function () {
   'use strict'
+
+  document.head.appendChild(document.createElement('style')).innerHTML = `
+  .Details:hover .newexpanderbutton .Link--secondary {
+    color: var(--color-accent-fg) !important;
+  }
+  `
 
   function unhideBot (ev) {
     const div = this
@@ -28,9 +34,13 @@
     div.querySelector('.body .d-flex').style.padding = ''
     div.querySelector('img.avatar').height = '32'
     div.querySelector('img.avatar').width = '32'
+    if (div.querySelector('.newexpanderbutton')) {
+      div.querySelector('.newexpanderbutton').remove()
+    }
   }
 
   function hideBots () {
+    const expandButton = document.querySelector('button.js-details-target:not(.Header-link)[aria-expanded="false"]')
     document.querySelectorAll('#dashboard div.push:not(.shotBot)').forEach(function (div) {
       const label = div.querySelector('.body .d-flex .d-flex .Label')
       const isAppUrl = div.querySelector('.body .d-flex .d-flex a.Link--primary[href^="/apps/"]')
@@ -45,6 +55,12 @@
         div.querySelector('img.avatar').height = '20'
         div.querySelector('img.avatar').width = '20'
         div.addEventListener('click', unhideBot)
+        const line = div.querySelector('.Details .flex-column .flex-justify-between.flex-items-baseline')
+        if (line && expandButton && !line.querySelector('button.js-details-target')) {
+          const newExpandButton = document.createElement('button')
+          line.appendChild(newExpandButton)
+          newExpandButton.outerHTML = expandButton.outerHTML.replace('js-details-target', 'js-details-target newexpanderbutton')
+        }
       }
     })
   }
