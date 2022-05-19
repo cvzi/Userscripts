@@ -3,7 +3,7 @@
 // @description  Minimizes pushs and commits from github actions and bots from github.com dashboard
 // @namespace    cuzi
 // @author       cuzi
-// @version      1.3
+// @version      1.4
 // @description  Hide bot's and github-actions' push from dashboard news
 // @copyright    2020, cuzi (https://openuserjs.org/users/cuzi)
 // @license      GPL-3.0-or-later; http://www.gnu.org/licenses/gpl-3.0.txt
@@ -34,6 +34,7 @@
     div.querySelector('.body .d-flex').style.padding = ''
     div.querySelector('img.avatar').height = '32'
     div.querySelector('img.avatar').width = '32'
+    div.style.cursor = ''
     if (div.querySelector('.newexpanderbutton')) {
       div.querySelector('.newexpanderbutton').remove()
     }
@@ -54,6 +55,7 @@
         div.querySelector('.body .d-flex').style.padding = '0px'
         div.querySelector('img.avatar').height = '20'
         div.querySelector('img.avatar').width = '20'
+        div.style.cursor = 'row-resize'
         div.addEventListener('click', unhideBot)
         const line = div.querySelector('.Details .flex-column .flex-justify-between.flex-items-baseline')
         if (line && expandButton && !line.querySelector('button.js-details-target')) {
