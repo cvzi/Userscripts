@@ -14,8 +14,9 @@
 // @require          https://greasyfork.org/scripts/25445-och-list/code/OCH%20List.js
 // @grant            GM_xmlhttpRequest
 // @grant            GM.xmlHttpRequest
+// @grant            GM.registerMenuCommand
 // @connect          *
-// @version          23.3
+// @version          23.4
 // @include          *
 // @exclude          *.yahoo.*
 // @exclude          *.google.*
@@ -25,7 +26,7 @@
 // @exclude          *duckduckgo.com*
 // ==/UserScript==
 
-/* globals RequestQueue, getOCH, NodeFilter */
+/* globals RequestQueue, getOCH, NodeFilter, GM */
 
 (function () {
   'use strict'
@@ -224,20 +225,35 @@ alert(myurls.join("\n"));
     }
   }
 
+  function toggleCheck () {
+    if (!rq.hasRunning()) {
+      // Highlight links and check them
+      rq.resetTotal()
+      const n = findLinks()
+      if (n > 0) {
+        checkLinks()
+      }
+    } else {
+      // Abort all requests
+      rq.abort()
+    }
+  }
+
   document.addEventListener('keydown', function (ev) {
     if (ev.keyCode === 27) {
       deleteOfflineLinks = ev.shiftKey
-      if (!rq.hasRunning()) {
-      // Highlight links and check them
-        rq.resetTotal()
-        const n = findLinks()
-        if (n > 0) {
-          checkLinks()
-        }
-      } else {
-      // Abort all requests
-        rq.abort()
-      }
+      toggleCheck()
     }
   }, false)
+
+  // Manual check from menu
+  GM.registerMenuCommand('Check links', function () {
+    toggleCheck()
+  })
+
+  // Manual check from menu
+  GM.registerMenuCommand('Remove offline links', function () {
+    deleteOfflineLinks = true
+    toggleCheck()
+  })
 })()

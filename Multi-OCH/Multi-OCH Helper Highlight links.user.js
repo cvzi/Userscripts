@@ -5,7 +5,6 @@
 // @copyright   2014, cuzi (https://openuserjs.org/users/cuzi)
 // @description nopremium.pl and premiumize.me. Highlight one-click-hoster links and include Multi-OCH Helper button
 // @homepageURL https://openuserjs.org/scripts/cuzi/Multi-OCH_Helper_Highlight_links
-// @updateURL   https://openuserjs.org/meta/cuzi/Multi-OCH_Helper_Highlight_links.meta.js
 // @icon        https://raw.githubusercontent.com/cvzi/Userscripts/master/Multi-OCH/icons/helper_highlight.png
 // @include     *
 // @exclude     *.yahoo.*
@@ -20,10 +19,11 @@
 // @exclude     *.amazon.*
 // @exclude     *.ebay.*
 // @exclude     *.netflix.com*
-// @version     10.17
+// @version     10.18
 // @grant       GM.setValue
 // @grant       GM.getValue
-// @require     https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js
+// @grant       GM.registerMenuCommand
+// @require     https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js
 // @require     https://greasyfork.org/scripts/25445-och-list/code/OCH%20List.js
 // ==/UserScript==
 
@@ -448,6 +448,9 @@
   for (const key in multi) {
     await multi[key].init()
   }
+
+  // Manual refresh from menu
+  GM.registerMenuCommand('Find links', () => attachEvents())
 
   // This is the start of everything
   let numberFoundLinks = 0
