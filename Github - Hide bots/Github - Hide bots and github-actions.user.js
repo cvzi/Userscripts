@@ -7,7 +7,7 @@
 // @description  Hide bot's and github-actions' push from dashboard news
 // @copyright    2020, cuzi (https://openuserjs.org/users/cuzi)
 // @license      GPL-3.0-or-later; http://www.gnu.org/licenses/gpl-3.0.txt
-// @icon         https://github.githubassets.com/pinned-octocat.svg
+// @icon         https://raw.githubusercontent.com/hfg-gmuend/openmoji/master/color/72x72/E045.png
 // @match        https://github.com/
 // @grant        none
 // ==/UserScript==
