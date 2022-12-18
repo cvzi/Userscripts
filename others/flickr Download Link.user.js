@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name             flickr Download Link
-// @version          3.6
+// @version          3.7
 // @description      Adds a download link next to the Create link and enables right click on photos.
 // @homepageURL      https://openuserjs.org/scripts/cuzi/flickr_Download_Link
 // @updateURL        https://openuserjs.org/meta/cuzi/flickr_Download_Link.meta.js
@@ -11,7 +11,9 @@
 // @namespace        cuzi
 // @license          MIT
 // @grant            none
-// @include          /^https?:\/\/(www\.)?flickr\.com\/.*$/
+// @icon             https://combo.staticflickr.com/pw/images/favicons/favicon-228.png
+// @match            https://flickr.com/*
+// @match            https://*.flickr.com/*
 // ==/UserScript==
 
 (function () {
