@@ -11,7 +11,7 @@
 // @grant       GM.setValue
 // @grant       GM.getValue
 // @require     https://greasemonkey.github.io/gm4-polyfill/gm4-polyfill.js
-// @icon        https://openuserjs.org/images/favicon180.png
+// @icon        https://www.google.com/s2/favicons?sz=64&domain=openuserjs.org
 // @sandbox     JavaScript
 // ==/UserScript==
 
