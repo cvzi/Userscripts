@@ -3,7 +3,7 @@
 // ==UserLibrary==
 // @name        OCH List
 // @description A list of One-Click-Hosters that are supported by nopremium.pl
-// @version     38
+// @version     39
 // @license     GPL-3.0-or-later; http://www.gnu.org/licenses/gpl-3.0.txt
 // ==/UserLibrary==
 // @namespace   cuzi
@@ -298,11 +298,11 @@ check: void check(link, cb, thisArg)
     },
     catshare: {
       pattern: /^https?:\/\/(www\.)?catshare\.net\/.+$/m,
-      multi: ['nopremium.pl'],
-      title: 'CatShare',
+      multi: [],
+      title: 'Offline: CatShare',
       homepage: 'http://catshare.net/',
       check: function (link, cb, thisArg) {
-        offlineByFindingString(link, 'Podany plik został usunięty', cb, thisArg)
+        permanentlyoffline(link, cb, thisArg)
       }
     },
     clicknupload: {
@@ -361,11 +361,11 @@ check: void check(link, cb, thisArg)
     },
     datei: {
       pattern: /^https?:\/\/(www\.)?datei\.to\/\?\w+$/m,
-      multi: ['premiumize.me'],
-      title: 'datei.to',
+      multi: [],
+      title: 'Offline: datei.to',
       homepage: 'http://datei.to/',
       check: function (link, cb, thisArg) {
-        offlineByFindingString(link, 'icon_deleted.png', cb, thisArg)
+        permanentlyoffline(link, cb, thisArg)
       }
     },
     ddownload: {
@@ -389,7 +389,7 @@ check: void check(link, cb, thisArg)
     },
     devilshare: {
       pattern: /^https?:\/\/(www\.)?devilshare\.net\/view.+$/m,
-      multi: ['nopremium.pl'],
+      multi: [],
       title: 'Offline: Devilshare.net',
       homepage: 'http://devilshare.net',
       check: function (link, cb, thisArg) {
@@ -611,11 +611,11 @@ check: void check(link, cb, thisArg)
     },
     fileshark: {
       pattern: /^https?:\/\/(www\.)?fileshark\.pl\/pobierz\/\d+\/\w+\/.*$/m,
-      multi: ['nopremium.pl'],
-      title: 'fileshark.pl',
+      multi: [],
+      title: 'Offline: fileshark.pl',
       homepage: 'https://fileshark.pl/',
       check: function (link, cb, thisArg) {
-        offlineByFindingString(link, 'Nie znaleziono pliku w serwisie', cb, thisArg)
+        permanentlyoffline(link, cb, thisArg)
       }
     },
     filespace: {
@@ -729,10 +729,10 @@ check: void check(link, cb, thisArg)
     inclouddrive: {
       pattern: /^https:\/\/www\.inclouddrive\.com\/file\/\w+\/?.*$/m,
       multi: ['nopremium.pl'],
-      title: 'inCLOUDdrive',
+      title: 'Offline: inCLOUDdrive',
       homepage: 'https://www.inclouddrive.com/',
       check: function (link, cb, thisArg) {
-        offlineByFindingString(link, ['no longer available', 'has been removed', 'has been deleted'], cb, thisArg)
+        permanentlyoffline(link, cb, thisArg)
       }
     },
     isra: {
@@ -793,40 +793,20 @@ check: void check(link, cb, thisArg)
     },
     kingfile: {
       pattern: /^https?:\/\/(\w+\.)?kingfile\.pl\/download\/.+$/m,
-      multi: ['nopremium.pl'],
-      title: 'kingfile.pl',
+      multi: [],
+      title: 'Offline: kingfile.pl',
       homepage: 'http://kingfile.pl/',
       check: function (link, cb, thisArg) {
-        unkownStatus(link, cb, thisArg)
+        permanentlyoffline(link, cb, thisArg)
       }
     },
     kingfiles: {
       pattern: /^https?:\/\/(www\.)?kingfiles\.net\/\w+.*$/m,
       multi: [],
-      title: 'KingFiles.net',
+      title: 'Offline: KingFiles.net',
       homepage: 'http://www.kingfiles.net/',
       check: function (link, cb, thisArg) {
-        const s = ['The file you were looking for could not be found, sorry for any inconvenience', 'Reason for deletion']
-        rq.add({
-          method: 'GET',
-          url: link.url,
-          onload: function (response) {
-            if (response.responseText.length === 0) {
-              cb.call(thisArg, link, 0) // Offline
-            } else {
-              for (let i = 0; i < s.length; i++) {
-                if (response.responseText.indexOf(s[i]) !== -1) {
-                  cb.call(thisArg, link, 0) // Offline
-                  return
-                }
-              }
-              cb.call(thisArg, link, 1) // Online
-            }
-          },
-          onerror: function (response) {
-            cb.call(thisArg, link, 0) // Offline
-          }
-        })
+        permanentlyoffline(link, cb, thisArg)
       }
     },
     letitbit: {
@@ -840,11 +820,11 @@ check: void check(link, cb, thisArg)
     },
     lunaticfiles: {
       pattern: /^https?:\/\/lunaticfiles\.com\/\w+\/?.*$/m,
-      multi: ['nopremium.pl'],
-      title: 'lunaticfiles.com',
+      multi: [],
+      title: 'Offline: lunaticfiles.com',
       homepage: 'http://lunaticfiles.com/',
       check: function (link, cb, thisArg) {
-        offlineByFindingString(link, ['File Not Found', 'Nie znaleziono pliku'], cb, thisArg)
+        permanentlyoffline(link, cb, thisArg)
       }
     },
     mediafire: {
@@ -857,19 +837,33 @@ check: void check(link, cb, thisArg)
       }
     },
     mega: {
-      pattern: [/^https?:\/\/mega\.co\.nz\/#!\w+!*(\w|-)*$/m, /^https?:\/\/mega\.nz\/#!\w+!*(\w|-)*$/m],
+      pattern: [
+        /^https?:\/\/mega\.co\.nz\/#!\w+!*(\w|-|_)*$/m,
+        /^https?:\/\/mega\.nz\/#!\w+!*(\w|-|_)*$/m,
+        /^https?:\/\/mega\.nz\/file\/(\w|-|_)+#?(\w|-|_)*$/m,
+        /^https?:\/\/mega\.nz\/folder\/(\w|-|_)+#?(\w|-|_)*$/m],
       multi: ['nopremium.pl', 'premiumize.me'],
       title: 'MEGA',
-      homepage: 'https://mega.co.nz/',
+      homepage: 'https://mega.io/',
       check: function (link, cb, thisArg) {
         // Ask mega.co.nz API
+        const type = link.url.split('/')[3]
+        const id = link.url.split('/')[4].split('#')[0]
+        let payload
+        if (type === 'folder') {
+          payload = { a: 'f', c: 1, r: 1, ca: 1, p: id }
+        } else {
+          payload = { a: 'g', p: id }
+        }
+
         rq.add({
           method: 'POST',
-          url: 'https://eu.api.mega.co.nz/cs?id=0',
-          data: '[{"a":"g","p":"' + link.url.match(/#!(\w+)!/)[1] + '"}]',
+          url: `https://g.api.mega.co.nz/cs?id=${Math.random().toString().substring(2, 12)}&n=${id}`,
+          data: JSON.stringify(payload),
           headers: { 'Content-Type': 'application/json' },
           onload: function (response) {
-            if (typeof JSON.parse(response.responseText)[0] === 'number') {
+            const result = JSON.parse(response.responseText)
+            if (typeof result === 'number' && result < 0) {
               // Link is offline
               cb.call(thisArg, link, 0)
             } else {
@@ -998,10 +992,10 @@ check: void check(link, cb, thisArg)
     ozofiles: {
       pattern: [/^https?:\/\/ozofiles\.com\/\w+\/.*$/m],
       multi: ['nopremium.pl'],
-      title: 'Ozofiles.com',
+      title: 'Offline: Ozofiles.com',
       homepage: 'http://ozofiles.com/',
       check: function (link, cb, thisArg) {
-        offlineByFindingString(link, 'File Not Found', cb, thisArg)
+        permanentlyoffline(link, cb, thisArg)
       }
     },
     potload: {
@@ -1033,11 +1027,11 @@ check: void check(link, cb, thisArg)
     },
     rapidu: {
       pattern: /^https?:\/\/(\w+\.)?rapidu\.net\/\d+\/.*$/m,
-      multi: ['nopremium.pl'],
-      title: 'Rapidu.net',
+      multi: [],
+      title: 'Offline: Rapidu.net',
       homepage: 'https://rapidu.net/',
       check: function (link, cb, thisArg) {
-        offlineByFindingString(link, 'File not found', cb, thisArg)
+        permanentlyoffline(link, cb, thisArg)
       }
     },
     rapidrar: {
@@ -1060,35 +1054,11 @@ check: void check(link, cb, thisArg)
     },
     rockfile: {
       pattern: /^https?:\/\/(www\.)?rockfile\.(eu|co)\/\w+.*$/m,
-      multi: ['nopremium.pl'],
-      title: 'Rockfile.co',
+      multi: [],
+      title: 'Offline: Rockfile.co',
       homepage: 'http://rockfile.co',
       check: function (link, cb, thisArg) {
-        // Rockfile has cloudfare protection with a cookie check.
-        rq.add({
-          method: 'GET',
-          url: link.url,
-          onprogress: function (response) {
-            // abort download of big files
-            if ((Math.max(response.loaded, response.total) / 1024) > MAXDOWNLOADSIZE) {
-              this.__result.abort()
-              cb.call(thisArg, link, 1) // Let's assume big files are online
-            }
-          },
-          onload: function (response) {
-            if (response.responseText.indexOf('Checking your browser before accessing') !== -1) {
-              cb.call(thisArg, link, -1, 'Cloudfare protection, please manually open the website at least once.') // Cloudfare protection
-              return
-            } else if (response.responseText.indexOf('File Not Found') !== -1 || response.responseText.indexOf('fa-chain-broken') !== -1) {
-              cb.call(thisArg, link, 0) // Offline
-              return
-            }
-            cb.call(thisArg, link, 1) // Online
-          },
-          onerror: function (response) {
-            cb.call(thisArg, link, 0) // Offline
-          }
-        })
+        permanentlyoffline(link, cb, thisArg)
       }
     },
     rusfolder: {
@@ -1166,11 +1136,11 @@ check: void check(link, cb, thisArg)
     },
     streamin: {
       pattern: /^https?:\/\/streamin\.to\/.+$/m,
-      multi: ['nopremium.pl'],
-      title: 'Streamin.to',
+      multi: [],
+      title: 'Offline: Streamin.to',
       homepage: 'http://streamin.to/',
       check: function (link, cb, thisArg) {
-        offlineByFindingString(link, 'File Deleted', cb, thisArg)
+        permanentlyoffline(link, cb, thisArg)
       }
     },
     streamtape: {
@@ -1229,11 +1199,11 @@ check: void check(link, cb, thisArg)
     },
     unibytes: {
       pattern: /^https?:\/\/www\.unibytes\.com\/\w+-\w+$/m,
-      multi: ['nopremium.pl'],
-      title: 'Unibytes.com',
+      multi: [],
+      title: 'Offline: Unibytes.com',
       homepage: 'http://www.unibytes.com/',
       check: function (link, cb, thisArg) {
-        offlineByFindingString(link, 'File not found', cb, thisArg)
+        permanentlyoffline(link, cb, thisArg)
       }
     },
     unlimitzone: {
@@ -1311,20 +1281,20 @@ check: void check(link, cb, thisArg)
     },
     uploadingcom: {
       pattern: /^https?:\/\/uploading\.com\/\w+\/?.*$/m,
-      multi: ['nopremium.pl'],
-      title: 'Uploading.com',
+      multi: [],
+      title: 'Offline: Uploading.com',
       homepage: 'http://uploading.com/',
       check: function (link, cb, thisArg) {
-        offlineByFindingString(link, ['class="file_error"', 'file not found', 'file was removed'], cb, thisArg)
+        permanentlyoffline(link, cb, thisArg)
       }
     },
     uploading: {
       pattern: /^https?:\/\/(www\.)?uploading\.site\/\w+.*$/m,
-      multi: ['nopremium.pl'],
-      title: 'Uploading.site',
+      multi: [],
+      title: 'Offline: Uploading.site',
       homepage: 'http://uploading.site/',
       check: function (link, cb, thisArg) {
-        offlineByFindingString(link, ['cannot be found', 'was removed', 'for deletion'], cb, thisArg)
+        permanentlyoffline(link, cb, thisArg)
       }
     },
     uploadocean: {
@@ -1348,7 +1318,7 @@ check: void check(link, cb, thisArg)
     uploadrocket: {
       pattern: /^https?:\/\/uploadrocket\.net\/\w+(\/|\w|-|\.)+(\.html)?$/m,
       multi: [],
-      title: 'UploadRocket.net',
+      title: 'Offline: UploadRocket.net',
       homepage: 'http://uploadrocket.net/',
       check: function (link, cb, thisArg) {
         permanentlyoffline(link, cb, thisArg)
@@ -1378,7 +1348,7 @@ check: void check(link, cb, thisArg)
       title: 'Userscloud',
       homepage: 'https://userscloud.com/',
       check: function (link, cb, thisArg) {
-        offlineByFindingString(link, ['label-danger', 'The file is no longer available'], cb, thisArg)
+        offlineByFindingString(link, ['label-danger', 'The file is no longer available', 'no longer available'], cb, thisArg)
       }
     },
     usersdrive: {
@@ -1402,11 +1372,11 @@ check: void check(link, cb, thisArg)
     },
     vidlox: {
       pattern: /^https?:\/\/vidlox\.me\/\w+.*$/m,
-      multi: ['nopremium.pl'],
-      title: 'vidlox.me',
+      multi: [],
+      title: 'Offline: vidlox.me',
       homepage: 'https://vidlox.me/',
       check: function (link, cb, thisArg) {
-        offlineByFindingString(link, 'File Not Found', cb, thisArg)
+        permanentlyoffline(link, cb, thisArg)
       }
     },
     vidoza: {
@@ -1421,10 +1391,10 @@ check: void check(link, cb, thisArg)
     vidto: {
       pattern: /^https?:\/\/vidto\.me\/\w+\.?\w*$/m,
       multi: ['nopremium.pl'],
-      title: 'vidto.me',
+      title: 'Offline: vidto.me',
       homepage: 'http://vidto.me/',
       check: function (link, cb, thisArg) {
-        offlineByFindingString(link, 'File Not Found', cb, thisArg)
+        permanentlyoffline(link, cb, thisArg)
       }
     },
     vimeo: {
@@ -1439,19 +1409,19 @@ check: void check(link, cb, thisArg)
     vipfile: {
       pattern: /^https?:\/\/(\w+.)?vip-file.(com|net)\/downloadlib\/.*$/m,
       multi: [],
-      title: 'VIP-file',
+      title: 'Offline: VIP-file',
       homepage: 'http://vip-file.net/',
       check: function (link, cb, thisArg) {
-        offlineByFindingString(link, 'File not found', cb, thisArg, link.url + '?lang=en')
+        permanentlyoffline(link, cb, thisArg)
       }
     },
     vishare: {
       pattern: /^https:\/\/(\w+.)?vishare.pl\/\w{10,}\/.*$/m,
-      multi: ['nopremium.pl'],
-      title: 'Vishare',
+      multi: [],
+      title: 'Offline: Vishare',
       homepage: 'https://vishare.pl/',
       check: function (link, cb, thisArg) {
-        offlineByFindingString(link, '>404<', cb, thisArg)
+        permanentlyoffline(link, cb, thisArg)
       }
     },
     wdupload: {
@@ -1505,7 +1475,42 @@ check: void check(link, cb, thisArg)
       title: 'Zippyshare.com',
       homepage: 'http://www.zippyshare.com/',
       check: function (link, cb, thisArg) {
-        offlineByFindingString(link, 'does not exist', cb, thisArg)
+        onlineByFindingString(link, 'does not exist', cb, thisArg)
+        const s = ['does not exist']
+        rq.add({
+          method: 'GET',
+          url: link.url,
+          onprogress: function (response) {
+            // abort download of big files
+            if ((Math.max(response.loaded, response.total) / 1024) > MAXDOWNLOADSIZE) {
+              this.__result.abort()
+              cb.call(thisArg, link, 1) // Let's assume big files are online
+            }
+          },
+          onload: function (response) {
+            for (let i = 0; i < s.length; i++) {
+              if (response.responseText.indexOf(s[i]) !== -1) {
+                cb.call(thisArg, link, 0) // Offline
+                return
+              }
+            }
+            if (response.status === 403) { // Blocked
+              cb.call(thisArg, link, -1, 'Blocked in your region')
+              // Blocked in your region
+              // Try with https://unblockweb.one/
+              return offlineByFindingString(link, s, cb, thisArg, `https://unblockweb.one/?cdURL=${encodeURIComponent(link.url)}`)
+            } else if (response.status < 400) { // Online 2xx
+              cb.call(thisArg, link, 1)
+            } else if (response.status > 499) { // Server error 5xx (server error)
+              cb.call(thisArg, link, -1, 'Server error: ' + response.status + ' ' + response.statusText)
+            } else {
+              cb.call(thisArg, link, 0) // Offline 4xx (client error)
+            }
+          },
+          onerror: function (response) {
+            cb.call(thisArg, link, 0) // Offline
+          }
+        })
       }
     }
   }
