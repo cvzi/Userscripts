@@ -13,3 +13,9 @@ Or go into the Tampermonkey menu on any website, and select the search service t
 
 
 ![Screenshot](screenshot.png)
+
+Install
+=======
+
+*  https://greasyfork.org/en/scripts/456818-reverse-image-search
+*  https://openuserjs.org/scripts/cuzi/Reverse_Image_Search
