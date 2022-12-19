@@ -16,8 +16,8 @@
 // @grant            GM.xmlHttpRequest
 // @grant            GM.registerMenuCommand
 // @connect          *
-// @version          23.4
-// @include          *
+// @version          23.5
+// @match            *://*/*
 // @exclude          *.yahoo.*
 // @exclude          *.google.*
 // @exclude          *.youtube.*
