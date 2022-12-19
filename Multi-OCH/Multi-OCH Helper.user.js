@@ -8,112 +8,86 @@
 // @contributionURL  https://buymeacoff.ee/cuzi
 // @contributionURL  https://ko-fi.com/cuzicvzi
 // @icon             https://raw.githubusercontent.com/cvzi/Userscripts/master/Multi-OCH/icons/helper.png
-// @version          16.23
+// @version          16.24
 
-// @include          /^https:\/\/cvzi\.github\.io\/Userscripts\/index\.html\?link=.+/
-// @include          /^https:\/\/www\.nopremium\.pl\/files.*$/
-// @include          /^https:\/\/www\.premiumize\.me\/hosters\/?$/
-// @include          /^https:\/\/www\.premiumize\.me\/services\/?$/
-// @include          /^https:\/\/www\.premiumize\.me\/downloader.*$/
+// @match            https://cvzi.github.io/Userscripts/index.html?link=*
+// @match            https://www.nopremium.pl/files*
+// @match            https://www.premiumize.me/hosters/*
+// @match            https://www.premiumize.me/services/*
+// @match            https://www.premiumize.me/downloader*
 
-// @include          http://download.serienjunkies.org/*
-// @include          /^https?:\/\/(www\.)?filecrypt.cc\/Container\/\w+\.html.*$/
-// @include          http*filecrypt.cc/helper.html*
-// @include          /^http:\/\/www\.firedrive\.com\/share\/(\w|-)+$/
-// @include          http://linkcrypt.ws/dir/*
-// @include          http://linksave.in/*
-// @include          /^http:\/\/ncrypt\.in\/folder\-\w+$/
-// @include          http*://*uploaded.net/folder/*
-// @include          http*://*uploaded.net/f/*
-// @include          http://protected.to/f-*
-// @include          http*://rapidgator.net/folder/*
-// @include          http://www.relink.us/view.php?id=*
-// @include          https://safelinking.net/p/*
-// @include          http://linkshield.org/p/*
-// @include          http://share-links.biz/*
-// @include          http*://relink.to/view.php?id=*
-// @include          http://extreme-protect.net/*
-// @include          https://multiup.org/*
+// @match            https://*.filecrypt.cc/Container/*
+// @match            https://*.filecrypt.cc/helper.html*
+// @match            https://protected.to/*
+// @match            https://rapidgator.net/folder/*
+// @match            https://safelinking.net/p/*
+// @match            https://multiup.org/*
 
-// @include          /^https?:\/\/(www\.)?1fichier\.com\/.+$/
-// @include          /^https?:\/\/\w+\.1fichier\.com\/?.*$/
-// @include          /^http:\/\/www\.4shared\.com\/[a-z]+\/\w+\/?(.+\.html)?$/
-// @include          /^https?:\/\/(www\.)?alfafile\.net\/file\/.+$/
-// @include          /^https?:\/\/anonfiles\.com\/\w+\/?.*$/
-// @include          /^https?:\/\/(www\.)?bayfiles\.(net|com)\/\w+\/?.*$/
-// @include          /^http:\/\/billionuploads\.com\/\w+$/
-// @include          /^https?:\/\/(www\.)?catshare\.net\/.+$/
-// @include          /^https?:\/\/(www\.)?clicknupload\.(link|org|co|cc|to|club)\/\w+\/?.*$/
-// @include          /^https?:\/\/(www\.)?datei\.to\/\?\w+$/
-// @include          /^https?:\/\/dailyuploads\.net\/\w+\/?.*$/
-// @include          /^https?:\/\/(www\.)?ddl\.to\/\w+$/
-// @include          /^https?:\/\/ddownload\.com\/\w+.*$/
-// @include          /^https?:\/\/(www\.)?devilshare\.net\/view.+$/
-// @include          /^https?:\/\/(www\.)?dropapk\.to\/\w+.*$/
-// @include          /^https?:\/\/(www\.)?drop.download\/\w+.*$/
-// @include          /^https?:\/\/fastclick\.to\/\w+\/?.*$/
-// @include          /^https?:\/\/fastshare\.cz\/\d+\/.+$/
-// @include          /^https?:\/\/(www\.)?file\.al\/\w+\/?.*$/
-// @include          /^https?:\/\/(www\.)?filefactory\.com\/file\/.+$/
-// @include          /^https?:\/\/www.filemonkey.in\/file\/.+$/
-// @include          /^https?:\/\/www.filenext.com\/\w+\/.*$/
-// @include          /^https:\/\/filer\.net\/get\/\w+$/
-// @include          /^https?:\/\/(www\.)?fileshark\.pl\/pobierz\/\d+\/\w+\/.*$/
-// @include          /^https?:\/\/(www\.)?filespace\.com\/\w+\/?$/
-// @include          /^https?:\/\/filestore\.to\/\?d=\w+$/
-// @include          /^http:\/\/www\.firedrive\.com\/file\/\w+$/
-// @include          /^https?:\/\/fireget\.com\/\w+\/?.*$/
-// @include          /^https?\:\/\/(www\.)?hitfile\.net\/\w+.*$/
-// @include          /^https?\:\/\/(www\.)?hil\.to\/\w+.*$/
-// @include          /^http:\/\/hugefiles\.net\/\w+\/?.*$/
-// @include          /^https:\/\/www\.inclouddrive\.com\/file\/\w+\/?.*$/
-// @include          /^https:\/\/isra\.cloud\/\w+\/?.*$/
-// @include          /^https?:\/\/katfile\.com\/\w+\/?.*$/
-// @include          /^https?:\/\/kingfile\.pl\/download\/.+$/
-// @include          /^https?:\/\/lunaticfiles\.com\/\w+\/?.*$/
-// @include          /^https?:\/\/www\.mediafire\.com\/?\?.+$/
-// @include          /^https?:\/\/www\.mediafire\.com\/download\/.+$/
-// @include          /^https?:\/\/mega\.co\.nz\/\#\!\w+!*(\w|-)*$/
-// @include          /^https?:\/\/mega\.nz\/\#\!\w+!*(\w|-)*$/
-// @include          /^https?:\/\/megaup\.net\/\w+\/?.*$/
-// @include          /^https?:\/\/mixdrop\.co\/f\/\w+.*$/
-// @include          /^https?:\/\/modsbase\.com\/\w+\/?.*$/
-// @include          /^https?:\/\/nitroflare\.com\/view\/.+$/
-// @include          /^https?:\/\/ozofiles\.com\/\w+\/.*$/
-// @include          /^https?:\/\/rapidgator\.net\/file\/[^#]+$/
-// @include          /^https?:\/\/rg\.to\/file\/[^#]+$/
-// @include          /^https?:\/\/(\w+\.)?rapidu\.net\/\d+\/.*$/
-// @include          /^https?\:\/\/(www\.)?rockfile\.(eu|co)\/\w+.*$/
-// @include          /^http:\/\/www\.sockshare\.com\/file\/\w+$/
-// @include          /^https?:\/\/(www\.)?storbit\.net\/file\/.+$/
-// @include          /^https?:\/\/(www\.)?spicyfile\.com\/\w+$/
-// @include          /^https?:\/\/streamin\.to\/.+$/
-// @include          /^https?:\/\/turbobit\.net\/\w+.*\.html.*$/
-// @include          /^https?:\/\/turb\.to\/\w+.*\.html$/
-// @include          /^https?:\/\/(www\.)?tusfiles\.net\/\w+$/
-// @include          /^https?:\/\/ubiqfile\.com\/\w+$/
-// @include          /^http:\/\/www\.unibytes\.com\/\w+-\w+$/
-// @include          /^https?:\/\/uploadboy\.(me|com)\/\w+\/?.*$/
-// @include          /^https?:\/\/uploaded\.(net|to)\/file\/.+$/
-// @include          /^https?:\/\/ul\.to\/.+$/
-// @include          /^https?:\/\/uploadgig\.com\/file\/download\/\w+\/?.*$/
-// @include          /^http:\/\/uploading\.com\/\w+\/?.*$/
-// @include          /^http:\/\/(www\.)?uploading\.site\/\w+.*$/
-// @include          /^http:\/\/uploadrocket\.net\/\w+(\/|\w|-|\.)+(\.html)?$/
-// @include          /^https?:\/\/uptobox.com\/\w+(\/.*)?$/
-// @include          /^https?:\/\/userscloud\.com\/\w+.*$/
-// @include          /^https?:\/\/vidto\.me\/\w+\.?\w*$/
-// @include          /^https?:\/\/vidlox\.me\/\w+.*$/
-// @include          /^https?:\/\/vidoza\.org\/\w+.*$/
-// @include          /^https:\/\/(\w+.)?vishare.pl\/\w{10,}\/.*$/
-// @include          /^https?:\/\/www\.wdupload\.com\/file\/\w+\/?.*$/
-// @include          /^https?:\/\/worldbytez\.com\/\w+$/
-// @include          /^https?:\/\/wrzucajpliki\.pl\/\w{0,6}.*$/
-// @include          /^https?:\/\/(www\.)?xubster\.com\/\w+\/?.*$/
-// @include          /^https?:\/\/www\.youtube\.com\/watch(\?v=|\/).+$/
-// @include          /^https?:\/\/www\d*\.zippyshare\.com\/v\/\w+\/file\.html$/
+// @match            https://1fichier.com/*
+// @match            https://*.1fichier.com/*
+// @match            https://www.4shared.com/*
+// @match            https://alfafile.net/*
+// @match            https://*.alfafile.net/*
+// @match            https://anonfiles.com/*
+// @match            https://bayfiles.com/*
+// @match            https://*.bayfiles.com/*
+// @match            http://clicknupload.link/*
+// @match            https://clicknupload.to/*
+// @match            https://clicknupload.org/*
+// @match            https://clicknupload.co/*
+// @match            https://clicknupload.cc/*
+// @match            https://clicknupload.to/*
+// @match            https://clicknupload.club/*
+// @match            https://dailyuploads.net/*
+// @match            https://ddl.to/*
+// @match            https://ddownload.com/*
+// @match            https://*.dropapk.com/*
+// @match            https://dropapk.com/*
+// @match            https://*.drop.download.com/*
+// @match            https://drop.download.com/*
+// @match            https://fastclick.to/*
+// @match            https://fastshare.cz/*
+// @match            https://file.al/*
+// @match            https://www.file.al/*
+// @match            https://filefactory.com/*
+// @match            https://www.filefactory.com/*
+// @match            https://filenext.com/*
+// @match            https://www.filenext.com/*
+// @match            https://filer.net/*
+// @match            https://filespace.com/*
+// @match            https://filestore.to/*
+// @match            http://fireget.com/*
+// @match            https://fireget.com/*
+// @match            https://hitfile.net/*
+// @match            https://hil.to/*
+// @match            https://isra.cloud/*
+// @match            https://katfile.com/*
+// @match            https://www.mediafire.com/*
+// @match            https://mediafire.com/*
+// @match            https://mega.nz/*
+// @match            https://megaup.net/*
+// @match            https://mixdrop.co/*
+// @match            https://modsbase.com/*
+// @match            https://nitroflare.com/*
+// @match            https://rapidgator.net/file/*
+// @match            https://rg.to/file/*
+// @match            https://spicyfile.com/*
+// @match            https://www.spicyfile.com/*
+// @match            https://turbobit.net/*
+// @match            https://turb.to/*
+// @match            https://tusfiles.net/*
+// @match            https://ubiqfile.com/*
+// @match            https://uploadboy.com/*
+// @match            https://uploadgig.com/*
+// @match            https://uptobox.com/*
+// @match            https://userscloud.com/*
+// @match            https://vidoza.org/*
+// @match            https://worldbytez.com/*
+// @match            https://wrzucajpliki.pl/*
+// @match            https://xubster.com/*
+// @match            https://*.zippyshare.com/*
 
-// @require          https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js
+// @require          https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js
 // @require          https://greasyfork.org/scripts/13883-aes-js/code/aesjs.js
 // @grant            GM.registerMenuCommand
 // @grant            unsafeWindow
@@ -231,13 +205,9 @@
   }
 
   const JDOWNLOADER = 'http://127.0.0.1:9666/'
-  const SHAREBIZ_CNL2_URL = 'http://share-links.biz/get/cnl2/'
-  const SHAREBIZ_RSDF_URL = 'http://share-links.biz/get/rsdf/'
-  const SHAREBIZ_DLC_URL = 'http://share-links.biz/get/dlc/'
   const DCRYPTIT_UPLOAD_URL = 'http://dcrypt.it/decrypt/upload'
   const DCRYPTIT_CONTAINERLINK_URL = 'http://dcrypt.it/decrypt/container'
   const POSATIV_URL = 'http://posativ.org/decrypt/rsdf'
-  const RELINKUS_GETFILE = 'http://www.relink.us/frame.php?'
   const SPINNERCSS = `/* http://www.designcouch.com/home/why/2013/05/23/dead-simple-pure-css-loading-spinner/ */
   .ochspinner {
     height:16px;
@@ -2130,338 +2100,6 @@ if(!greasemonkey) {
     })
   }
 
-  function reverseString (s) {
-    return s.split('').reverse().join('')
-  }
-
-  function getShareBizLinks (cb, noClickNLoad) {
-  // Decide whether to use the Click'n'Load, the dlc or the rsdf container
-
-    // Try Click'n'Load
-    if ($('#swfcontainer') && $('#swfcontainer')[0] && !noClickNLoad) {
-      const secret = $('#swfcontainer')[0].data.split('code=').pop()
-      GM.xmlHttpRequest({
-        method: 'GET',
-        url: SHAREBIZ_CNL2_URL + secret,
-        onload: function (resp) {
-          const parts = resp.responseText.split(';;')
-
-          const jk = 'var a;' + reverseString(atob(parts[1])) // Strict mode
-          const crypt = reverseString(atob(parts[2]))
-
-          GM.setClipboard(resp.responseText)
-
-          if (!decryptClickNLoad(cb, jk, crypt)) {
-          // Click'n'Load did not work, try the containers:
-            getShareBizLinks(cb, true)
-          }
-        }
-      })
-      return
-    }
-
-    let cbutton = false
-    // Look for rsdf
-    $('#cf img.pntr').each(function () {
-      if ($(this).attr('onclick').indexOf("'rsdf'") !== -1) {
-        cbutton = $(this)
-      }
-    })
-    if (!cbutton) {
-    // Now look for dlc
-      $('#cf img.pntr').each(function () {
-        if ($(this).attr('onclick').indexOf("'dlc'") !== -1) {
-          cbutton = $(this)
-        }
-      })
-      if (!cbutton) {
-        if (cb) {
-          cb()
-        }
-        setStatus('Could not find a container button', 0)
-      } else {
-      // use dlc button
-        getShareBizLinksDLC(cb)
-      }
-    } else {
-    // use rsdf button
-      getShareBizLinksRSDF(cb)
-    }
-  }
-
-  function getShareBizLinksRSDF (cb) {
-  // Get all the links by decrypting the rsdf container
-
-    let cbutton = false
-    $('#cf img.pntr').each(function () {
-      if ($(this).attr('onclick').indexOf("'rsdf'") !== -1) {
-        cbutton = $(this)
-      }
-    })
-    if (!cbutton) {
-      if (cb) {
-        cb()
-      }
-      setStatus('Could not find rsdf button', 0)
-      return
-    }
-
-    const onclickstr = cbutton.attr('onclick') // javascript:_get('VXlsd3B3QU80VU13UGRCN1lSbEJrMUYzYy8wZlVLVklNVFBHTG1BWkM4bz0=', 0, 'ccf');
-    const lnk = onclickstr.match(/get\('(\S+)'/)[1]
-
-    setStatus('Retrieving rsdf container', -1)
-
-    const url = SHAREBIZ_RSDF_URL + lnk
-
-    GM.xmlHttpRequest({
-      method: 'GET',
-      url: url,
-      onload: function (resp) {
-        const data = resp.responseText
-        setStatus('Decrypting rsdf container', -1)
-        GM.xmlHttpRequest({
-          method: 'POST',
-          url: POSATIV_URL,
-          headers: {
-            'Content-Type': 'application/x-www-form-urlencoded'
-          },
-          data: 'data=' + data,
-          onload: function (resp) {
-            if (cb) {
-              cb()
-            }
-
-            const urls = resp.responseText.split('\n')
-
-            let alllinks = ''
-            for (let i = 0; i < urls.length; ++i) {
-              alllinks += $.trim(urls[i]) + '\n'
-            }
-            menu(alllinks)
-            setStatus('Found ' + (urls.length === 1 ? 'one link' : (urls.length + ' links')), 1)
-          }
-        })
-      }
-    })
-  }
-
-  function getShareBizLinksDLC (cb) {
-  // Get all the links by sending the DLC container to http://dcrypt.it/
-
-    let cbutton = false
-    $('#cf img.pntr').each(function () {
-      if ($(this).attr('onclick').indexOf("'dlc'") !== -1) {
-        cbutton = $(this)
-      }
-    })
-    if (!cbutton) {
-      if (cb) {
-        cb()
-      }
-      setStatus('Could not find dlc button', 0)
-      return
-    }
-
-    const onclickstr = cbutton.attr('onclick') // javascript:_get('VXlsd3B3QU80VU13UGRCN1lSbEJrMUYzYy8wZlVLVklNVFBHTG1BWkM4bz0=', 0, 'ccf');
-    const lnk = onclickstr.match(/get\('(\S+)'/)[1]
-
-    setStatus('Retrieving dlc container', -1)
-
-    const url = SHAREBIZ_DLC_URL + lnk
-
-    GM.xmlHttpRequest({
-      method: 'GET',
-      url: url,
-      binary: true,
-      overrideMimeType: 'text/plain; charset=x-user-defined',
-      onload: function (resp) {
-        setStatus('Decrypting dlc container via dcrypt.it', -1)
-        xmlHttpRequestBinary({
-          method: 'POST',
-          url: DCRYPTIT_UPLOAD_URL,
-          onload: function (resp) {
-            if (cb) {
-              cb()
-            }
-            try {
-              const obj = JSON.parse(resp.responseText.replace('<textarea>', '').replace('</textarea>', ''))
-
-              if (obj.success) {
-                obj.success.links.shift() // Discard first link, it always has the same value
-                let alllinks = ''
-                for (let i = 0; i < obj.success.links.length; ++i) {
-                  alllinks += $.trim(obj.success.links[i]) + '\n'
-                }
-                menu(alllinks)
-                setStatus('Found ' + (obj.success.links.length === 1 ? 'one link' : (obj.success.links.length + ' links')), 1)
-              } else {
-                setStatus('No links found in dlc container', 0)
-              }
-            } catch (e) {
-              alert(e)
-              setStatus('An error occurred while handling the response of dcrypt.it', 0)
-            }
-          },
-          data: {
-            dlcfile: {
-              value: resp.responseText,
-              filename: 'test.dlc'
-            }
-          }
-
-        })
-      }
-    })
-  }
-
-  function getLinkSaveInLinks (cb) {
-  // Get all the links by sending the DLC container URL to http://dcrypt.it/
-
-    if ($('#container_loading').css('display') !== 'none') {
-      if (cb) {
-        cb()
-      }
-      alert(scriptName + '\n\nSorry.\nYou are too quick for this website.\n\nPlease be patient until the container has loaded.')
-      return
-    }
-
-    const lnk = document.getElementById('dlc_link').href
-
-    setStatus('Decrypting dlc container via dcrypt.it', -1)
-    GM.xmlHttpRequest({
-      method: 'POST',
-      url: DCRYPTIT_CONTAINERLINK_URL,
-      headers: {
-        'Content-Type': 'application/x-www-form-urlencoded'
-      },
-      data: 'link=' + encodeURIComponent(lnk),
-      onload: function (resp) {
-        if (cb) {
-          cb()
-        }
-        try {
-          const obj = JSON.parse(resp.responseText)
-
-          if (obj.success) {
-            obj.success.links.shift() // Discard first link, it always has the value "http://linksave.in"
-            let alllinks = ''
-            for (let i = 0; i < obj.success.links.length; ++i) {
-              alllinks += $.trim(obj.success.links[i]) + '\n'
-            }
-
-            menu(alllinks)
-            setStatus('Found ' + (obj.success.links.length === 1 ? 'one link' : (obj.success.links.length + ' links')), 1)
-          } else {
-            setStatus('No links found in dlc container', 0)
-          }
-        } catch (e) {
-          alert(e)
-          setStatus('An error occurred while handling the response of dcrypt.it', 0)
-        }
-      }
-    })
-  }
-
-  function getRelinktoLinks (cb) {
-  // Get all the links
-    if (decryptClickNLoad(cb)) { // Try Click'n'Load first, then fallback to DLC
-      return
-    }
-
-    // Else: get links by sending the DLC container to http://dcrypt.it/
-    const cbutton = $('.dlc_button')
-    if (!cbutton) {
-      setStatus("Could not find dlc button or Click'n'Load", -1)
-      if (cb) {
-        cb()
-      }
-      return
-    }
-
-    const url = cbutton.attr('href') // URL of .dlc file
-
-    decryptDLContainer(url, cb)
-  }
-
-  function getLinkcryptWsLinks (cb) {
-  // Get all the links by sending the DLC container to http://dcrypt.it/
-
-    if (decryptClickNLoad(cb)) { // Try Click'n'Load first, then fallback to DLC
-      return
-    }
-
-    let cbutton = false
-    $('#ad_cont a').each(function () {
-      if ($(this).html().indexOf('dlc.png') !== -1) {
-        cbutton = $(this)
-      }
-    })
-    if (!cbutton) {
-      setStatus("Could not find dlc button or Click'n'Load", -1)
-      if (cb) {
-        cb()
-      }
-      return
-    }
-
-    const url = cbutton.attr('href')
-
-    GM.xmlHttpRequest({
-      method: 'GET',
-      url: url,
-      binary: true,
-      overrideMimeType: 'text/plain; charset=x-user-defined',
-      onload: function (resp) {
-        setStatus('Decrypting dlc container via dcrypt.it', -1)
-        xmlHttpRequestBinary({
-          method: 'POST',
-          url: DCRYPTIT_UPLOAD_URL,
-          onload: function (resp) {
-            if (cb) {
-              cb()
-            }
-            try {
-              const obj = JSON.parse(resp.responseText.replace('<textarea>', '').replace('</textarea>', ''))
-
-              if (obj.success) {
-                obj.success.links.shift() // Discard first link, it always has the same value
-                let alllinks = ''
-                for (let i = 0; i < obj.success.links.length; ++i) {
-                  alllinks += $.trim(obj.success.links[i]) + '\n'
-                }
-                menu(alllinks)
-                setStatus('Found ' + (obj.success.links.length === 1 ? 'one link' : (obj.success.links.length + ' links')), 1)
-              } else {
-                setStatus('No links found in dlc container', 0)
-              }
-            } catch (e) {
-              alert(e)
-              setStatus('An error occurred while handling the response of dcrypt.it', 0)
-            }
-          },
-          data: {
-            dlcfile: {
-              value: resp.responseText,
-              filename: 'test.dlc'
-            }
-          }
-
-        })
-      }
-    })
-  }
-
-  function getLinkcryptWsLinks2 (cb) {
-  // Get all the links by decrypting the Click'n'Load form
-    const r = decryptClickNLoad(cb)
-    if (!r) {
-      setStatus("Could not find Click'n'Load", -1)
-      if (cb) {
-        cb()
-      }
-    }
-  }
-
   function getFilecryptcc (jddata, cb) {
   // Get all the links by decrypting the Click'n'Load form
     const fieldJk = jddata[0]
@@ -2474,179 +2112,6 @@ if(!greasemonkey) {
         cb()
       }
     }
-  }
-
-  function getNCryptLinks (cb) {
-  // Get all the links by sending the DLC container URL to http://dcrypt.it/
-
-    // Get the currently selected mirror
-    let mirrorid = false
-    for (let i = 0; i < 100; i++) {
-      const div = document.getElementById('mirror_' + i)
-      if (div && div.style.display !== 'none') {
-        mirrorid = i
-        break
-      }
-    }
-    if (mirrorid === false) {
-      if (cb) {
-        cb()
-      }
-      alert(scriptName + '\n\nSorry.\nPlease select a mirror first.')
-      return
-    }
-
-    let cbutton = false
-    $('#mirror_' + mirrorid + '_container a').each(function () {
-      if ($(this).html().indexOf('dlc.png') !== -1) {
-        cbutton = $(this)
-      }
-    })
-    if (!cbutton) {
-      if (cb) {
-        cb()
-      }
-      setStatus('Could not find dlc button', 0)
-      return
-    }
-
-    const lnk = 'http://ncrypt.in' + cbutton.attr('href')
-
-    setStatus('Decrypting dlc container via dcrypt.it', -1)
-    GM.xmlHttpRequest({
-      method: 'POST',
-      url: DCRYPTIT_CONTAINERLINK_URL,
-      headers: {
-        'Content-Type': 'application/x-www-form-urlencoded'
-      },
-      data: 'link=' + encodeURIComponent(lnk),
-      onload: function (resp) {
-        if (cb) {
-          cb()
-        }
-
-        try {
-          const obj = JSON.parse(resp.responseText)
-
-          if (obj.success) {
-            obj.success.links.shift() // Discard first link, it always has the value "http://linksave.in"
-            let alllinks = ''
-            for (let i = 0; i < obj.success.links.length; ++i) {
-              alllinks += $.trim(obj.success.links[i]) + '\n'
-            }
-            menu(alllinks)
-            setStatus('Found ' + (obj.success.links.length === 1 ? 'one link' : (obj.success.links.length + ' links')), 1)
-          } else {
-            setStatus('No links found in dlc container', 0)
-          }
-        } catch (e) {
-          alert(e)
-          setStatus('An error occurred while handling the response of dcrypt.it', 0)
-        }
-      }
-    })
-  }
-
-  function getRelinkUsLinks (cb) {
-  // Get all the links by following each link
-
-    const crypticUrls = []
-    $('#links a.submit').each(function () {
-      if (this.getAttribute('onclick')) { crypticUrls.push(RELINKUS_GETFILE + this.getAttribute('onclick').split("'")[1]) }
-    })
-
-    let captchaInfo = false
-    const captchaHolder = $('<div style="position:absolute; top:10px; right:10px; overflow:auto; height:80%"></div>').appendTo(document.body)
-
-    const urls = []
-    let total = 0
-
-    let j = 1
-    for (let i = 0; i < crypticUrls.length; i++) {
-      GM.xmlHttpRequest({
-        method: 'GET',
-        url: crypticUrls[i],
-        onload: (function (j) {
-          return function (response) {
-            let loc = response.finalUrl // Actual link after posible redirections
-            if (response.responseText.indexOf('iframe') !== -1) {
-              loc = response.responseText.split('src="')[1].split('"')[0]
-              urls.push(loc)
-            } else {
-              if (!captchaInfo) {
-                captchaInfo = true
-                alert(scriptName + '\n\nSorry, this page is protected with captchas.\nThe captchas will appear in the RIGHT TOP corner.')
-              }
-
-              const div = $(response.responseText).appendTo(captchaHolder)
-              div.css('marginTop', '20px')
-              div.css('marginLeft', 'auto')
-              div.css('left', 'auto')
-              div.css('top', 'auto')
-              div.css('right', 'auto')
-              div.css('position', 'relative')
-              const form = $('form', div)
-              $('input[type=image]', div).click(function (e) {
-                e.preventDefault()
-                const posX = $(this).offset().left
-                const posY = $(this).offset().top
-                const x = e.pageX - posX
-                const y = e.pageY - posY
-                $(this.parentNode.parentNode).remove()
-                const data = form.serialize() + '&button.x=' + x + '&button.y=' + y
-                GM.xmlHttpRequest({
-                  method: 'POST',
-                  url: 'http://www.relink.us/frame.php',
-                  data: data,
-                  headers: {
-                    Host: 'www.relink.us',
-                    // "Referer" : response.finalUrl,  // FIREFOX57
-                    'Content-Type': 'application/x-www-form-urlencoded',
-                    'Cache-Control': 'no-cache'
-                  },
-                  onload: function (r) {
-                    if (r.responseText.indexOf('iframe') !== -1) {
-                      loc = r.responseText.split('src="')[1].split('"')[0]
-                      urls.push(loc)
-                    } else {
-                      alert(scriptName + '\n\nAn error occured:\nCould not get link.')
-                    }
-
-                    setStatus('Decrypting: ' + urls.length + '/' + total, -1)
-                    if (total === urls.length) {
-                    // Got all links
-                      cb()
-                      menu(urls)
-                      setStatus('Found ' + (total === 1 ? 'one link' : (total + ' links')), 1)
-                    }
-                  }
-                })
-              })
-            }
-            setStatus('Decrypting: ' + urls.length + '/' + total, -1)
-            if (total === urls.length) {
-            // Got all links
-              cb()
-              menu(urls)
-              setStatus('Found ' + (total === 1 ? 'one link' : (total + ' links')), 1)
-            }
-          }
-        }(j))
-      })
-      j++
-    }
-    total = j - 1
-  };
-
-  function getExtremeProtectLinks (cb) {
-    const urls = []
-    const a = document.querySelectorAll('.all_liens a')
-    for (let i = 0; i < a.length; i++) {
-      urls.push(a[i].href)
-    }
-
-    cb()
-    menu(urls)
   }
 
   function getSafeLinkingNetLinks (cb) {
@@ -3355,24 +2820,6 @@ if(!greasemonkey) {
       showOneclickButton = true
       showOneclickLink = decodeURIComponent(unsafeWindow.__currentUrl)
     }
-  } else if (document.location.href.indexOf('share-links.biz') !== -1) {
-  // share-links.biz folder
-    if (!document.getElementById('captchamap') && document.getElementById('cf')) { // if not on captcha page
-      const $b = button('Decrypt links (via dcrypt.it)')
-      $b.click(function (ev) {
-        const removeImg = loader()
-        getShareBizLinks(removeImg)
-      })
-    }
-  } else if (document.location.href.indexOf('linksave.in') !== -1) {
-  // linksave.in folder
-    if (document.getElementById('dlc_link')) { // if not on captcha page
-      const $b = button('Decrypt links (via dcrypt.it)')
-      $b.click(function (ev) {
-        const removeImg = loader()
-        getLinkSaveInLinks(removeImg)
-      })
-    }
   } else if (document.location.href.indexOf('filecrypt.cc') !== -1) {
   // filecrypt.cc folder
     if (document.location.href.indexOf('helper.html') !== -1) { // if not on captcha page
@@ -3396,34 +2843,7 @@ if(!greasemonkey) {
         }
       }, false)
     }
-  } else if (document.location.href.substring(7, 19) === 'linkcrypt.ws') {
-  // linkcrypt.ws folder
-    if (document.getElementById('container_check') || document.getElementById('ad_cont')) { // If containers are present
-      const $b = button('Decrypt links (via dcrypt.it)')
-      $b.click(function (ev) {
-        const removeImg = loader()
-        getLinkcryptWsLinks(removeImg)
-      })
-    } else if (document.querySelector('form[id^=f]')) {
-      const $b = button('Decrypt links (via dcrypt.it)')
-      $b.click(function (ev) {
-        const removeImg = loader()
-        getLinkcryptWsLinks2(removeImg)
-      })
-    } else {
-      const $b = button('Select hoster first!')
-      $b.click(function (ev) {})
-    }
-  } else if (document.location.href.substring(7, 16) === 'ncrypt.in') {
-  // nCrypt.in folder
-    if (document.getElementById('main') && document.getElementById('main').innerHTML.indexOf('Securitycheck:') === -1) { // If not on captcha page
-      const $b = button('Decrypt links (via dcrypt.it)')
-      $b.click(function (ev) {
-        const removeImg = loader()
-        getNCryptLinks(removeImg)
-      })
-    }
-  } else if (document.location.href.substring(7, 19) === 'protected.to') {
+  } else if (document.location.href.substring(7, 22) === 'protected.to/f-') {
   // http://protected.to folder
     if (document.querySelectorAll('.links a').length > 0) { // If not on captcha page
       showOneclickButton = true
@@ -3432,35 +2852,8 @@ if(!greasemonkey) {
         showOneclickLink += decodeURIComponent(this.href) + '\n'
       })
     }
-  } else if (document.location.href.substring(7, 16) === 'relink.to') {
-  // http://relink.to folder
-    if (document.getElementsByClassName('cnl_form') || document.getElementsByClassName('dlc_button')) { // If not on captcha page
-      const $b = button('Decrypt links (via dcrypt.it)')
-      $b.click(function (ev) {
-        const removeImg = loader()
-        getRelinktoLinks(removeImg)
-      })
-    }
-  } else if (document.location.href.substring(7, 20) === 'www.relink.us') {
-  // relink.us folder
-    if (document.getElementById('container_tabs')) {
-      const $b = button('Decrypt links')
-      $b.click(function (ev) {
-        const removeImg = loader()
-        getRelinkUsLinks(removeImg)
-      })
-    }
-  } else if (document.location.href.substring(7, 26) === 'extreme-protect.net') {
-  // extreme-protect.net folder
-    if (document.querySelectorAll('.all_liens a').length > 0) {
-      const $b = button('Decrypt links')
-      $b.click(function (ev) {
-        const removeImg = loader()
-        getExtremeProtectLinks(removeImg)
-      })
-    }
-  } else if (document.location.href.substring(8, 23) === 'safelinking.net' || document.location.host === 'linkshield.org') {
-  // safelinking.net and linkshield.org folder
+  } else if (document.location.href.substring(8, 23) === 'safelinking.net') {
+  // safelinking.net folder
     if (!document.getElementById('captcha-wrapper')) {
       const $b = button('Decrypt links')
       $b.click(function (ev) {
@@ -3473,13 +2866,6 @@ if(!greasemonkey) {
     showOneclickButton = true
     showOneclickLink = ''
     $('a.pf_item_link:visible').each(function () {
-      showOneclickLink += decodeURIComponent(this.href) + '\n'
-    })
-  } else if (document.location.href.indexOf('uploaded.net/folder/') !== -1 || document.location.href.indexOf('uploaded.net/f/') !== -1) {
-  // Uploaded folder
-    showOneclickButton = true
-    showOneclickLink = ''
-    $('#fileList a.file').each(function () {
       showOneclickLink += decodeURIComponent(this.href) + '\n'
     })
   } else if (document.location.href.indexOf('rapidgator.net/folder/') !== -1) {
