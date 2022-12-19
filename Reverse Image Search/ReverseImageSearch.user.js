@@ -102,7 +102,7 @@
   } else if (document.location.href.startsWith('/imghp') !== -1 && document.location.hash.startsWith('#habibi=')) {
     // Enter url into Google search form
     window.setTimeout(() => {
-      document.querySelector('[role="button"]>img[src]').click()
+      document.querySelector('[role="button"][jscontroller]>img[src]').click()
       window.setTimeout(() => {
         document.querySelector('input[text=text]').value = decodeURIComponent(document.location.hash.substring(8))
         document.querySelector('input[text=text]').nextElementSibling.click()
