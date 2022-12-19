@@ -101,8 +101,8 @@
 // @grant            GM.listValues
 // ==/UserScript==
 
-/* globals confirm, alert, GM, unsafeWindow, $, atob, slowAES, cloneInto */
-/* eslint standard/no-callback-literal: 0 */
+/* globals confirm, alert, GM, GM_setClipboard, unsafeWindow, $, atob, slowAES, cloneInto */
+/* eslint n/no-callback-literal: 0 */
 
 (async function () {
   'use strict'
@@ -205,9 +205,6 @@
   }
 
   const JDOWNLOADER = 'http://127.0.0.1:9666/'
-  const DCRYPTIT_UPLOAD_URL = 'http://dcrypt.it/decrypt/upload'
-  const DCRYPTIT_CONTAINERLINK_URL = 'http://dcrypt.it/decrypt/container'
-  const POSATIV_URL = 'http://posativ.org/decrypt/rsdf'
   const SPINNERCSS = `/* http://www.designcouch.com/home/why/2013/05/23/dead-simple-pure-css-loading-spinner/ */
   .ochspinner {
     height:16px;
@@ -228,16 +225,16 @@
   `
   // const LOADINGBARBG = 'background: #b4e391;background: linear-gradient(to bottom, #b4e391 0%,#61c419 50%,#b4e391 100%);'
 
-  var showOneclickButton = false
-  var showOneclickLink = ''
-  var showOneclickFromHighlighScriptAllLinks = document.location.host === 'cvzi.github.io'
-  var showOneclickFromHighlighScriptAllLinksLoc = false
-  var showOneclickFromHighlighScriptAllLinksLinks = ''
-  var showOneclickFromHighlighScriptSelectedLinks = false
-  var showOneclickFromHighlighScriptSelectedLinksLoc = false
-  var showOneclickFromHighlighScriptSelectedLinksLinks = ''
+  let showOneclickButton = false
+  let showOneclickLink = ''
+  let showOneclickFromHighlighScriptAllLinks = document.location.host === 'cvzi.github.io'
+  let showOneclickFromHighlighScriptAllLinksLoc = false
+  let showOneclickFromHighlighScriptAllLinksLinks = ''
+  let showOneclickFromHighlighScriptSelectedLinks = false
+  let showOneclickFromHighlighScriptSelectedLinksLoc = false
+  let showOneclickFromHighlighScriptSelectedLinksLinks = ''
 
-  var linksBeforeSelection = false
+  let linksBeforeSelection = false
 
   const multi = {
     'premiumize.me': new function () {
@@ -1027,7 +1024,7 @@
   }
 
   const debridprovider = Object.keys(multi)
-  var currentdebrid = await GM.getValue('currentdebrid', debridprovider[0])
+  let currentdebrid = await GM.getValue('currentdebrid', debridprovider[0])
 
   for (const key in multi) {
     await multi[key].init()
@@ -1035,34 +1032,36 @@
       await multi[key].loadSettings()
       continue
     }
-    if(!greasemonkey) {
-      GM.registerMenuCommand(scriptName+" - Switch to "+multi[key].name, (function(key) { return async function() {
-        if(!confirm(scriptName+"\n\nSet multi-download provider:\n"+multi[key].name)) return;
+    if (!greasemonkey) {
+      GM.registerMenuCommand(scriptName + ' - Switch to ' + multi[key].name, (function (key) {
+        return async function () {
+          if (!confirm(scriptName + '\n\nSet multi-download provider:\n' + multi[key].name)) return
 
-        await GM.setValue("currentdebrid",key);
-        currentdebrid = key;
-        document.location.reload();
-      }})(key)
+          await GM.setValue('currentdebrid', key)
+          currentdebrid = key
+          document.location.reload()
+        }
+      })(key)
       )
     }
   }
 
-if(!greasemonkey) {
-  GM.registerMenuCommand(scriptName+" - Delete cached links", async function() {
-    if(!confirm(scriptName+"\n\nReally delete cached links?")) return;
+  if (!greasemonkey) {
+    GM.registerMenuCommand(scriptName + ' - Delete cached links', async function () {
+      if (!confirm(scriptName + '\n\nReally delete cached links?')) return
 
-    await GM.setValue("cachedDownloadLinks","{}")
+      await GM.setValue('cachedDownloadLinks', '{}')
 
-    alert(scriptName+"\n\nCache is empty!");
-  })
-  GM.registerMenuCommand(scriptName+" - Restore dialogs and warnings", async function() {
-    if(!confirm(scriptName+"\n\nReally restore all dialogs and warnings?")) return;
+      alert(scriptName + '\n\nCache is empty!')
+    })
+    GM.registerMenuCommand(scriptName + ' - Restore dialogs and warnings', async function () {
+      if (!confirm(scriptName + '\n\nReally restore all dialogs and warnings?')) return
 
-    await GM.setValue("dialogs","[]");
+      await GM.setValue('dialogs', '[]')
 
-    alert(scriptName+"\n\nDialogs and warnings restored");
-  })
-}
+      alert(scriptName + '\n\nDialogs and warnings restored')
+    })
+  }
 
   /*
   function round (f, p) {
@@ -1072,7 +1071,7 @@ if(!greasemonkey) {
   */
 
   const orgDocumentTitle = document.title
-  function setTitle(message) {
+  function setTitle (message) {
     if (window.parent.parent !== window) {
       window.parent.parent.postMessage({ iAm: 'Unrestrict.li', type: 'title', str: message }, '*')
     }
@@ -1103,7 +1102,7 @@ if(!greasemonkey) {
       $background.click(close)
     }
 
-    return { node: $div, close: close }
+    return { node: $div, close }
   }
 
   function configForm ($form, c, s, formid) {
@@ -1349,10 +1348,6 @@ if(!greasemonkey) {
       Close and re-open Firefox. Log out and then log in your nopremium.pl account. Everything should work fine now.</li>
       ${greasemonkeyIssue}
       </ul>
-      <br>\
-      <h3>dcrypt.it</h3>
-      This script uses an unrelated, external service to decrypt *.dlc files:<br>
-      <a href="http://dcrypt.it/">http://dcrypt.it/</a>.
       </div><br><br><br>`).appendTo($body)
 
       $('<input type="button">').val('Debug info').appendTo($body).click(inspectGMvalues)
@@ -1467,55 +1462,6 @@ if(!greasemonkey) {
     return parseFloat((bytes / Math.pow(k, i)).toPrecision(2)) + ' ' + sizes[i]
   }
 
-  function xmlHttpRequestBinary (obj) {
-    const sep = '-----987564176415'
-    let res = ''
-    const bytestring = function (s) {
-      for (let i = 0; i < s.length; i++) {
-        const v = s.charCodeAt(i)
-        if (v > 255) {
-          console.log(scriptName + ': This is strange: ' + s[i] + ' => ' + v)
-        } else {
-          res += s[i]
-        }
-      }
-      return res
-    }
-
-    const lines = []
-    for (const name in obj.data) {
-      if (Object.prototype.hasOwnProperty.call(obj.data, name)) {
-        lines.push('--' + sep)
-        let body = 'Content-Disposition: form-data; name="' + name + '"'
-        let value
-        if (typeof (obj.data[name]) === 'object') {
-          value = bytestring(obj.data[name].value)
-          if (obj.data[name].filename) {
-            body += '; filename="' + obj.data[name].filename + '"'
-          }
-          lines.push(body)
-          lines.push('Content-type: application/force-download')
-        } else {
-          value = obj.data[name]
-          lines.push(body)
-        }
-        lines.push('')
-        lines.push(value)
-      }
-    }
-    lines.push('--' + sep + '--')
-
-    const newdata = lines.join('\r\n')
-
-    obj.binary = true
-    obj.headers = {
-      'Content-Type': 'multipart/form-data; boundary=' + sep,
-      'Content-Length': newdata.length
-    }
-    obj.data = newdata
-    return GM.xmlHttpRequest(obj)
-  }
-
   function getNextZIndex () {
   // Calculate: max(zIndex) + 1
     let zIndexMax = 0
@@ -1606,7 +1552,7 @@ if(!greasemonkey) {
     const $statustext = $('#multiochhelper_status_text')
     if (clear) {
       $statustext.empty()
-    } else if ($statustext.html().trim() != '') {
+    } else if ($statustext.html().trim() !== '') {
       $statustext.append(document.createElement('br'))
     }
     $status.show()
@@ -1741,7 +1687,7 @@ if(!greasemonkey) {
       }
       if (result && result[0]) {
         addStatus('Opening download...', -1)
-        if (window.top == window) {
+        if (window.top === window) {
           document.location.href = result[0]
         } else {
           // Changing location may be blocked by sandboxed iframe
@@ -1762,25 +1708,25 @@ if(!greasemonkey) {
       if (result) {
         let succeeded = false
         setStatus('Trying to set clipboard', -1)
-        window.setTimeout(function() {
-           if (succeeded) {
-             return
-           }
-           setStatus('Trying GM_setClipboard()', -1)
-           try {
-             GM_setClipboard(result.join('\r\n'))
-             setStatus('Copied to clipboard', 1)
-           } catch (e) {
-             setStatus('Failed to access clipboard 02', 0)
-             alert('Failed to access clipboard.\n\nLinks will appear in next dialog window')
-             alert(result.join('\r\n'))
-           }
+        window.setTimeout(function () {
+          if (succeeded) {
+            return
+          }
+          setStatus('Trying GM_setClipboard()', -1)
+          try {
+            GM_setClipboard(result.join('\r\n'))
+            setStatus('Copied to clipboard', 1)
+          } catch (e) {
+            setStatus('Failed to access clipboard 02', 0)
+            alert('Failed to access clipboard.\n\nLinks will appear in next dialog window')
+            alert(result.join('\r\n'))
+          }
         }, 3000)
         try {
-          GM.setClipboard(result.join('\r\n')).then(function() {
+          GM.setClipboard(result.join('\r\n')).then(function () {
             setStatus('Copied to clipboard', 1)
             succeeded = true
-          }, function() {
+          }, function () {
             setStatus('Failed to access clipboard 01', 0)
           })
         } catch (e) {
@@ -1989,55 +1935,6 @@ if(!greasemonkey) {
   */
   }
 
-  function decryptDLContainer (url, cb) {
-  // Get all the links by decrypting the DLC container at the given URL via dcrypt.it
-  // run cb() and open the menu if Click'n'Load was successfully decoded
-
-    GM.xmlHttpRequest({
-      method: 'GET',
-      url: url,
-      binary: true,
-      overrideMimeType: 'text/plain; charset=x-user-defined',
-      onload: function (resp) {
-        setStatus('Decrypting dlc container via dcrypt.it', -1)
-        xmlHttpRequestBinary({
-          method: 'POST',
-          url: DCRYPTIT_UPLOAD_URL,
-          onload: function (resp) {
-            if (cb) {
-              cb()
-            }
-            try {
-              const obj = JSON.parse(resp.responseText.replace('<textarea>', '').replace('</textarea>', ''))
-
-              if (obj.success) {
-                obj.success.links.shift() // Discard first link, it always has the same value
-                let alllinks = ''
-                for (let i = 0; i < obj.success.links.length; ++i) {
-                  alllinks += $.trim(obj.success.links[i]) + '\n'
-                }
-                menu(alllinks)
-                setStatus('Found ' + (obj.success.links.length === 1 ? 'one link' : (obj.success.links.length + ' links')), 1)
-              } else {
-                setStatus('No links found in dlc container', 0)
-              }
-            } catch (e) {
-              alert(e)
-              setStatus('An error occurred while handling the response of dcrypt.it', 0)
-            }
-          },
-          data: {
-            dlcfile: {
-              value: resp.responseText,
-              filename: 'test.dlc'
-            }
-          }
-
-        })
-      }
-    })
-  }
-
   function getAllSerienjunkiesLinks (cb) {
   // Get all download links from a serienjunkies.org download page (i.e. the page right after the captcha)
     const urls = [] // [  [partnumber0,link0]  ,  [partnumber1,link1]  ,  .... ]
@@ -2056,7 +1953,7 @@ if(!greasemonkey) {
       }
       GM.xmlHttpRequest({
         method: 'GET',
-        url: url,
+        url,
         onload: (function (j) {
           return function (response) {
             const loc = response.finalUrl // Actual link after posible redirections
@@ -2445,7 +2342,7 @@ if(!greasemonkey) {
           allhosts.push(host)
         }
 
-        trs.push({ $tr: $tr, $check: $check, link: allLinks[i], host: host })
+        trs.push({ $tr, $check, link: allLinks[i], host })
       }
 
       for (let i = 0; i < allhosts.length; i++) {
@@ -2875,17 +2772,17 @@ if(!greasemonkey) {
     $('#grid tbody a').each(function () {
       showOneclickLink += decodeURIComponent(this.href) + '\n'
     })
-  } else if (document.location.hostname === "multiup.org") {
+  } else if (document.location.hostname === 'multiup.org') {
   // Multiup.org mirrors
     showOneclickButton = document.querySelectorAll('button[link]').length > 0
-    showOneclickLink = Array.from(document.querySelectorAll('button[link]')).map(b => b.getAttribute("link")).join("\n")
+    showOneclickLink = Array.from(document.querySelectorAll('button[link]')).map(b => b.getAttribute('link')).join('\n')
   } else if (document.location.href.substring(0, 55) === 'https://cvzi.github.io/Userscripts/index.html?link=sync') {
     // Window opened from Helper script to sync hoster status (see postMessage events below)
     showOneclickButton = false
     const message = 'Updating hoster status...'
     const h1 = document.body.appendChild(document.createElement('h1'))
     h1.appendChild(document.createTextNode(scriptHightligherName + ': ' + message))
-    setTitle("")
+    setTitle('')
     window.setTimeout(function () {
       const h2 = document.body.appendChild(document.createElement('h2'))
       h2.appendChild(document.createTextNode('You may close this tab now'))
