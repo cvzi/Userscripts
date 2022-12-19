@@ -57,7 +57,7 @@
           img,
           size: dim.width + dim.height
         }
-      }).sort(o => o.size).map(o => o.img.src).pop()
+      }).sort(o => o.size).map(o => o.img.src).shift()
       if (biggestImage) {
         return biggestImage
       }
