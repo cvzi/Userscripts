@@ -87,11 +87,11 @@
     GM_openInTab('http://iqdb.org/?url=' + encodeURIComponent(getUrl()))
   }
 
-  GM_registerMenuCommand('Reverse Image search - Google', google, 'g')
-  GM_registerMenuCommand('Reverse Image search - TinEye', tinEye, 'q')
-  GM_registerMenuCommand('Reverse Image search - Yandex', yandex, 'y')
-  GM_registerMenuCommand('Reverse Image search - SauceNAO', sauceNAO, 'x')
-  GM_registerMenuCommand('Reverse Image search - iqdb.org', iqdb, ',')
+  GM_registerMenuCommand('Reverse Image Search - Google', google, 'g')
+  GM_registerMenuCommand('Reverse Image Search - TinEye', tinEye, 'q')
+  GM_registerMenuCommand('Reverse Image Search - Yandex', yandex, 'y')
+  GM_registerMenuCommand('Reverse Image Search - SauceNAO', sauceNAO, 'x')
+  GM_registerMenuCommand('Reverse Image Search - iqdb.org', iqdb, ',')
 
   if (document && document.body && document.body.firstChild.tagName === 'IMG') {
     document.addEventListener('keydown', onKeyDown('g', google))
