@@ -6,7 +6,7 @@
 // @author       cuzi
 // @copyright    2022, cuzi (https://github.com/cvzi/)
 // @license      GPL-3.0-or-later
-// @match        ://*/*
+// @match        *://*/*
 // @icon         https://raw.githubusercontent.com/hfg-gmuend/openmoji/master/color/72x72/1F5BC.png
 // @grant        GM_openInTab
 // @grant        GM_registerMenuCommand
