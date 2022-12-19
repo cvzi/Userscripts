@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Reverse Image Search
 // @namespace    github.com/cvzi/
-// @version      1.0.1
+// @version      1.0.2
 // @description  Search largest image on the page or current image on Google, TinEye, Yandex, SauceNAO and iqdb.org
 // @author       cuzi
 // @copyright    2022, cuzi (https://github.com/cvzi/)
