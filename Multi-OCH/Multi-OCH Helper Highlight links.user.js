@@ -6,7 +6,7 @@
 // @description nopremium.pl and premiumize.me. Highlight one-click-hoster links and include Multi-OCH Helper button
 // @homepageURL https://openuserjs.org/scripts/cuzi/Multi-OCH_Helper_Highlight_links
 // @icon        https://raw.githubusercontent.com/cvzi/Userscripts/master/Multi-OCH/icons/helper_highlight.png
-// @include     *
+// @match       *://*/*
 // @exclude     *.yahoo.*
 // @exclude     *.google.*
 // @exclude     *.youtube.*
@@ -19,7 +19,7 @@
 // @exclude     *.amazon.*
 // @exclude     *.ebay.*
 // @exclude     *.netflix.com*
-// @version     10.19
+// @version     10.20
 // @grant       GM.setValue
 // @grant       GM.getValue
 // @grant       GM.registerMenuCommand
