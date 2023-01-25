@@ -8,7 +8,7 @@
 // @contributionURL  https://buymeacoff.ee/cuzi
 // @contributionURL  https://ko-fi.com/cuzicvzi
 // @icon             https://raw.githubusercontent.com/cvzi/Userscripts/master/Multi-OCH/icons/helper.png
-// @version          16.24
+// @version          17.1.0
 
 // @match            https://cvzi.github.io/Userscripts/index.html?link=*
 // @match            https://www.nopremium.pl/files*
@@ -87,7 +87,7 @@
 // @match            https://xubster.com/*
 // @match            https://*.zippyshare.com/*
 
-// @require          https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js
+// @require          https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js
 // @require          https://greasyfork.org/scripts/13883-aes-js/code/aesjs.js
 // @grant            GM.registerMenuCommand
 // @grant            unsafeWindow
@@ -2772,6 +2772,15 @@
     $('#grid tbody a').each(function () {
       showOneclickLink += decodeURIComponent(this.href) + '\n'
     })
+  } else if (document.location.hostname === "dailyuploads.net" && currentdebrid === 'premiumize.me') {
+    // Dailyuploads.net: submit direct download link (after captcha was solved) to premiumize.me instead of link
+    if (document.querySelector('div.banner div.inner a>img[src*="redbutton.png"]')) {
+      showOneclickButton = true
+      showOneclickLink = document.querySelector('div.banner div.inner a>img[src*="redbutton.png"]').parentNode.href
+    } else {
+      showOneclickButton = false
+      button("Please solve the captcha first")
+    }
   } else if (document.location.hostname === 'multiup.org') {
   // Multiup.org mirrors
     showOneclickButton = document.querySelectorAll('button[link]').length > 0
