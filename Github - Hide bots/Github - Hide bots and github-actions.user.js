@@ -4,7 +4,6 @@
 // @namespace    cuzi
 // @author       cuzi
 // @version      1.7
-// @description  Hide bot's and github-actions' push from dashboard news
 // @copyright    2020, cuzi (https://openuserjs.org/users/cuzi)
 // @license      GPL-3.0-or-later; http://www.gnu.org/licenses/gpl-3.0.txt
 // @icon         https://raw.githubusercontent.com/hfg-gmuend/openmoji/master/color/72x72/E045.png
