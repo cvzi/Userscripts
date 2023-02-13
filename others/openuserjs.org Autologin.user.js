@@ -3,7 +3,7 @@
 // @description Login and redirect to last viewed page
 // @namespace   openuserjs.org
 // @license     MIT
-// @version     14
+// @version     14.1
 // @match       https://openuserjs.org/*
 // @exclude     /^https?:\/\/openuserjs\.org\/auth\/.*$
 // @grant       GM_setValue
@@ -11,7 +11,7 @@
 // @grant       GM.setValue
 // @grant       GM.getValue
 // @require     https://greasemonkey.github.io/gm4-polyfill/gm4-polyfill.js
-// @require     https://cdn.jsdelivr.net/gh/Joe12387/detectIncognito@v1.1.2/detectIncognito.min.js
+// @require     https://cdn.jsdelivr.net/gh/Joe12387/detectIncognito@v1.2.0/detectIncognito.min.js
 // @icon        https://www.google.com/s2/favicons?sz=64&domain=openuserjs.org
 // @sandbox     JavaScript
 // ==/UserScript==
