@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Reverse Image Search
 // @namespace    github.com/cvzi/
-// @version      1.0.2
+// @version      1.0.3
 // @description  Search largest image on the page or current image on Google, TinEye, Yandex, SauceNAO and iqdb.org
 // @author       cuzi
 // @copyright    2022, cuzi (https://github.com/cvzi/)
@@ -101,7 +101,12 @@
   } else if (document.location.href.startsWith('/imghp') !== -1 && document.location.hash.startsWith('#habibi=')) {
     // Enter url into Google search form
     window.setTimeout(() => {
-      document.querySelector('[role="button"][jscontroller]>img[src]').click()
+      const button = Array.from(document.querySelectorAll('[role="button"][jscontroller]>img[src],[role="button"][jscontroller]>svg')).pop()
+      if (button.click) {
+        button.click()
+      } else {
+        button.parentElement.click()
+      }
       window.setTimeout(() => {
         document.querySelector('input[text=text]').value = decodeURIComponent(document.location.hash.substring(8))
         document.querySelector('input[text=text]').nextElementSibling.click()
