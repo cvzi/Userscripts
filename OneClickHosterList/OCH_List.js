@@ -3,7 +3,7 @@
 // ==UserLibrary==
 // @name        OCH List
 // @description A list of One-Click-Hosters that are supported by nopremium.pl
-// @version     39
+// @version     40
 // @license     GPL-3.0-or-later; http://www.gnu.org/licenses/gpl-3.0.txt
 // ==/UserLibrary==
 // @namespace   cuzi
@@ -306,7 +306,7 @@ check: void check(link, cb, thisArg)
       }
     },
     clicknupload: {
-      pattern: /^https?:\/\/(www\.)?clicknupload\.(link|org|co|cc|to|club)\/\w+\/?.*$/m,
+      pattern: /^https?:\/\/(www\.)?clicknupload\.(link|org|co|cc|to|club|click)\/\w+\/?.*$/m,
       multi: ['nopremium.pl', 'premiumize.me'],
       title: 'ClicknUpload',
       homepage: 'https://clicknupload.co',
@@ -1035,8 +1035,8 @@ check: void check(link, cb, thisArg)
       }
     },
     rapidrar: {
-      pattern: /^https?:\/\/(\w+\.)?rapidrar\.com\/\w+.*$/m,
-      multi: ['nopremium.pl'],
+      pattern: [/^https?:\/\/(\w+\.)?rapidrar\.com\/\w+.*$/m, /^https?:\/\/rapidrar\.(cr|com)\/\w+.*$/m],
+      multi: [],
       title: 'RapidRAR',
       homepage: 'https://rapidrar.com/',
       check: function (link, cb, thisArg) {

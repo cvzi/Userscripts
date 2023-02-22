@@ -8,7 +8,7 @@
 // @contributionURL  https://buymeacoff.ee/cuzi
 // @contributionURL  https://ko-fi.com/cuzicvzi
 // @icon             https://raw.githubusercontent.com/cvzi/Userscripts/master/Multi-OCH/icons/helper.png
-// @version          17.1.0
+// @version          17.1.1
 
 // @match            https://cvzi.github.io/Userscripts/index.html?link=*
 // @match            https://www.nopremium.pl/files*
@@ -38,6 +38,7 @@
 // @match            https://clicknupload.cc/*
 // @match            https://clicknupload.to/*
 // @match            https://clicknupload.club/*
+// @match            https://clicknupload.click/*
 // @match            https://dailyuploads.net/*
 // @match            https://ddl.to/*
 // @match            https://ddownload.com/*
