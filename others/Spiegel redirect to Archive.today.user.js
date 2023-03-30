@@ -1,29 +1,31 @@
 // ==UserScript==
-// @name         Spiegel redirect to Archive.today
-// @namespace    https://greasyfork.org/en/users/20068-cuzi
-// @version      2.0
-// @description  Redirect spiegel paywall pages to archive.today
-// @icon         https://spiegel.de/favicon.ico
-// @author       cuzi
-// @license      GPL-3.0-or-later
-// @license      Unlicense
-// @match        https://www.spiegel.de/*
-// @match        https://archive.today/*
-// @match        https://archive.ph/*
-// @match        https://archive.is/*
-// @match        https://archive.fp/*
-// @match        https://archive.li/*
-// @match        https://archive.md/*
-// @match        https://archive.vn/*
-// @grant        GM.registerMenuCommand
-// @grant        GM.xmlHttpRequest
-// @connect      https://archive.today/*
-// @connect      https://archive.ph/*
-// @connect      https://archive.is/*
-// @connect      https://archive.fp/*
-// @connect      https://archive.li/*
-// @connect      https://archive.md/*
-// @connect      https://archive.vn/*
+// @name            Spiegel redirect to Archive.today
+// @name:de         Spiegel Weiterleitung auf Archive.today
+// @namespace       https://greasyfork.org/en/users/20068-cuzi
+// @version         2.1
+// @description     Redirect spiegel.de paywall pages to archive.today
+// @description:de  Leitet Spiegel.de Online Plus/Paywall/S+ Seiten automatisch auf archive.today
+// @icon            https://spiegel.de/favicon.ico
+// @author          cuzi
+// @license         GPL-3.0-or-later
+// @license         Unlicense
+// @match           https://www.spiegel.de/*
+// @match           https://archive.today/*
+// @match           https://archive.ph/*
+// @match           https://archive.is/*
+// @match           https://archive.fp/*
+// @match           https://archive.li/*
+// @match           https://archive.md/*
+// @match           https://archive.vn/*
+// @grant           GM.registerMenuCommand
+// @grant           GM.xmlHttpRequest
+// @connect         https://archive.today/*
+// @connect         https://archive.ph/*
+// @connect         https://archive.is/*
+// @connect         https://archive.fp/*
+// @connect         https://archive.li/*
+// @connect         https://archive.md/*
+// @connect         https://archive.vn/*
 // ==/UserScript==
 
 /* global GM */
