@@ -2,9 +2,10 @@
 // @name         Spiegel redirect to Archive.today
 // @namespace    https://greasyfork.org/en/users/20068-cuzi
 // @version      2.0
-// @description  Redirect spiegel paywall pages to archive.ph
+// @description  Redirect spiegel paywall pages to archive.today
 // @icon         https://spiegel.de/favicon.ico
 // @author       cuzi
+// @license      GPL-3.0-or-later
 // @license      Unlicense
 // @match        https://www.spiegel.de/*
 // @match        https://archive.today/*
