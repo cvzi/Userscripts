@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         Spiegel redirect to Archive.today
-// @namespace    cvzi
+// @namespace    https://greasyfork.org/en/users/20068-cuzi
 // @version      2.0
 // @description  Redirect spiegel paywall pages to archive.ph
 // @icon         https://spiegel.de/favicon.ico
