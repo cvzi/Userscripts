@@ -3,7 +3,7 @@
 // ==UserLibrary==
 // @name        OCH List
 // @description A list of One-Click-Hosters that are supported by nopremium.pl
-// @version     40
+// @version     41
 // @license     GPL-3.0-or-later; http://www.gnu.org/licenses/gpl-3.0.txt
 // ==/UserLibrary==
 // @namespace   cuzi
@@ -598,6 +598,15 @@ check: void check(link, cb, thisArg)
       homepage: 'https://filer.net/',
       check: function (link, cb, thisArg) {
         offlineByFindingString(link, ['Datei nicht mehr vorhanden', 'Not available', 'Not found'], cb, thisArg)
+      }
+    },
+    filerice: {
+      pattern: /^https:\/\/filerice\.com\/\w+\/?.*$/m,
+      multi: ['nopremium.pl'],
+      title: 'FileRice.com',
+      homepage: 'https://filerice.com/',
+      check: function (link, cb, thisArg) {
+        offlineByFindingString(link, 'File Not Found', cb, thisArg)
       }
     },
     filescdn: {
