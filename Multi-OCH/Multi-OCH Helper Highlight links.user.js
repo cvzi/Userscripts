@@ -19,7 +19,7 @@
 // @exclude     *.amazon.*
 // @exclude     *.ebay.*
 // @exclude     *.netflix.com*
-// @version     10.20.3
+// @version     10.20.4
 // @grant       GM.setValue
 // @grant       GM.getValue
 // @grant       GM.registerMenuCommand
@@ -82,15 +82,19 @@
 
       this.updateStatus = async function () { // Update list of online hosters
         if (document.location.href.match(self.updateStatusURL)) {
-        // Read and save current status of all hosters
-          self.status = {}
-          $J('#servers a[title]').each(function () {
-            var name = mapHosterName(this.title)
-            self.status[name] = true
-          })
-          await GM.setValue(self.key + '_status', JSON.stringify(self.status))
-          await GM.setValue(self.key + '_status_time', '' + (new Date()))
-          console.log(scriptName + ': ' + self.name + ': Hosters (' + Object.keys(self.status).length + ') updated')
+          if ($J('#servers a[title]').length) {
+            // Read and save current status of all hosters
+            self.status = {}
+            $J('#servers a[title]').each(function () {
+              const name = mapHosterName(this.title)
+              self.status[name] = true
+            })
+            await GM.setValue(self.key + '_status', JSON.stringify(self.status))
+            await GM.setValue(self.key + '_status_time', '' + (new Date()))
+            console.log(scriptName + ': ' + self.name + ': Hosters (' + Object.keys(self.status).length + ') updated')
+          } else {
+            console.log(scriptName + ': ' + self.name + ': Hosters: no hoster list found')
+          }
         } else {
           alert(scriptName + '\n\nError: wrong update URL')
         }
@@ -125,7 +129,7 @@
       }
     }
     for (const name in OCH) {
-      for (var i = 0; i < OCH[name].pattern.length; i++) {
+      for (let i = 0; i < OCH[name].pattern.length; i++) {
         if (OCH[name].pattern[i].test(str)) {
           return name
         }
@@ -170,7 +174,7 @@
   }
 
   const orgDocumentTitle = document.title
-  function setTitle(message) {
+  function setTitle (message) {
     if (message) {
       document.title = message + orgDocumentTitle
     } else {
@@ -233,12 +237,12 @@
     const sel = window.getSelection()
     const selelectedLinks = []
     if (!sel.isCollapsed) {
-      for (var j = 0; j < sel.rangeCount; j++) {
+      for (let j = 0; j < sel.rangeCount; j++) {
         const frag = sel.getRangeAt(j).cloneContents()
         const span = document.createElement('span')
         span.appendChild(frag)
         const a = span.getElementsByTagName('a')
-        for (var i = 0; i < a.length; i++) {
+        for (let i = 0; i < a.length; i++) {
           const url = a[i].href
           const m = matchHoster(url)
           if (url && m !== false) {
@@ -349,7 +353,7 @@
         const li = $J(a)
         links.push({
           hoster: m,
-          url: url,
+          url,
           element: li
         })
         alllinks.push(url)
@@ -368,7 +372,7 @@
         const li = $J(al[i])
         links.push({
           hoster: mH,
-          url: url,
+          url,
           element: li
         })
         alllinks.push(url)
