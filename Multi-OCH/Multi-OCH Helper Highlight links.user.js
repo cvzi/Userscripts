@@ -19,7 +19,7 @@
 // @exclude     *.amazon.*
 // @exclude     *.ebay.*
 // @exclude     *.netflix.com*
-// @version     10.20.2
+// @version     10.20.3
 // @grant       GM.setValue
 // @grant       GM.getValue
 // @grant       GM.registerMenuCommand
