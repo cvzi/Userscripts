@@ -3,7 +3,7 @@
 // ==UserLibrary==
 // @name        OCH List
 // @description A list of One-Click-Hosters that are supported by nopremium.pl
-// @version     41
+// @version     42
 // @license     GPL-3.0-or-later; http://www.gnu.org/licenses/gpl-3.0.txt
 // ==/UserLibrary==
 // @namespace   cuzi
@@ -475,6 +475,44 @@ check: void check(link, cb, thisArg)
       homepage: 'http://faststore.org/',
       check: function (link, cb, thisArg) {
         offlineByFindingString(link, '<b class="err">', cb, thisArg)
+      }
+    },
+    fikper: {
+      pattern: /^https?:\/\/fikper\.com\/\w+\/?.*$/m,
+      multi: ['nopremium.pl'],
+      title: 'Fikper',
+      homepage: 'http://fikper.com/',
+      check: function (link, cb, thisArg) {
+        // Ask fipker API
+        rq.add({
+          method: 'POST',
+          url: 'https://sapi.fikper.com/',
+          data: JSON.stringify({
+            fileHashName: link.url.match(/fikper\.com\/(\w+)(\/.*)?/)[1]
+          }),
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          onload: function (response) {
+            let result = null
+            try {
+              result = JSON.parse(response.responseText)
+            } catch (e) {
+              cb.call(thisArg, link, 0) // Offline
+              return
+            }
+            if ('downloadToken' in result) {
+              // Link is online
+              cb.call(thisArg, link, 1)
+            } else {
+              // Unkown response
+              cb.call(thisArg, link, -1)
+            }
+          },
+          onerror: function (response) {
+            cb.call(thisArg, link, 0)
+          }
+        })
       }
     },
     file: {
