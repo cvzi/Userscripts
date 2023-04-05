@@ -2,7 +2,7 @@
 // @name            Spiegel redirect to Archive.today
 // @name:de         Spiegel Weiterleitung auf Archive.today
 // @namespace       https://greasyfork.org/en/users/20068-cuzi
-// @version         2.1
+// @version         2.2
 // @description     Redirect spiegel.de paywall pages to archive.today
 // @description:de  Leitet Spiegel.de Online Plus/Paywall/S+ Seiten automatisch auf archive.today
 // @icon            https://spiegel.de/favicon.ico
@@ -19,13 +19,13 @@
 // @match           https://archive.vn/*
 // @grant           GM.registerMenuCommand
 // @grant           GM.xmlHttpRequest
-// @connect         https://archive.today/*
-// @connect         https://archive.ph/*
-// @connect         https://archive.is/*
-// @connect         https://archive.fp/*
-// @connect         https://archive.li/*
-// @connect         https://archive.md/*
-// @connect         https://archive.vn/*
+// @connect         archive.today
+// @connect         archive.ph
+// @connect         archive.is
+// @connect         archive.fp
+// @connect         archive.li
+// @connect         archive.md
+// @connect         archive.vn
 // ==/UserScript==
 
 /* global GM */
