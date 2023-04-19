@@ -2,7 +2,7 @@
 // @name            Spiegel redirect to Archive.today
 // @name:de         Spiegel Weiterleitung auf Archive.today
 // @namespace       https://greasyfork.org/en/users/20068-cuzi
-// @version         2.2
+// @version         2.3
 // @description     Redirect spiegel.de paywall pages to archive.today
 // @description:de  Leitet Spiegel.de Online Plus/Paywall/S+ Seiten automatisch auf archive.today
 // @icon            https://spiegel.de/favicon.ico
@@ -84,7 +84,7 @@
     }
 
     if (workingHostname) {
-      document.location.href = `https://${workingHostname}/?url=${encodeURIComponent(url)}`
+      document.location.href = `https://${workingHostname}/?run=1&url=${encodeURIComponent(url)}`
     } else {
       window.alert(scriptName + '\n\nSorry, all of the archive.today domains seem to be down.\n\nChecked:\n' + hostnames.join('\n'))
     }
