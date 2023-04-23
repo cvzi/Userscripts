@@ -1,17 +1,19 @@
 // ==UserScript==
-// @name         Fritz box name in call list
-// @namespace    https://greasyfork.org/en/users/20068-cuzi
-// @version      1.0
-// @description  Show name from dastelefonbuch.de in fritz box caller list. Set your local area code in the source
-// @author       cvzi
-// @license      MIT
-// @match        http://192.168.178.1/*
-// @match        https://192.168.178.1/*
-// @match        https://fritz.box/*
-// @match        http://fritz.box/*
-// @icon         http://192.168.178.1/icon.png
-// @grant        GM.xmlHttpRequest
-// @connect      dastelefonbuch.de
+// @name            Fritz box name in call list
+// @name:DE         Fritz box Name in der Anruferliste
+// @namespace       https://greasyfork.org/en/users/20068-cuzi
+// @version         1.0
+// @description     Show name from dastelefonbuch.de in fritz box caller list. Set your local area code in the source
+// @description:DE  Zeigt den Anrufernamen von dastelefonbuch.de in the Anruferliste. Ändere deine Vorwahl im Sourcecode
+// @author          cvzi
+// @license         MIT
+// @match           http://192.168.178.1/*
+// @match           https://192.168.178.1/*
+// @match           https://fritz.box/*
+// @match           http://fritz.box/*
+// @icon            http://192.168.178.1/icon.png
+// @grant           GM.xmlHttpRequest
+// @connect         dastelefonbuch.de
 // ==/UserScript==
 
 /* global GM */
