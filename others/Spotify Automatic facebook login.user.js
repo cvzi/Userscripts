@@ -3,7 +3,7 @@
 // @description  Automatically log in to Spotify web with your facebook account, no need to click the multiple login buttons anymore
 // @namespace    cuzi
 // @icon         https://www.google.com/s2/favicons?sz=128&domain=spotify.com
-// @version      13
+// @version      14
 // @grant        GM.setValue
 // @grant        GM.getValue
 // @license      GPL-3.0-or-later; http://www.gnu.org/licenses/gpl-3.0.txt
@@ -48,7 +48,12 @@ async function login () {
     return stop()
   }
 
-  let button = document.querySelector('button#has-account')
+  let button = document.querySelector('[data-testid="login-button"]')
+  if (button) {
+    button.click()
+  }
+
+  button = document.querySelector('button#has-account')
   if (button) {
     button.click()
   }
