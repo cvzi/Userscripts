@@ -2,7 +2,7 @@
 // @name            Fritz box name in call list
 // @name:DE         Fritz box Name in der Anruferliste
 // @namespace       https://greasyfork.org/en/users/20068-cuzi
-// @version         1.0
+// @version         1.1
 // @description     Show name from dastelefonbuch.de in fritz box caller list. Set your local area code in the source
 // @description:DE  Zeigt den Anrufernamen von dastelefonbuch.de in the Anruferliste. Ändere deine Vorwahl im Sourcecode
 // @author          cvzi
@@ -93,10 +93,12 @@
       }
       a.dataset.asked = 1
 
-      const number = a.href.match(/number=(\d+)/)[1]
-      if (!number) {
+      const m = a.href.match(/number=(\d+)/)
+      if (!m) {
         return
       }
+      const number = m[1]
+
       const displayResult = function (html) {
         a.parentNode.parentNode.parentNode.getElementsByTagName('td')[2].innerHTML += html
       }
@@ -111,10 +113,11 @@
       }
       div.dataset.asked = 1
 
-      const number = div.textContent.trim().match(/^\d+$/)
-      if (!number) {
+      const m = div.textContent.trim().match(/^\d+$/)
+      if (!m) {
         return
       }
+      const number = m[0]
 
       const displayResult = function (html) {
         div.innerHTML += html
