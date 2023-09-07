@@ -2,13 +2,14 @@
 // @name            Spiegel redirect to Archive.today
 // @name:de         Spiegel Weiterleitung auf Archive.today
 // @namespace       https://greasyfork.org/en/users/20068-cuzi
-// @version         2.3
-// @description     Redirect spiegel.de paywall pages to archive.today
-// @description:de  Leitet Spiegel.de Online Plus/Paywall/S+ Seiten automatisch auf archive.today
+// @version         2.4
+// @description     Redirect spiegel.de/zeit.de paywall pages to archive.today
+// @description:de  Leitet Spiegel.de/zeit.de/ Online Plus/Paywall/S+ Seiten automatisch auf archive.today
 // @icon            https://spiegel.de/favicon.ico
 // @author          cuzi
 // @license         GPL-3.0-or-later
 // @match           https://www.spiegel.de/*
+// @match           https://www.zeit.de/*
 // @match           https://archive.today/*
 // @match           https://archive.ph/*
 // @match           https://archive.is/*
@@ -93,6 +94,8 @@
   GM.registerMenuCommand(scriptName + ' - Archive.today page', () => archivePage(document.location.href))
 
   if (document.location.hostname.indexOf('spiegel') !== -1 && document.querySelector('[data-area="paywall"]')) {
+    archivePage(document.location.href)
+  } else if (document.location.hostname.indexOf('zeit.de') !== -1 && document.querySelector('.zplus-badge__link')) {
     archivePage(document.location.href)
   } else if (document.location.hostname.indexOf('archive') !== -1 && document.querySelector('form#submiturl [type=submit]')) {
     // Insert url and press submit button
