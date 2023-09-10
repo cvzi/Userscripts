@@ -2,7 +2,7 @@
 // @name            Spiegel redirect to Archive.today
 // @name:de         Spiegel Weiterleitung auf Archive.today
 // @namespace       https://greasyfork.org/en/users/20068-cuzi
-// @version         2.5
+// @version         2.6
 // @description     Redirect spiegel.de/zeit.de paywall pages to archive.today
 // @description:de  Leitet Spiegel.de/zeit.de/ Online Plus/Paywall/S+ Seiten automatisch auf archive.today
 // @icon            https://spiegel.de/favicon.ico
@@ -174,13 +174,26 @@
     if (running) {
       return
     }
-    if (document.location.hostname.indexOf('spiegel') !== -1 && (document.querySelector('[data-area="paywall"]') || document.querySelector('article #spon-spplus-flag-l'))) {
+    if (
+      document.location.hostname.indexOf('spiegel') !== -1 && document.location.pathname.length > 1 && (
+        document.querySelector('[data-area="paywall"]') || (
+          document.querySelector('article #spon-spplus-flag-l') && document.querySelectorAll('article h2').length === 1
+        )
+      )
+    ) {
       running = true
       archivePage(document.location.href)
-    } else if (document.location.hostname.indexOf('zeit.de') !== -1 && document.querySelector('.zplus-badge__link')) {
+    } else if (
+      document.location.hostname.indexOf('zeit.de') !== -1 &&
+      document.location.pathname.length > 1 &&
+      document.querySelector('.zplus-badge__link')
+    ) {
       running = true
       archivePage(document.location.href)
-    } else if (document.location.hostname.indexOf('archive') !== -1 && document.querySelector('form#submiturl [type=submit]')) {
+    } else if (
+      document.location.hostname.indexOf('archive') !== -1 &&
+      document.querySelector('form#submiturl [type=submit]')
+    ) {
       running = true
       // Insert url and press submit button
       const m = document.location.search.match('url=([^&]+)')
@@ -189,7 +202,10 @@
         document.querySelector('form#submiturl input#url').value = url
         document.querySelector('form#submiturl [type=submit]').click()
       }
-    } else if (document.location.hostname.indexOf('archive') !== -1 && document.querySelector('[data-area="paywall"]')) {
+    } else if (
+      document.location.hostname.indexOf('archive') !== -1 &&
+      document.querySelector('[data-area="paywall"]')
+    ) {
       running = true
       // Redirect to history of this page, if there is also a paywall in this archive
       // Only redirect once for this session
