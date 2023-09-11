@@ -2,14 +2,17 @@
 // @name            Spiegel redirect to Archive.today
 // @name:de         Spiegel Weiterleitung auf Archive.today
 // @namespace       https://greasyfork.org/en/users/20068-cuzi
-// @version         2.6
+// @version         2.7
 // @description     Redirect spiegel.de/zeit.de paywall pages to archive.today
 // @description:de  Leitet Spiegel.de/zeit.de/ Online Plus/Paywall/S+ Seiten automatisch auf archive.today
 // @icon            https://spiegel.de/favicon.ico
 // @author          cuzi
 // @license         GPL-3.0-or-later
+
 // @match           https://www.spiegel.de/*
 // @match           https://www.zeit.de/*
+// @match           https://www.zerohedge.com/*
+
 // @match           https://archive.today/*
 // @match           https://archive.ph/*
 // @match           https://archive.is/*
@@ -47,22 +50,21 @@
 
   function checkAvailability (hostname) {
     return new Promise(function (resolve, reject) {
+      const onResponse = function (response) {
+        if ((response.status >= 200 && response.status <= 400) || response.status === 429) {
+          resolve(response)
+        } else {
+          reject(new Error('HOST_UNAVAILABLE'))
+        }
+      }
       GM.xmlHttpRequest({
         url: `https://${hostname}/`,
         method: 'GET',
         headers: {
           Range: 'bytes=0-63'
         },
-        onload: function (response) {
-          if (response.status >= 200 && response.status <= 400) {
-            resolve(response)
-          } else {
-            reject(new Error('HOST_UNAVAILABLE'))
-          }
-        },
-        onerror: function (response) {
-          reject(new Error('HOST_UNAVAILABLE'))
-        }
+        onload: onResponse,
+        onerror: onResponse
       })
     })
   }
@@ -143,7 +145,7 @@
     let workingHostname = null
     for (const hostname of hostnames) {
       try {
-        showSpinner(hostname)
+        window.setTimeout(() => showSpinner(hostname), 0)
         await checkAvailability(hostname)
         workingHostname = hostname
         break
@@ -163,7 +165,10 @@
         showSpinner(`<a href="https://archive.today/?run=1&url=${encodeURIComponent(url)}">Try archive.today</a>`)
         stopSpinner()
       }, 200)
-      window.alert(scriptName + '\n\nSorry, all of the archive.today domains seem to be down.\n\nChecked:\n' + hostnames.join('\n'))
+      window.alert(scriptName +
+        '\n\nSorry, all of the archive.today domains seem to be down.\n\nChecked:\n' +
+        hostnames.join('\n') +
+        '\n\nIf you are using a Cloudflare DNS, try to switch to another DNS provider or use a VPN. Currently Cloudflare can\'t reliably resolve archive.today.')
     }
   }
 
@@ -185,8 +190,20 @@
       archivePage(document.location.href)
     } else if (
       document.location.hostname.indexOf('zeit.de') !== -1 &&
-      document.location.pathname.length > 1 &&
-      document.querySelector('.zplus-badge__link')
+      document.location.pathname.length > 1 && (
+        document.querySelector('.zplus-badge__link') ||
+        document.getElementById('paywall') ||
+        ('k5aMeta' in window && window.k5aMeta.paywall === 'hard')
+      )
+    ) {
+      running = true
+      archivePage(document.location.href)
+    } else if (
+      document.location.hostname.indexOf('zerohedge.com') !== -1 &&
+      document.location.pathname.length > 1 && (
+        document.querySelector('[class*=PremiumOverlay] [class*=PremiumOverlay]') ||
+        ('__NEXT_DATA__' in window && window.__NEXT_DATA__.props.pageProps.node.isPremium === true)
+      )
     ) {
       running = true
       archivePage(document.location.href)
