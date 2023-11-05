@@ -2,9 +2,9 @@
 // @name            Spiegel redirect to Archive.today
 // @name:de         Spiegel Weiterleitung auf Archive.today
 // @namespace       https://greasyfork.org/en/users/20068-cuzi
-// @version         2.7
-// @description     Redirect spiegel.de/zeit.de paywall pages to archive.today
-// @description:de  Leitet Spiegel.de/zeit.de/ Online Plus/Paywall/S+ Seiten automatisch auf archive.today
+// @version         2.8
+// @description     Redirect spiegel.de faz.net zeit.de zerohedge.com paywall pages to archive.today
+// @description:de  Leitet Spiegel.de faz.net zerohedge.com zeit.de/ Online Plus/Paywall/S+ Seiten automatisch auf archive.today
 // @icon            https://spiegel.de/favicon.ico
 // @author          cuzi
 // @license         GPL-3.0-or-later
@@ -12,6 +12,7 @@
 // @match           https://www.spiegel.de/*
 // @match           https://www.zeit.de/*
 // @match           https://www.zerohedge.com/*
+// @match           https://www.faz.net/*
 
 // @match           https://archive.today/*
 // @match           https://archive.ph/*
@@ -195,6 +196,12 @@
         document.getElementById('paywall') ||
         ('k5aMeta' in window && window.k5aMeta.paywall === 'hard')
       )
+    ) {
+      running = true
+      archivePage(document.location.href)
+    } else if (
+      document.location.hostname.indexOf('www.faz.net') !== -1 &&
+      document.querySelector('[class*=atc-ContainerPaywall]')
     ) {
       running = true
       archivePage(document.location.href)
