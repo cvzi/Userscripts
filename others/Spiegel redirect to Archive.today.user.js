@@ -2,7 +2,7 @@
 // @name            Spiegel redirect to Archive.today
 // @name:de         Spiegel Weiterleitung auf Archive.today
 // @namespace       https://greasyfork.org/en/users/20068-cuzi
-// @version         2.9
+// @version         2.10
 // @description     Redirect spiegel.de faz.net zeit.de zerohedge.com paywall pages to archive.today
 // @description:de  Leitet Spiegel.de faz.net zerohedge.com zeit.de/ Online Plus/Paywall/S+ Seiten automatisch auf archive.today
 // @icon            https://spiegel.de/favicon.ico
@@ -35,7 +35,7 @@
 
 /* global GM */
 
-(function () {
+(async function () {
   'use strict'
 
   const scriptName = 'Spiegel redirect to Archive.today'
@@ -49,6 +49,10 @@
     'archive.md',
     'archive.vn'
   ]
+
+  function sleep (t) {
+    return new Promise(resolve => setTimeout(resolve, t))
+  }
 
   function checkAvailability (hostname) {
     return new Promise(function (resolve, reject) {
@@ -177,7 +181,8 @@
   GM.registerMenuCommand(scriptName + ' - Archive.today page', () => archivePage(document.location.href))
 
   let running = false
-  function main () {
+  let firstRun = true
+  async function main () {
     if (running) {
       return
     }
@@ -201,12 +206,21 @@
       running = true
       archivePage(document.location.href)
     } else if (
-      document.location.hostname.indexOf('.faz.net') !== -1 && (
+      document.location.hostname.indexOf('.faz.net') !== -1 &&
+      document.location.pathname.endsWith('.html') &&
+      document.querySelectorAll('.art .art_headline').length === 1 && (
         document.querySelector('[class*=atc-ContainerPaywall]') || // desktop  www.faz.net
         document.querySelector('[id*=paywall]')) // mobile m.faz.net
     ) {
-      running = true
-      archivePage(document.location.href)
+      if (firstRun) {
+        // Wait a little the first time to let bypass-paywalls-firefox-clean do the job
+        // if it fails to unblock the page, we will archive it in the second run
+        firstRun = false
+        await sleep(3000)
+      } else {
+        running = true
+        archivePage(document.location.href)
+      }
     } else if (
       document.location.hostname.indexOf('zerohedge.com') !== -1 &&
       document.location.pathname.length > 1 && (
@@ -243,8 +257,11 @@
         historyLink.click()
       }
     }
+    firstRun = false
   }
-  main()
-  window.setTimeout(main, 1000)
-  window.setTimeout(main, 5000)
+  await main()
+  await sleep(1000)
+  await main()
+  await sleep(5000)
+  await main()
 })()
