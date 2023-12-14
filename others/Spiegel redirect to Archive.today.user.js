@@ -2,7 +2,7 @@
 // @name            Spiegel redirect to Archive.today
 // @name:de         Spiegel Weiterleitung auf Archive.today
 // @namespace       https://greasyfork.org/en/users/20068-cuzi
-// @version         2.11
+// @version         2.12
 // @description     Redirect spiegel.de faz.net zeit.de zerohedge.com paywall pages to archive.today
 // @description:de  Leitet Spiegel.de faz.net zerohedge.com zeit.de/ Online Plus/Paywall/S+ Seiten automatisch auf archive.today
 // @icon            https://spiegel.de/favicon.ico
@@ -189,7 +189,7 @@
     if (
       document.location.hostname.indexOf('spiegel') !== -1 && document.location.pathname.length > 1 && (
         document.querySelector('[data-area="paywall"]') || (
-          document.querySelector('article #spon-spplus-flag-l') && document.querySelectorAll('article h2').length === 1
+          document.querySelector('#Inhalt article header #spon-spplus-flag-l') && document.querySelectorAll('article h2').length === 1
         )
       )
     ) {
