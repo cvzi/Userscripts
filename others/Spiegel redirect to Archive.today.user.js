@@ -2,9 +2,9 @@
 // @name            Spiegel redirect to Archive.today
 // @name:de         Spiegel Weiterleitung auf Archive.today
 // @namespace       https://greasyfork.org/en/users/20068-cuzi
-// @version         2.12
-// @description     Redirect spiegel.de faz.net zeit.de zerohedge.com paywall pages to archive.today
-// @description:de  Leitet Spiegel.de faz.net zerohedge.com zeit.de/ Online Plus/Paywall/S+ Seiten automatisch auf archive.today
+// @version         2.13
+// @description     Redirect spiegel.de faz.net zeit.de zerohedge.com Süddeutsche Zeitung SZPlus paywall pages to archive.today
+// @description:de  Leitet Spiegel.de faz.net zerohedge.com zeit.de/ Online Plus/Paywall/S+ Süddeutsche Zeitung SZPlus Seiten automatisch auf archive.today
 // @icon            https://spiegel.de/favicon.ico
 // @author          cuzi
 // @license         GPL-3.0-or-later
@@ -14,6 +14,7 @@
 // @match           https://www.zerohedge.com/*
 // @match           https://www.faz.net/*
 // @match           https://m.faz.net/*
+// @match           https://www.sueddeutsche.de/*
 
 // @match           https://archive.today/*
 // @match           https://archive.ph/*
@@ -227,6 +228,13 @@
         document.querySelector('[class*=PremiumOverlay] [class*=PremiumOverlay]') ||
         ('__NEXT_DATA__' in window && window.__NEXT_DATA__.props.pageProps.node.isPremium === true)
       )
+    ) {
+      running = true
+      archivePage(document.location.href)
+    } else if (
+      document.location.hostname.indexOf('sueddeutsche.de') !== -1 &&
+      document.location.search.indexOf('reduced=true') !== -1 &&
+      document.querySelector('#sz-paywall iframe')
     ) {
       running = true
       archivePage(document.location.href)
