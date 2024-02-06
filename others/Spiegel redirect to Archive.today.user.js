@@ -1,10 +1,10 @@
 // ==UserScript==
-// @name            Spiegel redirect to Archive.today
-// @name:de         Spiegel Weiterleitung auf Archive.today
+// @name            Paywall redirect to Archive.today
+// @name:de         Paywall weiterleitung auf Archive.today
 // @namespace       https://greasyfork.org/en/users/20068-cuzi
 // @version         2.13
-// @description     Redirect spiegel.de faz.net zeit.de zerohedge.com Süddeutsche Zeitung SZPlus paywall pages to archive.today
-// @description:de  Leitet Spiegel.de faz.net zerohedge.com zeit.de/ Online Plus/Paywall/S+ Süddeutsche Zeitung SZPlus Seiten automatisch auf archive.today
+// @description     Redirect spiegel.de faz.net zeit.de zerohedge.com Süddeutsche Zeitung SZPlus tagesspiegel paywall pages to archive.today
+// @description:de  Leitet Spiegel.de faz.net zerohedge.com zeit.de/ Online Plus/Paywall/S+ Süddeutsche Zeitung SZPlus tagesspiegel Seiten automatisch auf archive.today
 // @icon            https://spiegel.de/favicon.ico
 // @author          cuzi
 // @license         GPL-3.0-or-later
@@ -15,6 +15,7 @@
 // @match           https://www.faz.net/*
 // @match           https://m.faz.net/*
 // @match           https://www.sueddeutsche.de/*
+// @match           https://www.tagesspiegel.de/*
 
 // @match           https://archive.today/*
 // @match           https://archive.ph/*
@@ -39,7 +40,7 @@
 (async function () {
   'use strict'
 
-  const scriptName = 'Spiegel redirect to Archive.today'
+  const scriptName = 'Paywall redirect to Archive.today'
 
   const hostnames = [
     'archive.is',
@@ -194,6 +195,10 @@
         )
       )
     ) {
+      running = true
+      archivePage(document.location.href)
+    } else if (
+    document.location.hostname.indexOf('tagesspiegel') !== -1 && document.querySelector('#paywal').length !== 0) {
       running = true
       archivePage(document.location.href)
     } else if (
