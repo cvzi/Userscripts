@@ -2,7 +2,7 @@
 // @name            Paywall redirect to Archive.today
 // @name:de         Paywall weiterleitung auf Archive.today
 // @namespace       https://greasyfork.org/en/users/20068-cuzi
-// @version         2.14
+// @version         2.15
 // @description     Redirect spiegel.de faz.net zeit.de zerohedge.com Süddeutsche Zeitung SZPlus tagesspiegel paywall pages to archive.today
 // @description:de  Leitet Spiegel.de faz.net zerohedge.com zeit.de/ Online Plus/Paywall/S+ Süddeutsche Zeitung SZPlus tagesspiegel Seiten automatisch auf archive.today
 // @icon            https://spiegel.de/favicon.ico
@@ -15,6 +15,7 @@
 // @match           https://www.faz.net/*
 // @match           https://m.faz.net/*
 // @match           https://www.sueddeutsche.de/*
+// @match           https://sz-magazin.sueddeutsche.de/*
 // @match           https://www.tagesspiegel.de/*
 
 // @match           https://archive.today/*
@@ -233,6 +234,13 @@
         document.querySelector('[class*=PremiumOverlay] [class*=PremiumOverlay]') ||
         ('__NEXT_DATA__' in window && window.__NEXT_DATA__.props.pageProps.node.isPremium === true)
       )
+    ) {
+      running = true
+      archivePage(document.location.href)
+    } else if (
+      document.location.hostname.indexOf('sz-magazin.sueddeutsche.de') !== -1 &&
+      document.location.search.indexOf('reduced=true') !== -1 &&
+      document.querySelector('.articlemain__inner--reduced .paragraph--reduced')
     ) {
       running = true
       archivePage(document.location.href)
