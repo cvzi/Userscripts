@@ -3,16 +3,18 @@
 // @description  Automatically log in to Spotify web with your facebook account, no need to click the multiple login buttons anymore
 // @namespace    cuzi
 // @icon         https://www.google.com/s2/favicons?sz=128&domain=spotify.com
-// @version      14
+// @version      15
 // @grant        GM.setValue
 // @grant        GM.getValue
 // @license      GPL-3.0-or-later; http://www.gnu.org/licenses/gpl-3.0.txt
 // @match        https://open.spotify.com/*
 // @match        https://accounts.spotify.com/*
 // @match        https://www.facebook.com/login.php*
+// @match        https://www.facebook.com/checkpoint/*
 // ==/UserScript==
 
 /* global GM */
+/* jshint asi: true, esversion: 8 */
 
 'use strict'
 
@@ -115,9 +117,14 @@ function facebook () {
       button.click()
     }
   }
+
+  // Don't save browser
+  if (document.querySelector('input[value=dont_save]')) {
+    document.querySelector('input[value=dont_save]').checked = true
+  }
 }
 
-if (document.location.href.startsWith('https://www.facebook.com/login.php')) {
+if (document.location.href.startsWith('https://www.facebook.com/')) {
   facebook()
   window.setTimeout(facebook, 2000)
 } else {

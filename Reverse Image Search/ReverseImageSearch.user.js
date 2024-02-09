@@ -32,6 +32,7 @@
 */
 
 /* globals GM_openInTab, GM_registerMenuCommand */
+/* jshint asi: true, esversion: 8 */
 
 (function () {
   'use strict'

@@ -28,6 +28,7 @@
 // ==/UserScript==
 
 /* globals getOCH, GM, $, alert, NodeFilter */
+/* jshint asi: true, esversion: 8 */
 
 (async function () {
   'use strict'

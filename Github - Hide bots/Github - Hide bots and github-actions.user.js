@@ -12,6 +12,8 @@
 // @grant        none
 // ==/UserScript==
 
+/* jshint asi: true, esversion: 8 */
+
 (function () {
   'use strict'
 

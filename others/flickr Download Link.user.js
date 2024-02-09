@@ -16,6 +16,8 @@
 // @match            https://*.flickr.com/*
 // ==/UserScript==
 
+/* jshint asi: true, esversion: 8 */
+
 (function () {
   'use strict'
 

@@ -14,6 +14,8 @@
 // ==/UserScript==
 
 /* globals GM  */
+/* jshint asi: true, esversion: 8 */
+
 (function () {
   'use strict'
 

@@ -27,6 +27,7 @@
 // ==/UserScript==
 
 /* globals RequestQueue, getOCH, NodeFilter, GM */
+/* jshint asi: true, esversion: 8 */
 
 (function () {
   'use strict'

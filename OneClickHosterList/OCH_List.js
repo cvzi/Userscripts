@@ -15,6 +15,8 @@
   (at)require http://openuserjs.org/src/libs/cuzi/RequestQueue.js
 */
 
+/* jshint asi: true, esversion: 8 */
+
 'use strict'
 
 /*

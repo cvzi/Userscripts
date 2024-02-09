@@ -106,6 +106,7 @@
 
 /* globals confirm, alert, GM, GM_setClipboard, unsafeWindow, $, atob, slowAES, cloneInto */
 /* eslint n/no-callback-literal: 0 */
+/* jshint asi: true, esversion: 8 */
 
 (async function () {
   'use strict'
