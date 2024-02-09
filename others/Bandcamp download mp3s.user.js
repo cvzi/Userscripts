@@ -16,6 +16,7 @@
 // ==/UserScript==
 
 /* globals GM, unsafeWindow, GM_download */
+/* jshint asi: true, esversion: 8 */
 
 (function () {
   // Base64 function from https://gist.github.com/stubbetje/229984
