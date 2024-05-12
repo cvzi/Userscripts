@@ -207,7 +207,7 @@
       document.location.hostname.indexOf('zeit.de') !== -1 &&
       document.location.pathname.length > 1 && (
         document.querySelector('.zplus-badge__link') ||
-        document.getElementById('paywall') ||
+        document.getElementById('paywall').childElementCount != 0 ||
         ('k5aMeta' in window && window.k5aMeta.paywall === 'hard')
       )
     ) {
