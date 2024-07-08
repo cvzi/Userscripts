@@ -8,7 +8,7 @@
 // @contributionURL  https://buymeacoff.ee/cuzi
 // @contributionURL  https://ko-fi.com/cuzicvzi
 // @icon             https://raw.githubusercontent.com/cvzi/Userscripts/master/Multi-OCH/icons/helper.png
-// @version          17.1.3
+// @version          17.1.4
 
 // @match            https://cvzi.github.io/Userscripts/index.html?link=*
 // @match            https://www.nopremium.pl/files*
@@ -39,6 +39,7 @@
 // @match            https://clicknupload.to/*
 // @match            https://clicknupload.club/*
 // @match            https://clicknupload.click/*
+// @match            https://clicknupload.space/*
 // @match            https://dailyuploads.net/*
 // @match            https://ddl.to/*
 // @match            https://ddownload.com/*
@@ -84,13 +85,14 @@
 // @match            https://uploadgig.com/*
 // @match            https://uptobox.com/*
 // @match            https://userscloud.com/*
+// @match            https://usersdrive.com/*
 // @match            https://vidoza.org/*
 // @match            https://worldbytez.com/*
 // @match            https://wrzucajpliki.pl/*
 // @match            https://xubster.com/*
 // @match            https://*.zippyshare.com/*
 
-// @require          https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js
+// @require          https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js
 // @require          https://greasyfork.org/scripts/13883-aes-js/code/aesjs.js
 // @grant            GM.registerMenuCommand
 // @grant            unsafeWindow

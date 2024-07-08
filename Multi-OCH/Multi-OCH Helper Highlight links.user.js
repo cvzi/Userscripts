@@ -19,11 +19,11 @@
 // @exclude     *.amazon.*
 // @exclude     *.ebay.*
 // @exclude     *.netflix.com*
-// @version     10.20.4
+// @version     10.20.5
 // @grant       GM.setValue
 // @grant       GM.getValue
 // @grant       GM.registerMenuCommand
-// @require     https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js
+// @require     https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js
 // @require     https://greasyfork.org/scripts/25445-och-list/code/OCH%20List.js
 // ==/UserScript==
 
