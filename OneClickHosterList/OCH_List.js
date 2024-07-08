@@ -3,7 +3,7 @@
 // ==UserLibrary==
 // @name        OCH List
 // @description A list of One-Click-Hosters that are supported by nopremium.pl
-// @version     42
+// @version     43
 // @license     GPL-3.0-or-later; http://www.gnu.org/licenses/gpl-3.0.txt
 // ==/UserLibrary==
 // @namespace   cuzi
@@ -308,7 +308,7 @@ check: void check(link, cb, thisArg)
       }
     },
     clicknupload: {
-      pattern: /^https?:\/\/(www\.)?clicknupload\.(link|org|co|cc|to|club|click)\/\w+\/?.*$/m,
+      pattern: /^https?:\/\/(www\.)?clicknupload\.(link|org|co|cc|to|club|click|space)\/\w+\/?.*$/m,
       multi: ['nopremium.pl', 'premiumize.me'],
       title: 'ClicknUpload',
       homepage: 'https://clicknupload.co',
@@ -1402,7 +1402,7 @@ check: void check(link, cb, thisArg)
     },
     usersdrive: {
       pattern: /^https?:\/\/usersdrive\.com\/\w+.*$/m,
-      multi: [],
+      multi: ['nopremium.pl'],
       title: 'Usersdrive',
       homepage: 'https://usersdrive.com/',
       check: function (link, cb, thisArg) {
