@@ -16,7 +16,7 @@
 // @grant            GM.xmlHttpRequest
 // @grant            GM.registerMenuCommand
 // @connect          *
-// @version          23.8
+// @version          24.0
 // @match            *://*/*
 // @exclude          *.yahoo.*
 // @exclude          *.google.*
@@ -26,17 +26,17 @@
 // @exclude          *duckduckgo.com*
 // ==/UserScript==
 
-/* globals RequestQueue, getOCH, NodeFilter, GM */
+/* globals RequestQueue, getOCH, NodeFilter, GM, crypto */
 /* jshint asi: true, esversion: 8 */
 
 (function () {
   'use strict'
 
   // Maximal number of links that are checked (per website)
-  const MAXREQUESTS = 1000
+  const MAXREQUESTS = 2000
 
   // Maximal number of links that are checked in parallel (per website)
-  const MAXPARALLELCONNECTIONS = 16
+  const MAXPARALLELCONNECTIONS = 50
 
   // Maximal number of DOM nodes that are examined. Decrease this number on slow machines.
   const MAXTEXTNODES = 10000
@@ -80,6 +80,7 @@ alert(myurls.join("\n"));
   function linkOnline (link) {
     link.element.style.backgroundColor = 'rgba(70, 255 ,0, 0.5)'
     link.element.dataset.linkValidatedAs = 'online'
+    highlightInSidebar(link)
   }
   function linkWaiting (link) {
     link.element.classList.add('ochlink713')
@@ -98,6 +99,87 @@ alert(myurls.join("\n"));
     } else {
       console.log('handleResult(link,result,errorstring) wrong resultcode: ' + result)
     }
+  }
+
+  let sidebar = null
+  function createSidebar () {
+    sidebar = document.body.appendChild(document.createElement('div'))
+    sidebar.classList.add('och453_sidebar')
+    sidebar.addEventListener('click', function (ev) {
+      if (ev.target === sidebar) {
+        window.scrollTo(0, ev.layerY / sidebar.clientHeight * document.body.clientHeight)
+      } else if ('linkId' in ev.target.dataset) {
+        document.querySelector(`.link_${ev.target.dataset.linkId}`).scrollIntoView()
+      }
+    })
+    document.head.appendChild(document.createElement('style')).innerHTML = `
+      .och453_sidebar {
+        position: fixed;
+        top: 17px;
+        right: 0;
+        bottom:17px;
+        width: 20px;
+        background-color: rgba(255, 255, 255, 0.5);
+        z-index: 1000
+      }
+      .och453_line {
+        position: absolute;
+        height: 3px;
+        width: 100%;
+        background-color:rgba(70, 255 ,0, 0.5);
+        cursor:pointer
+      }
+    `
+  }
+
+  function cumulativeOffset (element) {
+    // Count scrollable parent elements
+    let counter = 0
+    let parent = element.parentElement
+    while (parent && parent !== document.documentElement) {
+      if (parent.scrollHeight > parent.clientHeight) {
+        counter++
+      }
+      parent = parent.parentElement
+    }
+
+    // Skip scrollable parent elements except the top-most one
+    parent = element.parentElement
+    let i = 0
+    while (parent && parent !== document.documentElement) {
+      if (parent.scrollHeight > parent.clientHeight) {
+        i++
+        if (i === counter) {
+          break
+        }
+      }
+      parent = parent.parentElement
+    }
+
+    // Calculate offset
+    let top = 0
+    while (parent && parent !== document.documentElement) {
+      top += parent.offsetTop
+      parent = parent.offsetParent
+    }
+    return top
+  }
+
+  function highlightInSidebar (link) {
+    if (!sidebar) {
+      createSidebar()
+    }
+
+    const top = cumulativeOffset(link.element)
+    const totalHeight = document.body.clientHeight
+    const topPercentage = top / totalHeight * 100
+    const line = sidebar.appendChild(document.createElement('div'))
+    line.classList.add('och453_line')
+    line.style.top = `${topPercentage}%`
+
+    const id = crypto.randomUUID()
+    link.element.classList.add(`link_${id}`)
+    line.dataset.linkId = id
   }
 
   function matchHoster (str) {
@@ -185,7 +267,7 @@ alert(myurls.join("\n"));
         a.appendChild(urlnode.parentNode.replaceChild(a, urlnode))
         links.push({
           hoster: mh,
-          url: url,
+          url,
           element: a
         })
       }
@@ -241,7 +323,7 @@ alert(myurls.join("\n"));
   }
 
   document.addEventListener('keydown', function (ev) {
-    if (ev.keyCode === 27) {
+    if (ev.key === 'Escape') {
       deleteOfflineLinks = ev.shiftKey
       toggleCheck()
     }
