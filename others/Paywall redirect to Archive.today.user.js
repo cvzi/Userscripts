@@ -70,10 +70,12 @@
       GM.xmlHttpRequest({
         url: `https://${hostname}/`,
         method: 'GET',
+        timeout: 5000,
         headers: {
           Range: 'bytes=0-63'
         },
         onload: onResponse,
+        ontimeout: onResponse,
         onerror: onResponse
       })
     })
