@@ -739,6 +739,15 @@ check: void check(link, cb, thisArg)
         offlineByFindingString(link, ['ERREUR', 'erreur', 'inexistant'], cb, thisArg)
       }
     },
+    freedlink: {
+      pattern: /^https:\/\/frdl\.to\/\w+\/?.*$/m,
+      multi: [],
+      title: 'FREEdlink',
+      homepage: 'https://freedl.ink/',
+      check: function (link, cb, thisArg) {
+        offlineByFindingString(link, ['File Not Found', 'alert alert-warning'], cb, thisArg)
+      }
+    },
     gboxes: {
       pattern: /^http:\/\/www\.gboxes\.com\/\w+.*$/m,
       multi: [],
