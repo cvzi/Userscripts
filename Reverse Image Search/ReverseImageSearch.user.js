@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Reverse Image Search
 // @namespace    github.com/cvzi/
-// @version      1.0.3
+// @version      1.0.4
 // @description  Search largest image on the page or current image on Google, TinEye, Yandex, SauceNAO and iqdb.org
 // @author       cuzi
 // @copyright    2022, cuzi (https://github.com/cvzi/)
@@ -52,7 +52,7 @@
     if (document && document.body && document.body.firstChild.tagName === 'IMG') {
       return document.location.href
     } else {
-      const biggestImage = Array.from(document.querySelectorAll('img[src^=http],img[srcset]')).filter(img => img.src.startsWith('http')).map(img => {
+      const biggestImage = Array.from(document.querySelectorAll('img,img[srcset]')).filter(img => img.src.startsWith('http')).map(img => {
         return {
           img,
           size: img.clientWidth + img.clientHeight + img.naturalHeight + img.naturalWidth
