@@ -1,15 +1,15 @@
 // ==UserScript==
 // @name         Reverse Image Search
 // @namespace    github.com/cvzi/
-// @version      1.0.4
+// @version      1.0.5
 // @description  Search largest image on the page or current image on Google, TinEye, Yandex, SauceNAO and iqdb.org
 // @author       cuzi
 // @copyright    2022, cuzi (https://github.com/cvzi/)
 // @license      GPL-3.0-or-later
 // @match        *://*/*
 // @icon         https://raw.githubusercontent.com/hfg-gmuend/openmoji/master/color/72x72/1F5BC.png
-// @grant        GM_openInTab
-// @grant        GM_registerMenuCommand
+// @grant        GM.openInTab
+// @grant        GM.registerMenuCommand
 // ==/UserScript==
 
 /*
@@ -31,7 +31,7 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-/* globals GM_openInTab, GM_registerMenuCommand */
+/* globals GM */
 /* jshint asi: true, esversion: 8 */
 
 (function () {
@@ -67,31 +67,31 @@
 
   function google () {
     /* Google reverse image search */
-    GM_openInTab('https://www.google.com/imghp?sbi=1#habibi=' + encodeURIComponent(getUrl()), { active: true })
+    GM.openInTab('https://www.google.com/imghp?sbi=1#habibi=' + encodeURIComponent(getUrl()), false)
   }
 
   function tinEye () {
     /* TinEye reverse image search */
-    GM_openInTab('https://tineye.com/search?url=' + encodeURIComponent(getUrl()))
+    GM.openInTab('https://tineye.com/search?url=' + encodeURIComponent(getUrl()))
   }
   function yandex () {
     /* Yandex reverse image search */
-    GM_openInTab('https://yandex.com/images/search?rpt=imageview&url=' + encodeURIComponent(getUrl()))
+    GM.openInTab('https://yandex.com/images/search?rpt=imageview&url=' + encodeURIComponent(getUrl()))
   }
   function sauceNAO () {
     /* SauceNAO reverse image search */
-    GM_openInTab('https://saucenao.com/search.php?url=' + encodeURIComponent(getUrl()))
+    GM.openInTab('https://saucenao.com/search.php?url=' + encodeURIComponent(getUrl()))
   }
   function iqdb () {
     /* iqdb.org reverse image search */
-    GM_openInTab('http://iqdb.org/?url=' + encodeURIComponent(getUrl()))
+    GM.openInTab('http://iqdb.org/?url=' + encodeURIComponent(getUrl()))
   }
 
-  GM_registerMenuCommand('Reverse Image Search - Google', google, 'g')
-  GM_registerMenuCommand('Reverse Image Search - TinEye', tinEye, 'q')
-  GM_registerMenuCommand('Reverse Image Search - Yandex', yandex, 'y')
-  GM_registerMenuCommand('Reverse Image Search - SauceNAO', sauceNAO, 'x')
-  GM_registerMenuCommand('Reverse Image Search - iqdb.org', iqdb, ',')
+  GM.registerMenuCommand('Reverse Image Search - Google', google, 'g')
+  GM.registerMenuCommand('Reverse Image Search - TinEye', tinEye, 'q')
+  GM.registerMenuCommand('Reverse Image Search - Yandex', yandex, 'y')
+  GM.registerMenuCommand('Reverse Image Search - SauceNAO', sauceNAO, 'x')
+  GM.registerMenuCommand('Reverse Image Search - iqdb.org', iqdb, ',')
 
   if (document && document.body && document.body.firstChild.tagName === 'IMG') {
     document.addEventListener('keydown', onKeyDown('g', google))
