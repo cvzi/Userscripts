@@ -3,11 +3,12 @@
 // @namespace    https://openuserjs.org/users/cuzi
 // @license      GPL-3.0-or-later
 // @copyright    2020, cuzi (https://openuserjs.org/users/cuzi)
-// @version      1.1.1
+// @version      1.1.2
 // @description  Enable right click on images in the IMDb.com media viewer
 // @author       cuzi
 // @icon         https://www.google.com/s2/favicons?sz=64&domain=imdb.com
 // @match        https://www.imdb.com/*
+// @match        https://m.imdb.com/*
 // @grant        GM.openInTab
 // ==/UserScript==
 
