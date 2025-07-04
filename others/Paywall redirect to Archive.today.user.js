@@ -296,7 +296,23 @@
       {
         hostname: 'archive',
         check: (doc, win) => {
-          return sites.some(site => site.hostname !== 'archive' && site.check(doc, win))
+          const input = doc.querySelector('#HEADER form input[name="q"]');
+          if (!input || !input.value) return false;
+
+          let inputHostname
+          try {
+            const url = new URL(input.value)
+            inputHostname = url.hostname
+          } catch (err) {
+            console.warn('Invalid URL in input:', input.value)
+            return false
+          }
+
+          return sites.some(site =>
+              site.hostname !== 'archive' &&
+              inputHostname.includes(site.hostname) &&
+              site.check(doc, win)
+          )
         },
         action: (doc, win) => {
           // Redirect to history of this page, if there is also a paywall in this archive
