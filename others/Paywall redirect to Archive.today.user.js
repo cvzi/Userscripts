@@ -210,7 +210,7 @@
       {
         hostname: 'tagesspiegel',
         check: (doc) => {
-          return doc.querySelectorAll('#paywal').length !== 0;
+          return doc.querySelectorAll('#paywall').length !== 0;
         }
       },
       {
