@@ -195,6 +195,14 @@
     if (running) {
       return
     }
+
+    // {
+    //   hostname: 'spiegel',
+    //   check: (doc, win) => {},
+    //   waitOnFirstRun: true, // optional: defaults to false
+    //   action: (doc, win) => {}, // optional - defaults to `archivePage`
+    // }
+
     const sites = [
       {
         hostname: 'spiegel',
