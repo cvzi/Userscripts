@@ -350,7 +350,7 @@
           if (typeof site.action === 'function') {
             site.action(document, window)
           } else {
-            archivePage(document.location.href)
+            await archivePage(document.location.href)
           }
 
           break
