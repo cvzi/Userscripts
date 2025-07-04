@@ -190,103 +190,141 @@
 
   let running = false
   let firstRun = true
+
   async function main () {
     if (running) {
       return
     }
-    if (
-      document.location.hostname.indexOf('spiegel') !== -1 && document.location.pathname.length > 1 && (
-        document.querySelector('[data-area="paywall"]') || (
-          document.querySelector('#Inhalt article header #spon-spplus-flag-l') && document.querySelectorAll('article h2').length === 1
-        )
-      )
-    ) {
-      running = true
-      archivePage(document.location.href)
-    } else if (
-      document.location.hostname.indexOf('tagesspiegel') !== -1 && document.querySelector('#paywal').length !== 0) {
-      running = true
-      archivePage(document.location.href)
-    } else if (
-      document.location.hostname.indexOf('zeit.de') !== -1 &&
-      document.location.pathname.length > 1 && (
-        document.querySelector('.zplus-badge__link') ||
-        document.getElementById('paywall').childElementCount != 0 ||
-        ('k5aMeta' in window && window.k5aMeta.paywall === 'hard')
-      )
-    ) {
-      running = true
-      archivePage(document.location.href)
-    } else if (
-      document.location.hostname.indexOf('.faz.net') !== -1 &&
-      document.location.pathname.endsWith('.html') &&
-      document.querySelectorAll('.atc-HeadlineText').length === 1 && (
-        document.querySelector('[class*=atc-ContainerPaywall]') || // desktop  www.faz.net
-        document.querySelector('[id*=paywall]')) // mobile m.faz.net
-    ) {
-      if (firstRun) {
-        // Wait a little the first time to let bypass-paywalls-firefox-clean do the job
-        // if it fails to unblock the page, we will archive it in the second run
-        firstRun = false
-        await sleep(3000)
-      } else {
-        running = true
-        archivePage(document.location.href)
+    const sites = [
+      {
+        hostname: 'spiegel',
+        check: (doc) => {
+          return doc.location.pathname.length > 1 && (
+              doc.querySelector('[data-area="paywall"]') || (
+                  doc.querySelector('#Inhalt article header #spon-spplus-flag-l') &&
+                  doc.querySelectorAll('article h2').length === 1
+              )
+          );
+        }
+      },
+      {
+        hostname: 'tagesspiegel',
+        check: (doc) => {
+          return doc.querySelectorAll('#paywal').length !== 0;
+        }
+      },
+      {
+        hostname: 'zeit.de',
+        check: (doc, win) => {
+          return doc.location.pathname.length > 1 && (
+              doc.querySelector('.zplus-badge__link') ||
+              (doc.getElementById('paywall')?.childElementCount ?? 0) !== 0 ||
+              ('k5aMeta' in win && win.k5aMeta.paywall === 'hard')
+          );
+        }
+      },
+      {
+        hostname: '.faz.net',
+        waitOnFirstRun: true,
+        check: (doc) => {
+          return doc.location.pathname.endsWith('.html') &&
+              doc.querySelectorAll('.atc-HeadlineText').length === 1 && (
+                  doc.querySelector('[class*=atc-ContainerPaywall]') || // desktop  www.faz.net
+                  doc.querySelector('[id*=paywall]') // mobile m.faz.net
+              );
+        }
+      },
+      {
+        hostname: 'zerohedge.com',
+        check: (doc, win) => {
+          return doc.location.pathname.length > 1 && (
+              doc.querySelector('[class*=PremiumOverlay] [class*=PremiumOverlay]') ||
+              ('__NEXT_DATA__' in win && win.__NEXT_DATA__.props?.pageProps?.node?.isPremium === true)
+          );
+        }
+      },
+      {
+        hostname: 'sz-magazin.sueddeutsche.de',
+        check: (doc) => {
+          return doc.location.search.includes('reduced=true') &&
+              doc.querySelector('.articlemain__inner--reduced .paragraph--reduced');
+        }
+      },
+      {
+        hostname: 'sueddeutsche.de',
+        check: (doc) => {
+          return doc.location.search.includes('reduced=true') &&
+              doc.querySelector('#sz-paywall iframe');
+        }
+      },
+      {
+        hostname: 'nytimes.com',
+        check: (doc) => {
+          return doc.querySelector('iframe[src*="captcha"]');
+        }
+      },
+      {
+        hostname: 'archive',
+        check: (doc) => {
+          return doc.querySelector('form#submiturl [type=submit]');
+        },
+        action: (doc) => {
+          const inputField = doc.querySelector('form#submiturl input#url');
+          const submitButton = doc.querySelector('form#submiturl [type=submit]');
+          const m = doc.location.search.match(/url=([^&]+)/);
+          if (submitButton && inputField && m) {
+            inputField.value = decodeURIComponent(m[1]);
+            submitButton.click();
+          }
+        }
+      },
+      {
+        hostname: 'archive',
+        check: (doc) => {
+          return doc.querySelector('[data-area="paywall"]');
+        },
+        action: (doc, win) => {
+
+          // Redirect to history of this page, if there is also a paywall in this archive
+          // Only redirect once for this session
+          const key = doc.location.href;
+          const alreadyRedirected = win.sessionStorage.getItem(key);
+          const historyLink = Array.from(doc.querySelectorAll('#HEADER form a'))
+              .find(e => e.textContent.includes('history'));
+
+          if (!alreadyRedirected && historyLink) {
+            win.sessionStorage.setItem(key, '1');
+            historyLink.click();
+          }
+        }
       }
-    } else if (
-      document.location.hostname.indexOf('zerohedge.com') !== -1 &&
-      document.location.pathname.length > 1 && (
-        document.querySelector('[class*=PremiumOverlay] [class*=PremiumOverlay]') ||
-        ('__NEXT_DATA__' in window && window.__NEXT_DATA__.props.pageProps.node.isPremium === true)
-      )
-    ) {
-      running = true
-      archivePage(document.location.href)
-    } else if (
-      document.location.hostname.indexOf('sz-magazin.sueddeutsche.de') !== -1 &&
-      document.location.search.indexOf('reduced=true') !== -1 &&
-      document.querySelector('.articlemain__inner--reduced .paragraph--reduced')
-    ) {
-      running = true
-      archivePage(document.location.href)
-    } else if (
-      document.location.hostname.indexOf('sueddeutsche.de') !== -1 &&
-      document.location.search.indexOf('reduced=true') !== -1 &&
-      document.querySelector('#sz-paywall iframe')
-    ) {
-      running = true
-      archivePage(document.location.href)
-    } else if (
-      document.location.hostname.indexOf('nytimes.com') !== -1 &&
-      document.querySelector('iframe[src*="captcha"]')
-    ) {
-      running = true
-      archivePage(document.location.href)
-    } else if (
-      document.location.hostname.indexOf('archive') !== -1 &&
-      document.querySelector('form#submiturl [type=submit]')
-    ) {
-      running = true
-      // Insert url and press submit button
-      const m = document.location.search.match('url=([^&]+)')
-      if (m) {
-        const url = decodeURIComponent(m[1])
-        document.querySelector('form#submiturl input#url').value = url
-        document.querySelector('form#submiturl [type=submit]').click()
-      }
-    } else if (
-      document.location.hostname.indexOf('archive') !== -1 &&
-      document.querySelector('[data-area="paywall"]')
-    ) {
-      running = true
-      // Redirect to history of this page, if there is also a paywall in this archive
-      // Only redirect once for this session
-      const key = document.location.href
-      const alreadyRedirected = window.sessionStorage.getItem(key)
-      const historyLink = Array.from(document.querySelectorAll('#HEADER form a')).filter(e => e.textContent.indexOf('history') !== -1).shift()
-      if (!alreadyRedirected && historyLink) {
-        window.sessionStorage.setItem(key, '1')
-        historyLink.click()
+    ]
+
+    for (const site of sites) {
+      if (document.location.hostname.includes(site.hostname)) {
+        const shouldWait = firstRun && site.waitOnFirstRun
+
+        if (shouldWait) {
+          // Wait a little the first time to let bypass-paywalls-firefox-clean do the job
+          // if it fails to unblock the page, we will archive it in the second run
+
+          firstRun = false
+          await sleep(3000)
+          break
+        }
+
+        const result = await site.check(document, window)
+        if (result) {
+          running = true
+
+          if (typeof site.action === 'function') {
+            site.action(document, window)
+          } else {
+            archivePage(document.location.href)
+          }
+
+          break
+        }
       }
     }
     firstRun = false
