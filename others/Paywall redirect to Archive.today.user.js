@@ -19,6 +19,7 @@
 // @match           https://www.tagesspiegel.de/*
 // @match           https://nytimes.com/*
 // @match           https://www.nytimes.com/*
+// @match           https://www.heise.de/*
 
 // @match           https://archive.today/*
 // @match           https://archive.ph/*
@@ -204,6 +205,12 @@
     // }
 
     const sites = [
+      {
+        hostname: 'heise.de',
+        check: (doc) => {
+          return doc.querySelector('.js-upscore-article-content-for-paywall')
+        }
+      },
       {
         hostname: 'spiegel',
         check: (doc) => {
