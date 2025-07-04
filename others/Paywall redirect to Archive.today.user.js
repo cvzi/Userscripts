@@ -204,13 +204,13 @@
                   doc.querySelector('#Inhalt article header #spon-spplus-flag-l') &&
                   doc.querySelectorAll('article h2').length === 1
               )
-          );
+          )
         }
       },
       {
         hostname: 'tagesspiegel',
         check: (doc) => {
-          return doc.querySelectorAll('#paywall').length !== 0;
+          return doc.querySelectorAll('#paywall').length !== 0
         }
       },
       {
@@ -220,7 +220,7 @@
               doc.querySelector('.zplus-badge__link') ||
               (doc.getElementById('paywall')?.childElementCount ?? 0) !== 0 ||
               ('k5aMeta' in win && win.k5aMeta.paywall === 'hard')
-          );
+          )
         }
       },
       {
@@ -231,7 +231,7 @@
               doc.querySelectorAll('.atc-HeadlineText').length === 1 && (
                   doc.querySelector('[class*=atc-ContainerPaywall]') || // desktop  www.faz.net
                   doc.querySelector('[id*=paywall]') // mobile m.faz.net
-              );
+              )
         }
       },
       {
@@ -240,41 +240,41 @@
           return doc.location.pathname.length > 1 && (
               doc.querySelector('[class*=PremiumOverlay] [class*=PremiumOverlay]') ||
               ('__NEXT_DATA__' in win && win.__NEXT_DATA__.props?.pageProps?.node?.isPremium === true)
-          );
+          )
         }
       },
       {
         hostname: 'sz-magazin.sueddeutsche.de',
         check: (doc) => {
           return doc.location.search.includes('reduced=true') &&
-              doc.querySelector('.articlemain__inner--reduced .paragraph--reduced');
+              doc.querySelector('.articlemain__inner--reduced .paragraph--reduced')
         }
       },
       {
         hostname: 'sueddeutsche.de',
         check: (doc) => {
           return doc.location.search.includes('reduced=true') &&
-              doc.querySelector('#sz-paywall iframe');
+              doc.querySelector('#sz-paywall iframe')
         }
       },
       {
         hostname: 'nytimes.com',
         check: (doc) => {
-          return doc.querySelector('iframe[src*="captcha"]');
+          return doc.querySelector('iframe[src*="captcha"]')
         }
       },
       {
         hostname: 'archive',
         check: (doc) => {
-          return doc.querySelector('form#submiturl [type=submit]');
+          return doc.querySelector('form#submiturl [type=submit]')
         },
         action: (doc) => {
-          const inputField = doc.querySelector('form#submiturl input#url');
-          const submitButton = doc.querySelector('form#submiturl [type=submit]');
-          const m = doc.location.search.match(/url=([^&]+)/);
+          const inputField = doc.querySelector('form#submiturl input#url')
+          const submitButton = doc.querySelector('form#submiturl [type=submit]')
+          const m = doc.location.search.match(/url=([^&]+)/)
           if (submitButton && inputField && m) {
-            inputField.value = decodeURIComponent(m[1]);
-            submitButton.click();
+            inputField.value = decodeURIComponent(m[1])
+            submitButton.click()
           }
         }
       },
@@ -284,17 +284,16 @@
           return sites.some(site => site.hostname !== 'archive' && site.check(doc, win))
         },
         action: (doc, win) => {
-
           // Redirect to history of this page, if there is also a paywall in this archive
           // Only redirect once for this session
-          const key = doc.location.href;
-          const alreadyRedirected = win.sessionStorage.getItem(key);
+          const key = doc.location.href
+          const alreadyRedirected = win.sessionStorage.getItem(key)
           const historyLink = Array.from(doc.querySelectorAll('#HEADER form a'))
-              .find(e => e.textContent.includes('history'));
+              .find(e => e.textContent.includes('history'))
 
           if (!alreadyRedirected && historyLink) {
-            win.sessionStorage.setItem(key, '1');
-            historyLink.click();
+            win.sessionStorage.setItem(key, '1')
+            historyLink.click()
           }
         }
       }
