@@ -280,8 +280,8 @@
       },
       {
         hostname: 'archive',
-        check: (doc) => {
-          return doc.querySelector('[data-area="paywall"]');
+        check: (doc, win) => {
+          return sites.some(site => site.hostname !== 'archive' && site.check(doc, win))
         },
         action: (doc, win) => {
 
