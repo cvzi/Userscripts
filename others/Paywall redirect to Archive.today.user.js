@@ -51,7 +51,7 @@
     'archive.is',
     'archive.ph',
     'archive.today',
-    'archive.fp',
+    'archive.fo',
     'archive.li',
     'archive.md',
     'archive.vn'
