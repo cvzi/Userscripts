@@ -20,6 +20,7 @@
 // @match           https://nytimes.com/*
 // @match           https://www.nytimes.com/*
 // @match           https://www.heise.de/*
+// @match           https://www.bild.de/*
 
 // @match           https://archive.today/*
 // @match           https://archive.ph/*
@@ -211,8 +212,14 @@
     // }
 
     const sites = [
-      {
-        hostname: 'heise.de',
+        {
+            hostname: 'bild.de',
+            check: (doc) => {
+                return doc.querySelector('ps-lefty-next-web')
+            }
+        },
+        {
+            hostname: 'heise.de',
         check: (doc) => {
           return doc.querySelector('.js-upscore-article-content-for-paywall')
         }
