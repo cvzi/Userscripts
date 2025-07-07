@@ -174,7 +174,13 @@
     }
 
     if (workingHostname) {
-      document.location.href = `https://${workingHostname}/?run=1&url=${encodeURIComponent(url)}`
+      let redirectUrl = `https://${workingHostname}/?run=1&url=${encodeURIComponent(url)}`
+      // push current url to document history
+      document.location.assign(url)
+      // wait that the url is pushed to history
+      setTimeout(() => {
+        document.location.assign(redirectUrl);
+      }, 100);
     } else {
       window.setTimeout(() => {
         showSpinner(`<a href="https://archive.today/?run=1&url=${encodeURIComponent(url)}">Try archive.today</a>`)
