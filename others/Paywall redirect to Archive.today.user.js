@@ -212,14 +212,14 @@
     // }
 
     const sites = [
-        {
-            hostname: 'bild.de',
-            check: (doc) => {
-                return doc.querySelector('ps-lefty-next-web')
-            }
-        },
-        {
-            hostname: 'heise.de',
+      {
+        hostname: 'bild.de',
+        check: (doc) => {
+            return doc.querySelector('ps-lefty-next-web')
+        }
+      },
+      {
+        hostname: 'heise.de',
         check: (doc) => {
           return doc.querySelector('.js-upscore-article-content-for-paywall')
         }
