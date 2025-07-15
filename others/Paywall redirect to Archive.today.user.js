@@ -2,9 +2,9 @@
 // @name            Paywall redirect to Archive.today
 // @name:de         Paywall weiterleitung auf Archive.today
 // @namespace       https://greasyfork.org/en/users/20068-cuzi
-// @version         2.19
-// @description     Redirect spiegel.de faz.net zeit.de zerohedge.com Süddeutsche Zeitung SZPlus tagesspiegel paywall pages to archive.today
-// @description:de  Leitet Spiegel.de faz.net zerohedge.com zeit.de/ Online Plus/Paywall/S+ Süddeutsche Zeitung SZPlus tagesspiegel Seiten automatisch auf archive.today
+// @version         2.20
+// @description     Redirect spiegel.de faz.net zeit.de bild.de zerohedge.com Süddeutsche Zeitung SZPlus tagesspiegel paywall pages to archive.today
+// @description:de  Leitet Spiegel.de faz.net zerohedge.com zeit.de/bild.de/Online Plus/Paywall/S+ Süddeutsche Zeitung SZPlus tagesspiegel Seiten automatisch auf archive.today
 // @icon            https://spiegel.de/favicon.ico
 // @author          cuzi
 // @license         GPL-3.0-or-later
