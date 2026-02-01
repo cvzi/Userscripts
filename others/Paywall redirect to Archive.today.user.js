@@ -175,13 +175,13 @@
     }
 
     if (workingHostname) {
-      let redirectUrl = `https://${workingHostname}/submit/?url=${encodeURIComponent(url)}`
+      const redirectUrl = `https://${workingHostname}/submit/?url=${encodeURIComponent(url)}`
       // push current url to document history
       document.location.assign(url)
       // wait that the url is pushed to history
       setTimeout(() => {
-        document.location.assign(redirectUrl);
-      }, 100);
+        document.location.assign(redirectUrl)
+      }, 100)
     } else {
       window.setTimeout(() => {
         showSpinner(`<a href="https://archive.today/submit/?url=${encodeURIComponent(url)}">Try archive.today</a>`)
@@ -215,7 +215,7 @@
       {
         hostname: 'bild.de',
         check: (doc) => {
-            return doc.querySelector('ps-lefty-next-web')
+          return doc.querySelector('ps-lefty-next-web')
         }
       },
       {
@@ -228,10 +228,10 @@
         hostname: 'spiegel',
         check: (doc) => {
           return doc.location.pathname.length > 1 && (
-              doc.querySelector('[data-area="paywall"]') || (
-                  doc.querySelector('#Inhalt article header #spon-spplus-flag-l') &&
+            doc.querySelector('[data-area="paywall"]') || (
+              doc.querySelector('#Inhalt article header #spon-spplus-flag-l') &&
                   doc.querySelectorAll('article h2').length === 1
-              )
+            )
           )
         }
       },
@@ -245,7 +245,7 @@
         hostname: 'zeit.de',
         check: (doc, win) => {
           return doc.location.pathname.length > 1 && (
-              doc.querySelector('.zplus-badge__link') ||
+            doc.querySelector('.zplus-badge__link') ||
               (doc.getElementById('paywall')?.childElementCount ?? 0) !== 0 ||
               ('k5aMeta' in win && win.k5aMeta.paywall === 'hard')
           )
@@ -257,17 +257,16 @@
         check: (doc) => {
           return doc.location.pathname.endsWith('.html') &&
               doc.querySelectorAll('.article [data-external-selector="header-title"]').length === 1 && ( // one heading -> article page
-                  doc.querySelector('[class*=atc-ContainerPaywall]') || // desktop  www.faz.net
-                  doc.querySelector('.wall.paywall') || // desktop  www.faz.net
-                  doc.querySelector('[id*=paywall]') // mobile m.faz.net
-              )
+            doc.querySelector('[class*=atc-ContainerPaywall]') || // desktop
+                  doc.querySelector('.wall.paywall') // desktop & mobile
+          )
         }
       },
       {
         hostname: 'zerohedge.com',
         check: (doc, win) => {
           return doc.location.pathname.length > 1 && (
-              doc.querySelector('[class*=PremiumOverlay] [class*=PremiumOverlay]') ||
+            doc.querySelector('[class*=PremiumOverlay] [class*=PremiumOverlay]') ||
               ('__NEXT_DATA__' in win && win.__NEXT_DATA__.props?.pageProps?.node?.isPremium === true)
           )
         }
@@ -310,8 +309,8 @@
       {
         hostname: 'archive',
         check: (doc, win) => {
-          const input = doc.querySelector('#HEADER form input[name="q"]');
-          if (!input || !input.value) return false;
+          const input = doc.querySelector('#HEADER form input[name="q"]')
+          if (!input || !input.value) return false
 
           let inputHostname
           try {
@@ -323,7 +322,7 @@
           }
 
           return sites.some(site =>
-              site.hostname !== 'archive' &&
+            site.hostname !== 'archive' &&
               inputHostname.includes(site.hostname) &&
               site.check(doc, win)
           )
@@ -334,7 +333,7 @@
           const key = doc.location.href
           const alreadyRedirected = win.sessionStorage.getItem(key)
           const historyLink = Array.from(doc.querySelectorAll('#HEADER form a'))
-              .find(e => e.textContent.includes('history'))
+            .find(e => e.textContent.includes('history'))
 
           if (!alreadyRedirected && historyLink) {
             win.sessionStorage.setItem(key, '1')
