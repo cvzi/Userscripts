@@ -2,7 +2,7 @@
 // @name            Paywall redirect to Archive.today
 // @name:de         Paywall weiterleitung auf Archive.today
 // @namespace       https://greasyfork.org/en/users/20068-cuzi
-// @version         2.20
+// @version         2.21
 // @description     Redirect spiegel.de faz.net zeit.de bild.de zerohedge.com Süddeutsche Zeitung SZPlus tagesspiegel paywall pages to archive.today
 // @description:de  Leitet Spiegel.de faz.net zerohedge.com zeit.de/bild.de/Online Plus/Paywall/S+ Süddeutsche Zeitung SZPlus tagesspiegel Seiten automatisch auf archive.today
 // @icon            https://spiegel.de/favicon.ico
@@ -175,7 +175,7 @@
     }
 
     if (workingHostname) {
-      let redirectUrl = `https://${workingHostname}/?run=1&url=${encodeURIComponent(url)}`
+      let redirectUrl = `https://${workingHostname}/submit/?url=${encodeURIComponent(url)}`
       // push current url to document history
       document.location.assign(url)
       // wait that the url is pushed to history
@@ -184,7 +184,7 @@
       }, 100);
     } else {
       window.setTimeout(() => {
-        showSpinner(`<a href="https://archive.today/?run=1&url=${encodeURIComponent(url)}">Try archive.today</a>`)
+        showSpinner(`<a href="https://archive.today/submit/?url=${encodeURIComponent(url)}">Try archive.today</a>`)
         stopSpinner()
       }, 200)
       window.alert(scriptName +
@@ -256,8 +256,9 @@
         waitOnFirstRun: true,
         check: (doc) => {
           return doc.location.pathname.endsWith('.html') &&
-              doc.querySelectorAll('.atc-HeadlineText').length === 1 && (
+              doc.querySelectorAll('.article [data-external-selector="header-title"]').length === 1 && ( // one heading -> article page
                   doc.querySelector('[class*=atc-ContainerPaywall]') || // desktop  www.faz.net
+                  doc.querySelector('.wall.paywall') || // desktop  www.faz.net
                   doc.querySelector('[id*=paywall]') // mobile m.faz.net
               )
         }
@@ -288,7 +289,7 @@
       {
         hostname: 'nytimes.com',
         check: (doc) => {
-          return doc.querySelector('iframe[src*="captcha"]')
+          return doc.querySelectorAll('#gateway-content iframe').length === 1
         }
       },
       {
