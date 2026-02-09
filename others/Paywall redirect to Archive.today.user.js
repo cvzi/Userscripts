@@ -2,7 +2,7 @@
 // @name            Paywall redirect to Archive.today
 // @name:de         Paywall weiterleitung auf Archive.today
 // @namespace       https://greasyfork.org/en/users/20068-cuzi
-// @version         2.21
+// @version         2.22
 // @description     Redirect spiegel.de faz.net zeit.de bild.de zerohedge.com Süddeutsche Zeitung SZPlus tagesspiegel paywall pages to archive.today
 // @description:de  Leitet Spiegel.de faz.net zerohedge.com zeit.de/bild.de/Online Plus/Paywall/S+ Süddeutsche Zeitung SZPlus tagesspiegel Seiten automatisch auf archive.today
 // @icon            https://spiegel.de/favicon.ico
@@ -176,12 +176,15 @@
 
     if (workingHostname) {
       const redirectUrl = `https://${workingHostname}/submit/?url=${encodeURIComponent(url)}`
+      /*
       // push current url to document history
       document.location.assign(url)
       // wait that the url is pushed to history
       setTimeout(() => {
         document.location.assign(redirectUrl)
       }, 100)
+      */
+     document.location.href = redirectUrl
     } else {
       window.setTimeout(() => {
         showSpinner(`<a href="https://archive.today/submit/?url=${encodeURIComponent(url)}">Try archive.today</a>`)
@@ -253,7 +256,7 @@
       },
       {
         hostname: '.faz.net',
-        waitOnFirstRun: true,
+        waitOnFirstRun: 6000,
         check: (doc) => {
           return doc.location.pathname.endsWith('.html') &&
               doc.querySelectorAll('.article [data-external-selector="header-title"]').length === 1 && ( // one heading -> article page
@@ -352,7 +355,7 @@
           // if it fails to unblock the page, we will archive it in the second run
 
           firstRun = false
-          await sleep(3000)
+          await sleep(typeof site.waitOnFirstRun === 'number' ? site.waitOnFirstRun : 3000)
           break
         }
 
